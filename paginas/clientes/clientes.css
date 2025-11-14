@@ -1,0 +1,119 @@
+/* --- ESTILOS DE PLANTILLA BASE (DISEÑO CONSISTENTE) --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.logo { width: 50px; }
+.top-header h1 { font-size: 32px; margin: 0; }
+.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
+.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
+.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
+.nav-icon { width: 16px; height: 16px; }
+.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
+.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
+.hidden { display: none !important; }
+
+/* --- CONTENEDOR DE CONTENIDO (ESTILO PANEL) --- */
+.content-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.container-header { padding-bottom: 15px; margin-bottom: 25px; border-bottom: 1px solid #E9ECEF; }
+.container-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
+.container-header p { font-size: 14px; color: #666; margin: 5px 0 0 0; }
+
+/* --- CUADRÍCULA Y TARJETAS DE CLIENTE --- */
+.client-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    align-items: start; /* CRÍTICO: Evita que las tarjetas se estiren al abrir una */
+}
+
+.client-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E9ECEF;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.client-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.client-card-header {
+    margin-bottom: 15px;
+}
+.client-card-header h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1C6E3E;
+}
+.client-info p {
+    display: flex;
+    align-items: center;
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: #555;
+}
+.info-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 10px;
+    opacity: 0.7;
+}
+
+/* --- SECCIÓN "VER MÁS" MEJORADA --- */
+.more-details {
+    max-height: 0; /* Oculto por defecto */
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out; /* Animación suave */
+    font-size: 14px;
+}
+.client-card.open .more-details {
+    max-height: 200px; /* Altura máxima al expandirse (ajustar si es necesario) */
+}
+.more-details p {
+    margin: 10px 0;
+}
+.more-details strong {
+    color: #333;
+}
+.cultivos-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 5px 0 10px 0;
+}
+.cultivo-tag {
+    background-color: #E9ECEF;
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.toggle-details {
+    border-top: 1px solid #EAE0C9;
+    margin-top: 15px;
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+}
+.toggle-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    transition: transform 0.3s;
+}
+/* Rota el ícono cuando la tarjeta está abierta */
+.client-card.open .toggle-icon {
+    transform: rotate(180deg);
+}

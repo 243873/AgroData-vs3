@@ -1,0 +1,154 @@
+/* --- ESTILOS DE PLANTILLA BASE --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.logo { width: 50px; }
+.top-header h1 { font-size: 32px; margin: 0; }
+.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
+.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
+.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
+.nav-icon { width: 16px; height: 16px; }
+.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
+.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
+.hidden { display: none !important; }
+
+/* --- CONTENEDOR Y BOTONES --- */
+.content-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.container-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.container-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
+.filter-buttons { display: flex; gap: 10px; }
+.btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.btn.filter-btn { background-color: #FFFFFF; color: #1C6E3E; border: 1px solid #1C6E3E; }
+.btn.filter-btn.active { background-color: #1C6E3E; color: #FFFFFF; }
+
+/* --- LISTA DE PROYECTOS --- */
+.projects-list { display: flex; flex-direction: column; gap: 15px; }
+.project-card { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+.card-info h5 { margin: 0 0 12px; font-size: 18px; }
+.card-details { display: flex; gap: 25px; align-items: center; font-size: 14px; color: #555; margin-bottom: 12px; }
+.info-item { display: flex; align-items: center; gap: 8px; }
+.icon { width: 16px; height: 16px; opacity: 0.7; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.cultivo-tag { background-color: #e0e0e0; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+.card-actions { display: flex; align-items: center; gap: 10px; }
+.btn-details { color: #1C6E3E; font-weight: 600; text-decoration: underline; }
+.btn-danger { background-color: #DC3545; color: white; }
+.btn-secondary { background-color: #F0F0F0; color: #333; border: 1px solid #CCC; }
+
+/* --- MODALES --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Títulos y textos dentro de los modales */
+.modal-content h2, .modal-content h3 {
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1B1B1B;
+}
+
+.modal-content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Contenedor de botones de acción */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones a la derecha por defecto */
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-actions-center {
+    display: flex;
+    justify-content: center; /* Centra los botones */
+    gap: 15px;
+    margin-top: 25px;
+}
+
+/* Estilos para formularios dentro de los modales */
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Estilos para modales de éxito */
+.modal-content.success {
+    padding: 40px;
+}
+
+.success-icon {
+    font-size: 40px;
+    color: #1C6E3E;
+    border: 3px solid #1C6E3E;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin: 0 auto 20px;
+}
+
+/* Estilos para previsualización de imágenes */
+.image-preview-container {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.image-preview {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    border: 1px solid #CCC;
+}

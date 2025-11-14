@@ -1,0 +1,243 @@
+/* --- ESTILOS DE PLANTILLA BASE (Adoptados del Cliente) --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F9F5EE; /* Color de fondo del cliente */
+    color: #1B1B1B;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.top-header {
+    background-color: #1C6E3E; /* Color principal del cliente */
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra del cliente */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 50px;
+}
+
+.top-header h1 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.welcome-message h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.navbar {
+    background-color: #FFFFFF; /* Color de navbar del cliente */
+    padding: 10px 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra del cliente */
+    flex-shrink: 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 60px; /* Espaciado del cliente */
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.nav-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Estilo para el link activo, igual al del cliente */
+.navbar li.active a {
+    color: #1C6E3E;
+    border-bottom-color: #1C6E3E;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+}
+
+/* --- CONTENEDOR DE CONTENIDO (Estilo Panel del Cliente) --- */
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra de panel del cliente */
+}
+
+.container-header h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.container-header p {
+    margin: 0 0 25px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* --- NOTIFICACIONES (Estilo del Cliente) --- */
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre notificaciones */
+}
+
+.notification-item {
+    background-color: #F8F9FA; /* Color de fondo de notificación del cliente */
+    border: 1px solid #E9ECEF; /* Borde del cliente */
+    border-radius: 10px;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* --- BOTONES (Estilo del Cliente) --- */
+.btn {
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.btn-primary {
+    background-color: #1C6E3E;
+    color: #FFFFFF;
+}
+
+.btn-danger {
+    background-color: #D9534F;
+    color: #FFFFFF;
+}
+
+/* MENSAJE VACÍO */
+.notification-empty img {
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+.notification-empty p {
+    font-size: 16px;
+    color: #555;
+}
+
+
+/* --- INICIO: ESTILOS DEL MODAL (Añadir esto) --- */
+
+/* Clase para ocultar el modal */
+.hidden {
+    display: none !important;
+}
+
+/* El fondo oscuro que cubre la pantalla */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+}
+
+/* La caja blanca del modal */
+.modal-content {
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 12px; /* Coincide con tu .content-container */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.modal-content p {
+    font-size: 1.1rem;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 25px; /* Más espacio */
+}
+
+/* Contenedor de los botones */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Coincide con tu .notification-actions */
+}
+
+/* Estilo para el botón 'Cancelar'.
+  Tu HTML usa 'btn-secondary', pero no estaba definido en tu CSS.
+*/
+.btn-secondary {
+    background-color: #6c757d; /* Gris estándar */
+    color: #FFFFFF;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* --- FIN: ESTILOS DEL MODAL --- */

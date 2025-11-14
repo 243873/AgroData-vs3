@@ -1,0 +1,100 @@
+/* --- ESTILOS DE PLANTILLA BASE (DISEÑO CONSISTENTE) --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.logo { width: 50px; }
+.top-header h1 { font-size: 32px; margin: 0; }
+.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
+.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
+.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
+.nav-icon { width: 16px; height: 16px; }
+.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
+.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
+.hidden { display: none !important; }
+
+/* --- CONTENEDOR PRINCIPAL DEL PERFIL --- */
+.profile-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.profile-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E9ECEF; padding-bottom: 20px; margin-bottom: 30px; }
+.profile-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
+
+/* --- BOTONES --- */
+.btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.btn-primary { background-color: #1C6E3E; color: #FFFFFF; }
+.btn-danger { background-color: #D9534F; color: #FFFFFF; }
+
+/* --- CUERPO DEL PERFIL --- */
+.profile-body { display: flex; gap: 40px; align-items: flex-start; }
+.profile-picture-section { flex-basis: 200px; flex-shrink: 0; text-align: center; }
+.image-wrapper { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px; border: 4px solid #1C6E3E; background-color: #F8F9FA; }
+.profile-icon { width: 100%; height: 100%; object-fit: cover; }
+.btn-upload { background-color: #FFFFFF; border: 1px solid #CCC; border-radius: 8px; padding: 10px 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: 500; }
+.upload-icon { width: 16px; height: 16px; }
+
+/* --- NUEVA ESTRUCTURA DE COLUMNAS --- */
+.profile-main-content { flex-grow: 1; }
+.user-title { font-size: 24px; font-weight: 600; margin-top: 0; margin-bottom: 30px; color: #1C6E3E; }
+
+/* LAYOUT DE GRID PARA AMBOS MODOS */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px; /* Espacio entre las columnas */
+}
+
+/* * ** LÍNEA DIVISORIA (AÑADIDA) **
+ * Se aplica a la segunda columna (en ambos modos)
+*/
+.profile-grid .profile-column + .profile-column {
+    border-left: 1px solid #E9ECEF;
+    padding-left: 40px;
+}
+
+/* Modo Vista */
+.info-group { margin-bottom: 25px; }
+.info-group label, .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
+.info-group p { font-size: 16px; margin: 0; color: #555; }
+.password-field { font-family: monospace; letter-spacing: 2px; }
+
+/* * ** BOTÓN LOGOUT (MODIFICADO) **
+ * Se hizo más pequeño para que quepa en el header.
+*/
+.btn-logout {
+    font-size: 13px;
+    padding: 8px 20px;
+}
+
+/* Modo Edición */
+.form-group { margin-bottom: 20px; }
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #CCC;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+.form-group input:focus { outline: none; border-color: #2FB05E; box-shadow: 0 0 0 2px rgba(47, 176, 94, 0.2); }
+
+/* --- MODALES --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+.modal-content { background-color: #FFFFFF; padding: 30px 40px; border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-width: 450px; }
+.modal-content h2 { font-size: 24px; margin: 0 0; }
+.modal-actions { display: flex; justify-content: center; gap: 20px; margin-top: 25px; }
+.modal-actions .btn { min-width: 120px; }
+.success-icon { width: 60px; height: 60px; margin-bottom: 15px; }
+.modal-content h2 { margin-bottom: 20px; }
+
+.profile-header div {
+    display: flex;
+    gap: 10px;
+}
+
+#editActions {
+    display: flex;
+    gap: 10px;
+}

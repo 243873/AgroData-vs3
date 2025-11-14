@@ -1,0 +1,77 @@
+/* --- ESTILOS DE PLANTILLA BASE --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.logo { width: 50px; }
+.top-header h1 { font-size: 32px; margin: 0; }
+.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
+.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
+.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
+.nav-icon { width: 16px; height: 16px; }
+.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
+.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
+.hidden { display: none !important; }
+
+/* --- BOTONES GENERALES --- */
+.btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.btn-primary { background-color: #1C6E3E; color: #FFFFFF; }
+.btn-secondary { background-color: #FFFFFF; color: #333; border: 1px solid #CCC; }
+.btn-danger { background-color: #DC3545; color: #FFFFFF; }
+
+/* --- CONTENEDOR PRINCIPAL DEL PROYECTO --- */
+.project-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.project-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; border-bottom: 1px solid #E9ECEF; padding-bottom: 20px; }
+.project-header h2 { margin: 0; font-size: 22px; color: #333; font-weight: 600; }
+
+/* --- NAVEGACIÓN DE PESTAÑAS --- */
+.tab-navigation { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
+.tab-btn { background-color: #F8F9FA; color: #555; border: 1px solid #E0E0E0; padding: 12px; font-size: 16px; font-weight: 500; border-radius: 25px; cursor: pointer; }
+.tab-btn.active { background-color: #1C6E3E; color: white; border-color: #1C6E3E; }
+
+/* --- PESTAÑA DE INFORMACIÓN --- */
+.info-section { border: 1px solid #E9ECEF; border-radius: 10px; padding: 25px; margin-bottom: 20px; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.section-header h5 { margin: 0; font-size: 18px; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+.info-group { font-size: 15px; }
+.info-group label { display: block; font-weight: 600; color: #555; margin-bottom: 8px; font-size: 14px; }
+.info-group p { margin: 0; color: #1B1B1B; display: flex; align-items: center; gap: 8px; }
+.info-group .icon { width: 16px; height: 16px; opacity: 0.7; }
+.progress-bar-container { margin-top: 20px; }
+.progress-bar-container label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 500; color: #555; }
+.progress-bar { background-color: #E9ECEF; border-radius: 10px; height: 12px; overflow: hidden; }
+.progress-bar-fill { background-color: #1C6E3E; height: 100%; border-radius: 10px; transition: width 0.5s ease-in-out; }
+
+/* --- PESTAÑA DE ACTIVIDADES --- */
+.btn-add-activity { background-color: #1C6E3E; color: white; border: 1px dashed white; display: block; width: 100%; margin-bottom: 20px; }
+.activity-card { border: 1px solid #E9ECEF; border-radius: 10px; margin-bottom: 15px; }
+.activity-header { background-color: #F8F9FA; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E9ECEF; }
+.activity-header h5 { margin: 0; font-size: 18px; }
+.activity-actions { display: flex; gap: 10px; }
+.activity-body { padding: 20px; }
+.activity-body p { margin: 0 0 15px; color: #555; line-height: 1.5; }
+.activity-dates { display: flex; gap: 30px; font-size: 14px; color: #666; margin-bottom: 15px; }
+.evidence-section { border-top: 1px solid #E9ECEF; padding-top: 15px; margin-top: 15px; }
+.evidence-section strong { font-size: 14px; }
+.evidence-content { color: #555; margin-top: 5px; font-style: italic; }
+
+/* --- PESTAÑA DE REPORTE --- */
+.report-section { border: 1px solid #E9ECEF; border-radius: 10px; padding: 25px; }
+.report-section h5 { margin-top: 0; }
+
+/* --- MODALES --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+.modal-content { background-color: #FFFFFF; padding: 30px 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 100%; max-width: 500px; text-align: center; }
+.modal-content h2, .modal-content h3 { font-size: 22px; margin-top: 0; margin-bottom: 25px; color: #1B1B1B; }
+.modal-content p { font-size: 16px; color: #555; margin-bottom: 25px; line-height: 1.5; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 25px; }
+.modal-actions-center { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
+.form-group { text-align: left; margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500; color: #333; }
+.form-group input, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: 'Montserrat', sans-serif; font-size: 15px; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.modal-content.success { padding: 40px; }
+.success-icon { font-size: 40px; color: #1C6E3E; border: 3px solid #1C6E3E; border-radius: 50%; width: 60px; height: 60px; line-height: 60px; margin: 0 auto 20px; }

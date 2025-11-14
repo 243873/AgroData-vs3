@@ -1,0 +1,243 @@
+/* ======= RESET GENERAL ======= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #F9F5EE;
+  color: #1B1B1B;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ======= BARRAS SUPERIOR E INFERIOR ======= */
+.top-bar, .bottom-bar {
+  height: 30px;
+  background-color: #1C6E3E;
+  flex-shrink: 0;
+}
+
+/* ======= CONTENEDOR PRINCIPAL ======= */
+.page-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* ======= LAYOUT ======= */
+.content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 1100px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* ======= PANEL IZQUIERDO ======= */
+.info-panel {
+  flex: 1;
+  min-width: 320px;
+  background: linear-gradient(135deg, #EDF7F0, #D8F0E0);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* <-- Centrado horizontal */
+  text-align: center;     /* <-- Centrado de texto */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  justify-content: center; /* <-- Centrado del logo y título */
+}
+
+.logo {
+  width: 70px;
+  height: auto;
+}
+
+.info-panel h1 {
+  font-size: 46px;
+  font-weight: 700;
+  color: #1C6E3E;
+}
+
+.info-panel h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  color: #2E2E2E;
+  max-width: 400px;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ======= PANEL DERECHO (FORMULARIO) ======= */
+.form-panel {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 40px;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-header h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* ======= FORMULARIO COMPACTADO ======= */
+.input-group {
+  margin-bottom: 8px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #CCC;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #2FB05E;
+  box-shadow: 0 0 0 2px rgba(47, 176, 94, 0.2);
+}
+
+.input-row {
+  display: flex;
+  gap: 15px;
+}
+.input-row .input-group {
+  flex: 1;
+}
+
+/* ======= MENSAJES DE ERROR MÍNIMOS ======= */
+.error-message {
+  color: #D60000;
+  font-size: 11px;
+  min-height: 14px;
+  margin-top: 3px;
+}
+
+/* ======= REQUISITOS DE CONTRASEÑA ======= */
+.password-requirements {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #666;
+}
+
+.password-requirements p {
+  margin-bottom: 3px;
+}
+
+.password-requirements ul {
+  margin-left: 15px;
+  margin-bottom: 5px;
+}
+
+.password-requirements li {
+  margin-bottom: 2px;
+}
+
+.password-requirements .valid {
+  color: #1C6E3E;
+}
+
+.password-requirements .invalid {
+  color: #D60000;
+}
+
+.password-example {
+  font-style: italic;
+  margin-top: 5px;
+}
+
+.password-example span {
+  font-weight: 500;
+  color: #1C6E3E;
+}
+
+/* ======= BOTÓN ======= */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #1C6E3E;
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background-color: #2FB05E;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(47, 176, 94, 0.3);
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 900px) {
+  .content-wrapper { flex-direction: column; }
+  .info-panel, .form-panel { padding: 30px 20px; }
+  .input-row { flex-direction: column; gap: 0; }
+}
+
+.back-link {
+  display: block;
+  margin-top: 15px;
+  text-align: center;
+  color: #1C6E3E;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}

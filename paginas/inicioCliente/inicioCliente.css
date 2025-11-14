@@ -1,0 +1,118 @@
+/* --- ESTILOS DE PLANTILLA BASE --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.logo { width: 50px; }
+.top-header h1 { font-size: 32px; margin: 0; }
+.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
+.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
+.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; cursor: pointer; }
+.nav-icon { width: 16px; height: 16px; }
+.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
+.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
+.hidden { display: none !important; }
+
+/* --- CONTENEDORES DE CONTENIDO (ESTILO PANEL) --- */
+.content-container { max-width: 1200px; margin: 0 auto 30px auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.container-header h4 { font-size: 20px; font-weight: 600; color: #333; margin: 0 0 10px 0; }
+.container-header p { margin: 0 0 25px 0; font-size: 14px; color: #666; }
+
+/* --- NOTIFICACIONES (MODIFICADAS) --- */
+.notifications-list { display: flex; flex-direction: column; gap: 15px; }
+.notification-item { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s, box-shadow 0.2s; }
+.notification-item:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+.notification-type { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; margin-right: 10px; text-transform: uppercase; }
+.type-asesoria { background-color: #D4EDDA; color: #155724; }
+.type-taller { background-color: #D1ECF1; color: #0C5460; }
+.type-tarea { background-color: #FFF3CD; color: #856404; }
+.notification-text { font-size: 16px; font-weight: 500; flex-grow: 1; }
+.notification-actions { display: flex; gap: 15px; }
+.notification-empty { text-align: center; padding: 40px; }
+.notification-empty img { display: block; margin: 0 auto 15px auto; }
+.notification-empty p { font-size: 16px; color: #555; }
+.notification-actions .btn {
+    width: 130px; /* Ancho fijo para todos los botones */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    text-align: center; /* Centra el texto dentro del botón */
+    padding: 10px 15px; /* Ajuste del padding para que se vea bien */
+}
+
+/* --- BOTONES GENERALES --- */
+.btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.btn-primary { background-color: #1C6E3E; color: #FFFFFF; }
+.btn-danger { background-color: #D9534F; color: #FFFFFF; }
+.btn-secondary { background-color: #6C757D; color: #FFFFFF; }
+
+/* --- TARJETAS DE SERVICIO --- */
+.service-options { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+.service-card { text-decoration: none; color: inherit; display: block; background-color: #FFFFFF; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+.service-card:hover { transform: translateY(-5px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); }
+.service-button { background-color: #1C6E3E; color: #FFFFFF; padding: 12px; text-align: center; font-weight: 600; }
+.service-content { padding: 25px; }
+.service-content h5 { margin: 0 0 10px 0; font-size: 18px; color: #333; }
+.service-content p { margin: 0 0 20px 0; font-size: 14px; line-height: 1.5; color: #666; }
+.service-content img { width: 100%; border-radius: 8px; height: 150px; object-fit: cover; }
+
+/* ================================================= */
+/* === ESTILOS PARA FORMULARIOS (ASESORÍAS Y TALLERES) === */
+/* ================================================= */
+.form-header { text-align: center; margin-bottom: 30px; }
+.form-header h4 { font-size: 24px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+.form-group input, .form-group textarea { width: 100%; padding: 12px 14px; border: 1px solid #CCC; border-radius: 8px; font-family: 'Montserrat', sans-serif; transition: all 0.3s; box-sizing: border-box; }
+.form-group input.input-error, .form-group textarea.input-error { border-color: #D9534F; }
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: #2FB05E; box-shadow: 0 0 0 2px rgba(47, 176, 94, 0.2); }
+.form-group textarea { resize: vertical; min-height: 90px; }
+.options-group { display: flex; gap: 25px; flex-wrap: wrap; align-items: center; }
+.option-control { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.option-control input { display: none; }
+.option-control .visual { width: 20px; height: 20px; border: 2px solid #CCC; display: inline-block; position: relative; transition: all 0.2s; border-radius: 5px; }
+.option-control input:checked + .visual { border-color: #1C6E3E; background-color: #1C6E3E; }
+.option-control input:checked + .visual::after { content: '✔'; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; }
+.option-control input[type="radio"] + .visual { border-radius: 50%; }
+.option-control input[type="radio"]:checked + .visual { background-color: transparent; }
+.option-control input[type="radio"]:checked + .visual::after { content: ''; width: 10px; height: 10px; background-color: #1C6E3E; border-radius: 50%; }
+
+/* PESTAÑAS (TABS) */
+.tab-nav { display: flex; border-bottom: 1px solid #CCC; margin-bottom: 20px; }
+.tab-btn { padding: 10px 20px; border: none; background-color: transparent; cursor: pointer; font-size: 16px; font-weight: 500; color: #666; border-bottom: 3px solid transparent; }
+.tab-btn.active { color: #1C6E3E; border-bottom-color: #1C6E3E; font-weight: 600; }
+.tab-content .tab-pane { display: none; }
+.tab-content .tab-pane.active { display: block; }
+
+/* ACCIONES DEL FORMULARIO */
+.form-actions { display: flex; gap: 15px; margin-top: 25px; }
+.form-actions .btn { flex: 1; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; border: 1px solid transparent; }
+.btn-submit { background-color: #1C6E3E; color: white; border-color: #1C6E3E; }
+.btn-submit:hover { background-color: #2FB05E; }
+.btn-secondary { background-color: #F0F0F0; color: #333; border-color: #CCC; }
+.btn-secondary:hover { background-color: #E0E0E0; }
+
+/* --- ESTILOS ESPECÍFICOS PARA TALLERES --- */
+.taller-card { display: flex; gap: 1.5rem; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid #E9ECEF; border-radius: 8px; align-items: flex-start; }
+.checkbox-wrapper input[type="checkbox"] { display: none; }
+.checkbox-wrapper label { display: inline-block; width: 24px; height: 24px; background-color: #f0f0f0; border: 1px solid #CCC; border-radius: 5px; cursor: pointer; position: relative; }
+.checkbox-wrapper input[type="checkbox"]:checked + label { background-color: #1C6E3E; border-color: #1C6E3E; }
+.checkbox-wrapper input[type="checkbox"]:checked + label::after { content: '✔'; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; }
+.taller-info h4 { margin: 0 0 0.5rem; }
+.taller-info p { margin: 0 0 1rem; color: #666; font-size: 14px; }
+.taller-info span { font-weight: bold; color: #1C6E3E; }
+
+/* ESTILOS PARA EL FORMULARIO DE DETALLES DEL TALLER */
+#seleccion-resumen { padding: 20px; background-color: #F8F9FA; border-radius: 8px; margin-bottom: 25px; }
+.taller-resumen-item { margin-bottom: 0.5rem; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.disclaimer { font-size: 0.8rem; color: #888; margin-top: 10px; }
+#montoTotal { color: #1C6E3E; margin-top: 1rem; font-size: 18px; font-weight: 600; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+.form-grid .full-width { grid-column: 1 / -1; }
+
+/* --- MODAL --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+.modal-overlay:not(.hidden) { opacity: 1; visibility: visible; }
+.modal-content { background-color: #FFFFFF; padding: 40px; border-radius: 15px; text-align: center; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.modal-content h3 { font-size: 1.8rem; color: #1C6E3E; margin-bottom: 15px; }
+.modal-actions { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }

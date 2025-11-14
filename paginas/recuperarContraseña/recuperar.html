@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroData - Recuperar Contraseña</title>
+    <!-- Usaremos el mismo CSS del login, ya que la estructura es idéntica -->
+    <link rel="stylesheet" href="/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="top-bar"></header>
+    <div class="page-container">
+        <main class="content-wrapper">
+            <div class="info-panel">
+                <div class="logo-container">
+                    <img src="/Imagenes/Log.png" alt="Logo AgroData" class="logo">
+                    <h1>AgroData</h1>
+                </div>
+                <h2>Tu plataforma digital para el seguimiento de tu cultivo.</h2>
+                <div class="image-container">
+                    <img src="/Imagenes/curso-agroecologia.jpg" alt="Campo agrícola">
+                </div>
+            </div>
+            <div class="form-panel">
+                <div class="form-box">
+                    <form id="recoverForm" novalidate>
+                        <div class="form-header" style="text-align: left; margin-bottom: 20px;">
+                            <h3>Recuperar contraseña</h3>
+                            <p class="subtitle" style="margin-top: 15px;">Ingresa tu correo para reestablecer tu contraseña.</p>
+                            <a href="/index.html" class="back-link">← Volver al inicio de sesión</a>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Correo Electrónico:</label>
+                            <input type="email" id="email" name="email" placeholder="ejemplocorreo@gmail.com" required>
+                        </div>
+                        <p id="errorMessage" class="error-message"></p>
+                        <button type="submit" class="submit-btn">Enviar</button>
+                        </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="bottom-bar"></footer>
+    <script src="recuperar.js"></script>
+</body>
+</html>

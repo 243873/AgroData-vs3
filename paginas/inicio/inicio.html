@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroData - Inicio Agrónomo</title>
+    <link rel="stylesheet" href="inicio.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <header class="top-header">
+            <div class="logo-container">
+                <img src="../../Imagenes/log2.png" alt="Logo AgroData" class="logo">
+                <h1>AgroData</h1>
+            </div>
+            <div class="welcome-message">
+                <h2 id="welcomeMessage">Bienvenido, Agrónomo</h2>
+            </div>
+        </header>
+
+        <nav class="navbar">
+            <ul>
+                <li class="active"><a href="#"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
+                <li><a href="/paginas/perfil/perfil.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
+                <li><a href="/paginas/clientes/clientes.html"><img src="/Imagenes/employees.png" class="nav-icon"> Clientes</a></li>
+                <li><a href="/paginas/proyectos/proyectos.html"><img src="../../Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
+                <li><a href="/paginas/talleres/talleres.html"><img src="../../Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+                <li><a href="/paginas/solicitudes/solicitudes.html"><img src="../../Imagenes/ballot-check.png" class="nav-icon"> Solicitudes</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="content-container">
+                <div class="container-header">
+                    <h4>Notificaciones:</h4>
+                    <p>Tareas requieren tu atención</p>
+                </div>
+
+                <div class="notifications-list">
+                    <div class="notification-empty" style="text-align:center; display:none;">
+                        <img src="../../Imagenes/no-notifications.png" alt="Sin notificaciones" style="width:150px; margin-bottom:15px;">
+                        <p>No tienes nuevas notificaciones</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="confirmationModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p>¿Estás seguro de que deseas descartar esta notificación?</p>
+            <div class="modal-actions">
+                <button id="cancelButton" class="btn btn-secondary">Cancelar</button>
+                <button id="acceptButton" class="btn btn-danger">Descartar</button>
+            </div>
+        </div>
+    </div>
+    <script src="inicio.js"></script>
+</body>
+</html>

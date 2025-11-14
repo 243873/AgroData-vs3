@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroData - Inicio Cliente</title>
+    <link rel="stylesheet" href="inicioCliente.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- MODAL DE ÉXITO (Reutilizable para ambos flujos) -->
+    <div id="successModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="modalTitle">¡Solicitud enviada!</h3>
+            <p id="modalMessage">Hemos recibido tu solicitud. Nuestro equipo se pondrá en contacto contigo pronto.</p>
+            <button id="modalAceptar" class="btn btn-primary">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMACIÓN PARA DESCARTAR NOTIFICACIÓN -->
+    <div id="confirmationModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Confirmar Acción</h3>
+            <p>¿Estás seguro de que deseas descartar esta notificación?</p>
+            <div class="modal-actions">
+                <button id="cancelDiscard" class="btn btn-secondary">Cancelar</button>
+                <button id="confirmDiscard" class="btn btn-danger">Descartar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <header class="top-header">
+            <div class="logo-container">
+                <img src="/Imagenes/log2.png" alt="Logo AgroData" class="logo">
+                <h1>AgroData</h1>
+            </div>
+            <div class="welcome-message">
+                <h2 id="welcomeMessage">Bienvenido, Usuario</h2>
+            </div>
+        </header>
+
+        <nav class="navbar">
+            <ul>
+                <li class="active" id="nav-link-inicio"><a href="#"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
+                <li><a href="/paginas/perfilCliente/perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
+                <li><a href="/paginas/proyectoCliente/proyectoCliente.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
+                <li><a href="/paginas/talleresCliente/talleres-historial.html" ><img src="/Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <!-- VISTA INICIAL (Notificaciones y Servicios) -->
+            <div id="initial-view">
+                <div class="content-container">
+                    <div class="container-header">
+                        <h4>Notificaciones:</h4>
+                        <p>Tareas requieren tu atención</p>
+                    </div>
+                    <!-- LA LISTA DE NOTIFICACIONES AHORA ESTÁ VACÍA Y TIENE UN ID -->
+                    <div class="notifications-list" id="notificationsList">
+                        <!-- Las notificaciones se cargarán dinámicamente con JavaScript -->
+                    </div>
+                </div>
+
+                <div class="content-container">
+                    <h4>Seleccione el servicio que desea contratar:</h4>
+                    <div class="service-options">
+                        <div id="show-asesoria-form" class="service-card">
+                            <div class="service-button">Asesorías</div>
+                            <div class="service-content">
+                                <h5>Soluciones a la medida de tu cultivos.</h5>
+                                <p>Obtén la guía de un agrónomo experto...</p>
+                                <img src="/Imagenes/agro.jpg" alt="Asesorías">
+                            </div>
+                        </div>
+                        <div id="show-talleres-flow" class="service-card">
+                            <div class="service-button">Talleres/Capacitaciones</div>
+                            <div class="service-content">
+                                <h5>Invierte en conocimiento, maximiza tu cosecha</h5>
+                                <p>Capacítate en temas clave como Manejo del Suelo...</p>
+                                <img src="/Imagenes/AgroTaller.jpg" alt="Talleres">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DE ASESORÍAS (Oculto) -->
+            <div id="asesoria-form-view" class="content-container hidden">
+                <!-- VISTA 1: SELECCIÓN DE CULTIVOS (Asesorías) -->
+                <div class="asesoria-selection-view">
+                    <div class="form-header">
+                        <h4>Solicitud de Asesoría</h4>
+                        <p>Paso 1 de 2: Selecciona los cultivos para los que necesitas ayuda.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Seleccione el/los cultivo(s) (máximo 3):</label>
+                        <div class="options-group">
+                            <label class="option-control"><input type="checkbox" name="cultivo-select" value="Papa"><span class="visual"></span> Papa</label>
+                            <label class="option-control"><input type="checkbox" name="cultivo-select" value="Chayote"><span class="visual"></span> Chayote</label>
+                            <label class="option-control"><input type="checkbox" name="cultivo-select" value="Calabaza"><span class="visual"></span> Calabaza</label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary cancel-flow">Cancelar</button>
+                        <button type="button" class="btn btn-submit continue-to-form">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- VISTA 2: FORMULARIO CON PESTAÑAS (Asesorías) -->
+                <div class="asesoria-form-details-view hidden">
+                    <div class="form-header">
+                        <h4>Solicitud de Asesoría</h4>
+                        <p>Paso 2 de 2: Completa los detalles por cada cultivo seleccionado.</p>
+                    </div>
+                    <div class="tab-nav"></div>
+                    <form class="asesoriaForm" novalidate>
+                        <div class="tab-content"></div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary back-to-selection">Regresar a Selección</button>
+                            <button type="submit" class="btn btn-submit">Enviar Solicitud</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- FORMULARIO DE TALLERES (Oculto por defecto) -->
+            <div id="talleres-flow-view" class="content-container hidden">
+                <!-- VISTA 1: SELECCIÓN DE TALLERES -->
+                <div id="taller-selection-view">
+                    <div class="form-header">
+                        <h4>Solicitud de Taller</h4>
+                        <p>Paso 1 de 2: Selecciona los talleres de tu interés.</p>
+                    </div>
+                    <div id="talleres-list-container">
+                        <!-- Generado con JS -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="btnCancelTaller" class="btn btn-secondary">Cancelar</button>
+                        <button type="button" id="continueToTallerFormBtn" class="btn btn-submit">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- VISTA 2: FORMULARIO DE DETALLES DEL TALLER -->
+                <div id="taller-form-view" class="hidden">
+                    <div class="form-header">
+                        <h4>Solicitud de Taller</h4>
+                        <p>Paso 2 de 2: Confirma los detalles de tu solicitud.</p>
+                    </div>
+                    <form id="tallerSolicitudForm" novalidate>
+                        <div id="seleccion-resumen">
+                            <p><strong>Has seleccionado los talleres:</strong></p>
+                            <div id="talleres-seleccionados-lista"></div>
+                            <p class="disclaimer">El costo total se enviará por correo con más detalles.</p>
+                            <h4 id="montoTotal">Monto Total: $0</h4>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fecha">Fecha deseada para el taller:</label>
+                                <input type="date" id="fecha" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ubicacion">Ubicación donde se desea impartir:</label>
+                                <input type="text" id="ubicacion" placeholder="Localidad, Estado" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="comentarios">Comentarios adicionales:</label>
+                                <textarea id="comentarios" placeholder="Opcional"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="btnBackToTallerSelection" class="btn btn-secondary">Regresar</button>
+                            <button type="submit" class="btn btn-submit">Enviar Solicitud</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="inicioCliente.js"></script>
+</body>
+</html>

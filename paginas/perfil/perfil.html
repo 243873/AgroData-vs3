@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroData - Perfil Agrónomo</title>
+    <link rel="stylesheet" href="perfil.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="successModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <img src="/Imagenes/check-circle.png" alt="Éxito" class="success-icon">
+            <h2>Se han guardado los cambios</h2>
+        </div>
+    </div>
+    <div id="logoutModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>¿Seguro que desea cerrar sesión?</h2>
+            <div class="modal-actions">
+                <button id="cancelLogout" class="btn btn-danger">Cancelar</button>
+                <button id="acceptLogout" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <header class="top-header">
+            <div class="logo-container">
+                <img src="/Imagenes/log2.png" alt="Logo AgroData" class="logo">
+                <h1>AgroData</h1>
+            </div>
+            <div class="welcome-message">
+                <h2 id="welcomeMessage">Bienvenido, Agrónomo</h2>
+            </div>
+        </header>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="/paginas/inicio/inicio.html"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
+                <li class="active"><a href="perfil.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
+                <li><a href="/paginas/clientes/clientes.html"><img src="/Imagenes/employees.png" class="nav-icon"> Clientes</a></li>
+                <li><a href="/paginas/proyectos/proyectos.html"><img src="../../Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
+                <li><a href="/paginas/talleres/talleres.html"><img src="../../Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+                <li><a href="/paginas/solicitudes/solicitudes.html"><img src="../../Imagenes/ballot-check.png" class="nav-icon"> Solicitudes</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h4>Mi perfil</h4>
+                    <div>
+                        <button id="logoutButton" class="btn btn-danger btn-logout">Cerrar Sesión</button>
+                        <button id="editButton" class="btn btn-primary">Editar</button>
+                        <div id="editActions" class="hidden">
+                            <button id="saveButton" class="btn btn-primary">Guardar</button>
+                            <button id="cancelButton" class="btn btn-danger">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-body">
+                    <div class="profile-picture-section">
+                        <div class="image-wrapper">
+                            <img src="/Imagenes/perfil.png" alt="Icono de Perfil" id="profileImage" class="profile-icon">
+                        </div>
+                        <button id="uploadButton" class="btn-upload hidden">
+                            <img src="/Imagenes/upload.png" alt="Subir" class="upload-icon">
+                            <span id="uploadButtonText">Subir Imagen</span>
+                        </button>
+                        <input type="file" id="imageInput" class="hidden" accept="image/*">
+                    </div>
+                    
+                    <div class="profile-main-content">
+                        <p class="user-title" id="userTitleView">Cargando...</p>
+                        
+                        <div class="profile-grid view-mode">
+                            <div class="profile-column">
+                                <div class="info-group"><label>Correo electrónico:</label><p id="viewCorreo">...</p></div>
+                            </div>
+                            <div class="profile-column">
+                                <div class="info-group"><label>Contacto:</label><p id="viewTelefono">...</p></div>
+                            </div>
+                        </div>
+
+                        <div class="profile-grid edit-mode hidden">
+                            <div class="profile-column">
+                                <div class="form-group"><label for="editNombre">Nombre:</label><input type="text" id="editNombre"></div>
+                                <div class="form-group"><label for="editApellidoPaterno">Apellido Paterno:</label><input type="text" id="editApellidoPaterno"></div>
+                                <div class="form-group"><label for="editApellidoMaterno">Apellido Materno:</label><input type="text" id="editApellidoMaterno"></div>
+                            </div>
+                            <div class="profile-column">
+                                <div class="form-group"><label for="emailInput">Correo electrónico:</label><input type="email" id="emailInput"></div>
+                                <div class="form-group"><label for="contactInput">Contacto:</label><input type="tel" id="contactInput"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="perfil.js"></script>
+</body>
+</html>

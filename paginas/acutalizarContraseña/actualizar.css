@@ -1,0 +1,257 @@
+/* ======= RESET GENERAL ======= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #F9F5EE;
+  color: #1B1B1B;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ======= BARRAS SUPERIOR E INFERIOR ======= */
+.top-bar, .bottom-bar {
+  height: 30px;
+  background-color: #1C6E3E;
+  flex-shrink: 0;
+}
+
+/* ======= CONTENEDOR PRINCIPAL ======= */
+.page-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+/* ======= LAYOUT ======= */
+.content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 1100px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* ======= PANEL IZQUIERDO ======= */
+.info-panel {
+  flex: 1;
+  min-width: 320px;
+  background: linear-gradient(135deg, #EDF7F0, #D8F0E0);
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 70px;
+  height: auto;
+}
+
+.info-panel h1 {
+  font-size: 46px;
+  font-weight: 700;
+  color: #1C6E3E;
+}
+
+.info-panel h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  color: #2E2E2E;
+  max-width: 400px;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ======= PANEL DERECHO (FORMULARIO) ======= */
+.form-panel {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 50px 40px;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.form-header h3 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1B1B1B;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.back-link {
+  display: block;
+  font-size: 14px;
+  color: #1C6E3E;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.back-link:hover {
+  color: #2FB05E;
+}
+
+/* ======= FORMULARIO ======= */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #CCC;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: 'Montserrat', sans-serif;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #2FB05E;
+  box-shadow: 0 0 0 2px rgba(47, 176, 94, 0.2);
+}
+
+/* ======= BOTÓN ======= */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #1C6E3E;
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #2FB05E;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(47, 176, 94, 0.3);
+}
+
+/* ======= MENSAJES ======= */
+.error-message {
+  color: #D60000;
+  font-size: 14px;
+  text-align: center;
+  min-height: 18px;
+  margin-bottom: 15px;
+}
+
+/* ======= MODAL ======= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #FBF7EE;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  max-width: 400px;
+}
+
+.modal-content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.modal-content p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.modal-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1C6E3E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-button:hover {
+  background-color: #2FB05E;
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 900px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+
+  .info-panel {
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .form-panel {
+    padding: 30px 20px;
+  }
+
+  .form-box {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+

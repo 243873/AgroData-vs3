@@ -1,0 +1,149 @@
+/* --- ESTILOS DE PLANTILLA BASE --- */
+html, body { 
+    margin: 0; 
+    padding: 0; 
+    height: 100%; 
+    font-family: 'Montserrat', sans-serif; 
+    background-color: #F9F5EE; /* Fondo general de la página */
+    color: #1B1B1B; 
+}
+.page-wrapper { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100vh; 
+    overflow: hidden; 
+}
+.top-header { 
+    background-color: #1C6E3E; 
+    color: #FFFFFF; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 15px 40px; 
+    flex-shrink: 0; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+}
+.logo-container { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+}
+.logo { width: 50px; }
+.top-header h1 { font-size: 32px; margin: 0; }
+.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
+.navbar { 
+    background-color: #FFFFFF; 
+    padding: 10px 40px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+    flex-shrink: 0; 
+}
+.navbar ul { 
+    margin: 0; 
+    padding: 0; 
+    list-style: none; 
+    display: flex; 
+    gap: 60px; 
+}
+.navbar a { 
+    text-decoration: none; 
+    color: #333; 
+    font-weight: 500; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    padding: 10px 0; 
+    border-bottom: 2px solid transparent; 
+}
+.nav-icon { width: 16px; height: 16px; }
+.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
+.main-content { 
+    flex-grow: 1; 
+    padding: 30px 40px; 
+    overflow-y: auto; 
+    background-color: #F0EFEA; /* Fondo del área de contenido */
+}
+
+/* --- ESTILOS DE LA LISTA DE PROYECTOS (MODIFICADO) --- */
+.list-container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    background-color: #FFFFFF; /* <-- CAMBIO CLAVE: Fondo blanco */
+    border-radius: 12px;      /* <-- CAMBIO CLAVE: Bordes redondeados */
+    padding: 35px;           /* <-- CAMBIO CLAVE: Espaciado interno */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* <-- CAMBIO CLAVE: Sombra */
+}
+.list-container h3 { 
+    margin-bottom: 25px; 
+    font-size: 22px; 
+    color: #333; 
+}
+
+/* Tarjeta de proyecto (sin cambios, pero se integra mejor ahora) */
+.project-card {
+    background-color: #F8F9FA;
+    border: 1px solid #E9ECEF;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s;
+}
+.project-card:hover {
+    background-color: #F1F3F5;
+}
+.card-info h5 { margin: 0 0 15px; font-size: 18px; }
+.card-info-details { 
+    display: grid; 
+    grid-template-columns: repeat(3, auto); 
+    justify-content: start; 
+    gap: 30px; 
+}
+.card-info p { 
+    margin: 0; 
+    color: #555; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    font-size: 14px; 
+}
+.card-info .icon { 
+    width: 16px; 
+    height: 16px; 
+    opacity: 0.7; 
+}
+.card-actions { 
+    text-align: right; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    align-items: flex-end; 
+}
+.btn-details { 
+    background-color: #F0EFEA; 
+    color: #333; 
+    border: 1px solid #DCD9D0; 
+}
+.status-badge, .btn-details { 
+    padding: 10px 25px; 
+    border-radius: 20px; 
+    font-weight: 600; 
+    text-align: center; 
+    width: 160px; 
+    box-sizing: border-box; 
+}
+.status-pendiente { background-color: #FFC107; color: #333; }
+.status-confirmado-en-espera { background-color: #8BC34A; color: white; }
+.status-completado { background-color: #1C6E3E; color: white; }
+.status-rechazada { background-color: #DC3545; color: white; }
+.empty-state-message { 
+    background-color: #F8F9FA; 
+    border-radius: 12px; 
+    padding: 40px; 
+    text-align: center; 
+    color: #666; 
+    border: 1px solid #E9ECEF;
+}

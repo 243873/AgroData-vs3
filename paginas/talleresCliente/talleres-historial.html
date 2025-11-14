@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroData - Mis Talleres</title>
+    <link rel="stylesheet" href="talleres-historial.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="viewComprobanteModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Comprobante de Pago</h3>
+            <div class="comprobante-image-container"><img id="comprobanteImage" src="" alt="Comprobante de pago"></div>
+            <button id="closeComprobanteModal" class="btn btn-secondary">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <header class="top-header">
+            <div class="logo-container"><img src="/Imagenes/log2.png" alt="Logo" class="logo"><h1>AgroData</h1></div>
+            <div class="welcome-message"><h2 id="welcomeMessage">Bienvenido, Usuario</h2></div>
+        </header>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="/paginas/inicioCliente/inicioCliente.html"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
+                <li><a href="/paginas/perfilCliente/perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
+                <li><a href="/paginas/proyectoCliente/proyectoCliente.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
+                <li class="active"><a href="talleres-historial.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="historial-container">
+                <div class="filter-buttons">
+                    <button class="btn btn-filter active" data-view="solicitudes">Solicitud de talleres</button>
+                    <button class="btn btn-filter" data-view="historial">Historial de talleres</button>
+                </div>
+
+                <!-- VISTA DE SOLICITUDES (PENDIENTES, ETC.) -->
+                <div id="solicitudes-view">
+                    <div id="list-view"></div>
+                    <div id="detail-view" class="hidden"></div>
+                </div>
+
+                <!-- VISTA DE HISTORIAL (COMPLETADOS) -->
+                <div id="historial-view" class="hidden">
+                    <div class="historial-header">
+                        <h4>Registro de talleres completados:</h4>
+                    </div>
+                    <div id="historial-cards-container" class="historial-grid">
+                        <!-- Las tarjetas del historial se generarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="talleres-historial.js"></script>
+</body>
+</html>

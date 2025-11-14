@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroData - Actualizar Contraseña</title>
+  <link rel="stylesheet" href="actualizar.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Modal de confirmación -->
+  <div id="confirmationModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Se ha actualizado tu contraseña</h2>
+      <p>Ingresa nuevamente</p>
+      <button id="acceptButton" class="modal-button">Aceptar</button>
+    </div>
+  </div>
+
+  <header class="top-bar"></header>
+
+  <div class="page-container">
+    <main class="content-wrapper">
+      <!-- Panel Izquierdo -->
+      <div class="info-panel">
+        <div class="logo-container">
+          <img src="/Imagenes/Log.png" alt="Logo AgroData" class="logo">
+          <h1>AgroData</h1>
+        </div>
+        <h2>Tu plataforma digital para el seguimiento de tu cultivo.</h2>
+        <div class="image-container">
+          <img src="/Imagenes/curso-agroecologia.jpg" alt="Campo agrícola">
+        </div>
+      </div>
+
+      <!-- Panel Derecho -->
+      <div class="form-panel">
+        <div class="form-box">
+          <form id="updateForm" novalidate>
+            <div class="form-header">
+              <h3>Actualizar contraseña</h3>
+              <p class="subtitle">Ingresa tu nueva contraseña.</p>
+              <a href="../../index.html" class="back-link">← Volver al inicio de sesión</a>
+            </div>
+
+            <div class="input-group">
+              <input type="password" id="password" name="password" placeholder="Nueva contraseña" required>
+            </div>
+
+            <div class="input-group">
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" required>
+            </div>
+
+            <p id="errorMessage" class="error-message"></p>
+
+            <button type="submit" class="submit-btn">Cambiar contraseña</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="bottom-bar"></footer>
+  <script src="actualizarContraseña.js"></script>
+</body>
+</html>

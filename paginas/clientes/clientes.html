@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroData - Clientes</title>
+    <link rel="stylesheet" href="clientes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="top-header">
+            <div class="logo-container">
+                <img src="/Imagenes/log2.png" alt="Logo AgroData" class="logo">
+                <h1>AgroData</h1>
+            </div>
+            <div class="welcome-message">
+                <h2 id="welcomeMessage">Bienvenido, Agrónomo</h2>
+            </div>
+        </header>
+
+       <nav class="navbar">
+            <ul>
+                <li><a href="/paginas/inicio/inicio.html"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
+                <li><a href="/paginas/perfil/perfil.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
+                <li class="active"><a href="clientes.html"><img src="/Imagenes/employees.png" class="nav-icon"> Clientes</a></li>
+                <li><a href="/paginas/proyectos/proyectos.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
+                <li><a href="/paginas/talleres/talleres.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+                <li><a href="/paginas/solicitudes/solicitudes.html"><img src="/Imagenes/ballot-check.png" class="nav-icon"> Solicitudes</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <!-- Contenedor principal con el nuevo estilo de panel -->
+            <div class="content-container">
+                <div class="container-header">
+                    <h4>Mis Clientes</h4>
+                    <p id="client-count">Cargando clientes...</p>
+                </div>
+
+                <!-- La cuadrícula de clientes se generará aquí con JavaScript -->
+                <div id="client-grid" class="client-grid">
+                    <!-- Ejemplo de cómo se vería una tarjeta (no la incluyas, es solo de referencia) -->
+                    <!-- 
+                    <div class="client-card">
+                        <div class="client-card-header"><h5>Juan Pérez</h5></div>
+                        <div class="client-info"> ... </div>
+                        <div class="more-details"> ... </div>
+                        <div class="toggle-details"> ... </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="clientes.js"></script>
+</body>
+</html>

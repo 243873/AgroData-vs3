@@ -1,0 +1,85 @@
+/* --- ESTILOS DE PLANTILLA BASE --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.logo { width: 50px; }
+.top-header h1 { font-size: 32px; margin: 0; }
+.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
+.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
+.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
+.nav-icon { width: 16px; height: 16px; }
+.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
+.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
+.hidden { display: none !important; }
+
+/* --- CONTENEDOR PRINCIPAL Y FILTROS --- */
+.content-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.container-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.container-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
+.filter-buttons { display: flex; gap: 10px; }
+.btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.btn.filter-btn { background-color: #FFFFFF; color: #1C6E3E; border: 1px solid #1C6E3E; }
+.btn.filter-btn.active { background-color: #1C6E3E; color: #FFFFFF; }
+
+/* --- LISTA DE SOLICITUDES --- */
+.request-list { display: flex; flex-direction: column; gap: 20px; }
+.request-card { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; padding: 25px; }
+.card-summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.summary-info { flex-grow: 1; }
+.summary-info h5 { margin: 0 0 12px; font-size: 18px; }
+.summary-details { display: flex; flex-wrap: wrap; gap: 10px 30px; color: #555; font-size: 14px; }
+.info-item { display: flex; align-items: center; gap: 8px; }
+.info-icon { width: 16px; height: 16px; opacity: 0.7; }
+.summary-tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.request-tag { background-color: #1C6E3E; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; }
+
+.summary-actions { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    align-items: flex-end; 
+    width: 160px;  /* Ancho fijo para el contenedor de botones */
+    flex-shrink: 0; /* Evita que el contenedor se encoja */
+}
+/* CORRECCIÓN: Asegura que todos los botones de acción tengan el mismo ancho */
+.summary-actions .btn {
+    width: 100%;
+    box-sizing: border-box; /* Incluye el padding dentro del ancho total */
+}
+
+.btn-accept { background-color: #1C6E3E; color: white; }
+.btn-reject { background-color: #DC3545; color: white; }
+.btn-details { background-color: #FFFFFF; color: #333; border: 1px solid #CCC; }
+.btn-status-badge { cursor: default; }
+.btn-status-badge:hover { transform: none; box-shadow: none; }
+
+/* --- VISTA DETALLADA (EXPANDIDA) --- */
+.details-view {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, margin-top 0.5s ease-in-out, padding-top 0.5s ease-in-out;
+    border-top: 1px solid transparent; 
+}
+.request-card.expanded .details-view {
+    max-height: 1000px;
+    margin-top: 25px;
+    border-top: 1px solid #E9ECEF;
+    padding-top: 25px;
+}
+.details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+.info-group { margin-bottom: 15px; }
+.info-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 5px; }
+.info-group p { font-size: 15px; margin: 0; color: #555; }
+.motivo-box { background-color: #FFFBEB; border: 1px solid #FBE1A9; border-radius: 8px; padding: 15px; grid-column: 1 / -1; }
+.taller-flow-box { text-align: center; padding: 20px; border: 1px dashed #CCC; border-radius: 8px; }
+.taller-flow-box p { font-weight: 600; }
+.taller-flow-box img { max-width: 150px; border: 1px solid #CCC; margin: 15px 0; }
+
+/* --- MODALES --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+.modal-content { background-color: #FFFFFF; padding: 30px 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 100%; max-width: 500px; text-align: center; }
+.modal-actions-center { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
+.receipt-modal-content img { max-width: 100%; border: 1px solid #CCC; margin: 20px 0; }
