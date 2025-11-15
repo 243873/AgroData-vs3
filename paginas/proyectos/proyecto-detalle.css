@@ -36,6 +36,18 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .section-header h5 { margin: 0; font-size: 18px; }
 .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+.info-card { /* Estilo para las tarjetas dentro del grid de info */
+    background-color: #F8F9FA;
+    border: 1px solid #E9ECEF;
+    border-radius: 8px;
+    padding: 20px;
+}
+.info-card.full-width { grid-column: 1 / -1; }
+.solicitud-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
 .info-group { font-size: 15px; }
 .info-group label { display: block; font-weight: 600; color: #555; margin-bottom: 8px; font-size: 14px; }
 .info-group p { margin: 0; color: #1B1B1B; display: flex; align-items: center; gap: 8px; }
@@ -44,23 +56,118 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .progress-bar-container label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 500; color: #555; }
 .progress-bar { background-color: #E9ECEF; border-radius: 10px; height: 12px; overflow: hidden; }
 .progress-bar-fill { background-color: #1C6E3E; height: 100%; border-radius: 10px; transition: width 0.5s ease-in-out; }
+.tag { background-color: #E9ECEF; color: #333; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 500; }
+
 
 /* --- PESTAÑA DE ACTIVIDADES --- */
-.btn-add-activity { background-color: #1C6E3E; color: white; border: 1px dashed white; display: block; width: 100%; margin-bottom: 20px; }
-.activity-card { border: 1px solid #E9ECEF; border-radius: 10px; margin-bottom: 15px; }
-.activity-header { background-color: #F8F9FA; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E9ECEF; }
-.activity-header h5 { margin: 0; font-size: 18px; }
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #E9ECEF;
+}
+.container-header h4 { font-size: 18px; margin: 0; }
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #E9ECEF;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.activity-info strong { font-size: 16px; }
+.activity-info p { margin: 5px 0 0; font-size: 14px; color: #555; }
 .activity-actions { display: flex; gap: 10px; }
-.activity-body { padding: 20px; }
-.activity-body p { margin: 0 0 15px; color: #555; line-height: 1.5; }
-.activity-dates { display: flex; gap: 30px; font-size: 14px; color: #666; margin-bottom: 15px; }
-.evidence-section { border-top: 1px solid #E9ECEF; padding-top: 15px; margin-top: 15px; }
-.evidence-section strong { font-size: 14px; }
-.evidence-content { color: #555; margin-top: 5px; font-style: italic; }
+
+/* Clases de estado (para agrónomo y cliente) */
+.status-pendiente { color: #FFA500; font-weight: 600; }
+.status-atrasada { color: #DC3545; font-weight: 600; }
+.status-completada { color: #28A745; font-weight: 600; }
+
 
 /* --- PESTAÑA DE REPORTE --- */
-.report-section { border: 1px solid #E9ECEF; border-radius: 10px; padding: 25px; }
-.report-section h5 { margin-top: 0; }
+.report-grid { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas: Total, Completadas, Pendientes, Atrasadas */
+    gap: 20px; 
+}
+.report-card { 
+    background-color: #F8F9FA; 
+    border: 1px solid #E9ECEF;
+    border-radius: 8px; 
+    padding: 20px; 
+    text-align: center; 
+}
+.report-card.full-width { grid-column: 1 / -1; text-align: left; }
+.report-card h4 { font-size: 14px; color: #555; margin: 0 0 10px; font-weight: 500; }
+.report-card .report-value { font-size: 28px; font-weight: 600; margin: 0; }
+.report-card .report-value.success { color: #28A745; }
+.report-card .report-value.warning { color: #FFC107; }
+.report-card .report-value.danger { color: #DC3545; }
+.report-card .report-value.info { color: #17A2B8; } /* (Ya no se usa, pero se queda) */
+
+/* --- ESTILOS DE GRÁFICA (AÑADIR AL FINAL) --- */
+.chart-section {
+    margin-top: 30px;
+    padding: 25px;
+    border: 1px solid #E9ECEF;
+    border-radius: 10px;
+}
+.chart-section h4 {
+    margin: 0 0 25px 0;
+    font-size: 18px;
+}
+.chart-container { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); /* 3 barras: Pendiente, Atrasada, Completada */
+    gap: 20px; 
+    align-items: flex-end; 
+    height: 250px; 
+    padding: 20px; 
+    border: 1px solid #EEE; 
+    border-radius: 8px; 
+    margin-top: 20px; 
+}
+.bar-wrapper { 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end; 
+    height: 100%; 
+}
+.bar { 
+    width: 60%; 
+    margin: 0 auto; 
+    border-radius: 5px 5px 0 0; 
+    position: relative; 
+    transition: height 0.5s ease-out; 
+    background-color: #DDD; /* Color base */
+}
+.bar .value { 
+    position: absolute; 
+    top: -22px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    font-size: 14px; 
+    font-weight: bold; 
+    color: #333; 
+}
+.bar-label { 
+    font-size: 12px; 
+    color: #666; 
+    margin-top: 10px; 
+    font-weight: 500;
+}
+
+/* Colores específicos */
+.bar-pendiente { background-color: #FFC107; border: 2px solid #e6ac00; }
+.bar-atrasada { background-color: #DC3545; border: 2px solid #b02a37; } /* ★ NUEVO ★ */
+.bar-completada { background-color: #28A745; border: 2px solid #208038; }
+.bar-aceptada { background-color: #17A2B8; border: 2px solid #117a8a; } /* (Ya no se usa) */
+
 
 /* --- MODALES --- */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }

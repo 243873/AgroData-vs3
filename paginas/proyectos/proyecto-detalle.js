@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_BASE_URL = 'http://localhost:7000';
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
 
-    // Redirige si el usuario no es agrónomo (rol 1) o no tiene token
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {
         console.error("Acceso denegado o sesión inválida.");
         localStorage.clear();
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const authToken = authInfo.token;
 
     // --- 2. OBTENER IDs DE LA URL ---
-    // Obtenemos los IDs del plan y la solicitud desde la URL (ej: ?idPlan=1&idSolicitud=1)
     const urlParams = new URLSearchParams(window.location.search);
     const idPlan = parseInt(urlParams.get('idPlan'));
     const idSolicitud = parseInt(urlParams.get('idSolicitud'));
@@ -30,26 +28,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     const projectTitle = document.getElementById('project-title');
     const welcomeMessage = document.getElementById('welcomeMessage');
 
-    // Vistas de Pestañas
     const infoView = document.getElementById('info-view');
     const actividadesView = document.getElementById('actividades-view');
     const reporteView = document.getElementById('reporte-view');
 
-    // Modales
     const infoModal = document.getElementById('info-modal');
     const activityModal = document.getElementById('activity-modal');
-    const deleteActivityModal = document.getElementById('delete-activity-modal');
+    const deleteActivityModal = document.getElementById('delete-activity-modal'); 
 
-    // Referencias a los datos cargados
     let currentPlan = null;
     let currentSolicitud = null;
     let currentActivities = [];
+
+    // --- ★ CORRECCIÓN ★ ---
+    // Mapeo de estados de TAREA simplificado
+    const estadoMap = { 1: 'Pendiente', 2: 'Completada' };
+    const HOY = new Date(); // Para comparar fechas de vencimiento
+    HOY.setHours(0, 0, 0, 0); // Ignorar la hora
 
     // --- 4. FUNCIÓN HELPER DE FETCH ---
     async function fetchWithAuth(url, options = {}) {
         const headers = { 
             'Authorization': `Bearer ${authToken}`,
-            'Content-Type': 'application/json', // Especificamos JSON por defecto
+            'Content-Type': 'application/json', 
             ...(options.headers || {}) 
         };
         const response = await fetch(url, { ...options, headers });
@@ -60,20 +61,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 localStorage.clear();
                 window.location.href = '../../index.html';
             }
-            throw new Error(`Error de red: ${response.status} ${response.statusText}`);
+            const errorText = await response.text();
+            throw new Error(`Error de red: ${response.status} ${response.statusText} - ${errorText}`);
         }
         
-        // Maneja respuestas que no tienen contenido (como 200 OK en un PUT/DELETE)
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
             return response.json();
         } else {
-            return response.text(); // Devuelve texto si no es JSON
+            return response.text(); 
         }
     }
 
     // --- 5. LÓGICA DE CARGA DE DATOS ---
 
+    // (loadProfileAndGreeting y loadProjectData sin cambios)
     async function loadProfileAndGreeting() {
         try {
             const user = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
@@ -86,21 +88,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadProjectData() {
         try {
-            // 1. Cargar el Plan de Cultivo (contiene la mayoría de datos)
-            // Usamos el endpoint de lista, pero filtraremos por el ID del plan
             const allPlans = await fetchWithAuth(`${API_BASE_URL}/obtenerPlanCultivos`);
             currentPlan = allPlans.find(p => p.idPlan === idPlan);
             
             if (!currentPlan) throw new Error("Plan de cultivo no encontrado.");
 
-            // 2. Cargar la Solicitud de Asesoría (para detalles extra del formulario)
             currentSolicitud = await fetchWithAuth(`${API_BASE_URL}/solicitudasesoria/${idSolicitud}`);
 
-            // 3. Renderizar los datos
             projectTitle.textContent = `Detalle del Plan: ${currentPlan.motivoAsesoria.substring(0, 40)}...`;
             renderInfoTab();
 
-            // 4. Cargar datos de las otras pestañas
             loadActivities();
             loadReport();
 
@@ -113,15 +110,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 6. RENDERIZADO DE PESTAÑAS ---
 
+    // (renderInfoTab sin cambios)
     function renderInfoTab() {
         if (!currentPlan || !currentSolicitud) return;
 
-        // Formatear cultivos
         const cultivosHtml = currentPlan.cultivoPorSolicitud.map(c => 
             `<span class="tag">${c.nombreCultivo}</span>`
         ).join('');
         
-        // Formatear datos de la solicitud
         const solicitud = currentSolicitud;
 
         infoView.innerHTML = `
@@ -154,15 +150,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `;
 
-        // Asignar evento al botón de editar
         document.getElementById('edit-info-btn').addEventListener('click', () => {
-            // Llenar el modal con datos existentes
             document.getElementById('info-objetivo').value = currentPlan.motivoAsesoria;
-            document.getElementById('info-observaciones').value = currentPlan.observaciones; // Nuevo campo
+            document.getElementById('info-observaciones').value = currentPlan.observaciones;
             infoModal.classList.remove('hidden');
         });
     }
 
+    // (loadActivities sin cambios)
     async function loadActivities() {
         try {
             const allTasks = await fetchWithAuth(`${API_BASE_URL}/tarea`);
@@ -174,6 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // --- ★ CORRECCIÓN: Renderizado de Tareas para Agrónomo ---
     function renderActivitiesTab() {
         let activitiesHtml = `
             <div class="container-header">
@@ -185,22 +181,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (currentActivities.length === 0) {
             activitiesHtml += '<p>No hay actividades asignadas a este plan.</p>';
         } else {
-            activitiesHtml += currentActivities.map(task => `
+            activitiesHtml += currentActivities.map(task => {
+                const taskJson = JSON.stringify(task).replace(/'/g, "&apos;");
+                
+                let estadoNombre = estadoMap[task.idEstado] || 'Desconocido';
+                let estadoClass = `status-${estadoNombre.toLowerCase().replace(/[\s()]/g, '-')}`;
+
+                // Lógica de estado visual "Atrasada"
+                const fechaVencimiento = new Date(task.fechaVencimiento + 'T00:00:00');
+                const isAtrasada = task.idEstado === 1 && fechaVencimiento < HOY;
+
+                if (isAtrasada) {
+                    estadoNombre = 'Atrasada';
+                    estadoClass = 'status-atrasada';
+                }
+
+                // El agrónomo puede reabrir una tarea completada
+                // (Se muestra "Editar" y "Eliminar" en todos los casos)
+                // Opcional: añadir botón "Reabrir Tarea" si está completada
+                
+                return `
                 <div class="activity-item">
                     <div class="activity-info">
                         <strong>${task.nombreTarea}</strong>
-                        <p>Estado: ${task.idEstado}</p>
+                        <p>Estado: <span class="${estadoClass}">${estadoNombre}</span></p>
                         <p>Vence: ${task.fechaVencimiento}</p>
                     </div>
                     <div class="activity-actions">
-                        <button class="btn btn-secondary btn-edit-task" data-task-id="${task.idTarea}">Editar</button>
+                        <button class="btn btn-secondary btn-edit-task" data-task-json='${taskJson}'>Editar</button>
                         <button class="btn btn-danger btn-delete-task" data-task-id="${task.idTarea}">Eliminar</button>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
         
-        // Sección de Reporte de Plagas
+        // (Sección de plagas sin cambios)
         activitiesHtml += `
             <div class="container-header" style="margin-top: 30px;">
                 <h4>Reporte de Plagas</h4>
@@ -221,21 +236,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         actividadesView.innerHTML = activitiesHtml;
 
-        // Asignar evento al botón de "Añadir Actividad"
         document.getElementById('add-activity-btn').addEventListener('click', () => {
             document.getElementById('activity-modal-title').textContent = "Agregar nueva actividad";
             document.getElementById('activity-form').reset();
-            activityModal.dataset.mode = 'add'; // Usamos un dataset para saber si es 'add' o 'edit'
+            activityModal.dataset.mode = 'add';
+            activityModal.dataset.editingId = ''; 
             activityModal.classList.remove('hidden');
         });
         
-        // TODO: Añadir lógica para el botón 'add-plaga-btn'
         document.getElementById('add-plaga-btn').addEventListener('click', () => {
             alert('Funcionalidad de "Registrar Avistamiento" no implementada en este script.');
-            // Aquí abrirías un modal para POST a /reporteplaga
         });
     }
 
+    // (loadReport sin cambios)
     async function loadReport() {
         try {
             const reporte = await fetchWithAuth(`${API_BASE_URL}/obtenerReporteDesempeno/${idPlan}`);
@@ -246,13 +260,65 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // --- ★ CORRECCIÓN: Renderizado del Reporte del Agrónomo ---
     function renderReportTab(reporte) {
         if (!reporte) {
             reporteView.innerHTML = '<p>No hay datos para generar un reporte.</p>';
             return;
         }
 
-        reporteView.innerHTML = `
+        // --- CÁLCULOS PARA LA GRÁFICA ---
+        const total = reporte.totalTareas;
+        // Combinamos pendientes y atrasadas para la altura máxima
+        const totalPendientes = reporte.tareasPendientes + reporte.tareasAtrasadas;
+        
+        let hPendiente = 0;
+        let hAtrasada = 0;
+        let hCompletada = 0;
+
+        // Evitar división por cero
+        if (total > 0) {
+            // Usamos el total de pendientes (a tiempo + atrasadas) como base si es mayor
+            const maxPendiente = Math.max(totalPendientes, reporte.tareasCompletadas);
+            const baseAltura = maxPendiente > 0 ? (100 / maxPendiente) : 0;
+            
+            // Alturas relativas
+            hPendiente = (reporte.tareasPendientes / total) * 100;
+            hAtrasada = (reporte.tareasAtrasadas / total) * 100;
+            hCompletada = (reporte.tareasCompletadas / total) * 100;
+        }
+
+        // --- HTML DE LA GRÁFICA ---
+        const chartHtml = `
+            <div class="chart-section">
+                <h4>Distribución de Tareas</h4>
+                <div class="chart-container">
+                    <div class="bar-wrapper">
+                        <div class="bar bar-pendiente" style="height: ${hPendiente}%;">
+                            <span class="value">${reporte.tareasPendientes}</span>
+                        </div>
+                        <span class="bar-label">Pendientes (A tiempo)</span>
+                    </div>
+                    
+                    <div class="bar-wrapper">
+                        <div class="bar bar-atrasada" style="height: ${hAtrasada}%;">
+                            <span class="value">${reporte.tareasAtrasadas}</span>
+                        </div>
+                        <span class="bar-label">Atrasadas</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar bar-completada" style="height: ${hCompletada}%;">
+                            <span class="value">${reporte.tareasCompletadas}</span>
+                        </div>
+                        <span class="bar-label">Completadas</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // --- HTML DE LAS TARJETAS ---
+        const statsHtml = `
             <div class="report-grid">
                 <div class="report-card">
                     <h4>Tareas Totales</h4>
@@ -267,13 +333,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p class="report-value warning">${reporte.tareasPendientes}</p>
                 </div>
                 <div class="report-card">
-                    <h4>Aceptadas (Revisadas)</h4>
-                    <p class="report-value info">${reporte.tareasAceptadas}</p>
+                    <h4>Atrasadas</h4>
+                    <p class="report-value danger">${reporte.tareasAtrasadas}</p>
                 </div>
                 <div class="report-card full-width">
                     <h4>Progreso General</h4>
                     <div class="progress-bar-container large">
-                        <label>Avance: ${reporte.porcentageCompletadas.toFixed(0)}%</label>
+                        <label>Avance (Completadas): ${reporte.porcentageCompletadas.toFixed(0)}%</label>
                         <div class="progress-bar">
                             <div class="progress-bar-fill" style="width: ${reporte.porcentageCompletadas}%;"></div>
                         </div>
@@ -286,9 +352,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             </div>
         `;
+
+        // --- COMBINAR AMBOS ---
+        reporteView.innerHTML = statsHtml + chartHtml;
         
-        // TODO: Añadir lógica para 'edit-report-obs-btn'
-        // Esto llamaría a POST /registrarReporteDesempeno
         document.getElementById('edit-report-obs-btn').addEventListener('click', () => {
              alert('Funcionalidad de "Registrar Observaciones" no implementada en este script.');
         });
@@ -297,24 +364,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 7. MANEJO DE EVENTOS (PESTAÑAS Y MODALES) ---
 
-    // Navegación por pestañas
+    // (Navegación de pestañas y Modal Info Proyecto sin cambios)
     document.querySelector('.tab-navigation').addEventListener('click', (e) => {
         if (e.target.matches('.tab-btn')) {
-            // Quitar 'active' de todos los botones y tabs
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-
-            // Añadir 'active' al botón y tab correctos
             const tabId = e.target.dataset.tab;
             e.target.classList.add('active');
             document.getElementById(`${tabId}-view`).classList.remove('hidden');
         }
     });
 
-    // --- Lógica Modal Info Proyecto ---
     document.getElementById('save-info-btn').addEventListener('click', async () => {
         const objetivo = document.getElementById('info-objetivo').value;
-        const observaciones = document.getElementById('info-observaciones').value; // Nuevo
+        const observaciones = document.getElementById('info-observaciones').value;
 
         try {
             await fetchWithAuth(`${API_BASE_URL}/planes/${idSolicitud}/${idPlan}`, {
@@ -325,10 +388,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 })
             });
             
-            // Si tiene éxito, actualiza los datos locales y la UI
             currentPlan.motivoAsesoria = objetivo;
             currentPlan.observaciones = observaciones;
-            renderInfoTab(); // Re-renderiza la pestaña de info
+            renderInfoTab(); 
             infoModal.classList.add('hidden');
             
         } catch (error) {
@@ -339,6 +401,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('cancel-info-btn').addEventListener('click', () => infoModal.classList.add('hidden'));
 
 
+    // --- ★ CORRECCIÓN: Lógica Modal Actividad (Crear y Editar) ---
     document.getElementById('save-activity-btn').addEventListener('click', async () => {
         const nombreTarea = document.getElementById('activity-name').value;
         const fechaVencimiento = document.getElementById('activity-end').value;
@@ -348,57 +411,76 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // ▼▼▼ INICIO DE LA CORRECCIÓN ▼▼▼
-        // Obtenemos el ID del cliente (agricultor) desde el plan de cultivo actual.
         const idUsuarioCliente = currentPlan.idUsuario; 
-        
         if (!idUsuarioCliente) {
             alert("Error: No se pudo encontrar el ID del cliente en el plan actual.");
             return;
         }
-        // ▲▲▲ FIN DE LA CORRECCIÓN ▲▲▲
 
-        const nuevaTarea = {
+        const mode = activityModal.dataset.mode;
+        const editingId = activityModal.dataset.editingId;
+
+        let url = `${API_BASE_URL}/tarea`;
+        let method = 'POST';
+        let originalTask = null;
+
+        // Preparar payload
+        const tareaPayload = {
             idPlan: idPlan,
             nombreTarea: nombreTarea,
             fechaVencimiento: fechaVencimiento,
             fechaInicio: new Date().toISOString().split('T')[0], 
-            idEstado: 1, // Asumimos 1 = Pendiente
-            idUsuario: idUsuarioCliente // <-- AÑADIMOS EL ID DEL CLIENTE
+            idEstado: 1, // Siempre se (re)establece a Pendiente al crear/editar
+            idUsuario: idUsuarioCliente
         };
 
+        if (mode === 'edit' && editingId) {
+            url = `${API_BASE_URL}/tarea/${editingId}`;
+            method = 'PUT';
+            tareaPayload.idTarea = parseInt(editingId);
+            originalTask = currentActivities.find(t => t.idTarea == editingId);
+            
+            if (originalTask) {
+                tareaPayload.fechaInicio = originalTask.fechaInicio;
+                tareaPayload.idUsuario = originalTask.idUsuario; // Asegurar que el idUsuario no se pierda
+                
+                // Si la tarea ya estaba completada (2), y el agrónomo la edita, 
+                // la regresamos a Pendiente (1).
+                // Si estaba pendiente (1), se queda en (1).
+                tareaPayload.idEstado = 1; 
+            }
+        } 
+
         try {
-            await fetchWithAuth(`${API_BASE_URL}/tarea`, {
-                method: 'POST',
+            await fetchWithAuth(url, {
+                method: method,
                 headers: {
-                    'confirmado': 'true' // Requerido por tu TareaController
+                    'confirmado': 'true' // Requerido por TareaController (para POST)
                 },
-                body: JSON.stringify(nuevaTarea)
+                body: JSON.stringify(tareaPayload)
             });
 
             activityModal.classList.add('hidden');
-            loadActivities(); 
+            loadActivities(); // Recargar la lista de actividades
 
         } catch (error) {
-            console.error("Error al guardar la actividad:", error);
-            alert("Error al guardar. Verifique la consola.");
+            console.error(`Error al ${mode === 'edit' ? 'actualizar' : 'guardar'} la actividad:`, error);
+            alert(`Error al ${mode === 'edit' ? 'actualizar' : 'guardar'}. Verifique la consola.`);
         }
     });
     document.getElementById('cancel-activity-btn').addEventListener('click', () => activityModal.classList.add('hidden'));
 
-    // --- Lógica para botones de Eliminar/Editar Tarea (Delegación de eventos) ---
+    // --- (Lógica de botones Eliminar/Editar sin cambios) ---
     actividadesView.addEventListener('click', async (e) => {
-        // Botón Eliminar
         if (e.target.matches('.btn-delete-task')) {
             const taskId = e.target.dataset.taskId;
             
-            // Mostrar modal de confirmación (no implementado en tu HTML, pero sería ideal)
-            if (confirm("¿Estás seguro de que quieres eliminar esta tarea?")) {
+            if (confirm("¿Estás seguro de que quieres eliminar esta tarea? (Se eliminarán también las evidencias asociadas)")) {
                 try {
                     await fetchWithAuth(`${API_BASE_URL}/tarea/${taskId}`, {
                         method: 'DELETE'
                     });
-                    loadActivities(); // Recargar lista
+                    loadActivities(); 
                 } catch (error) {
                     console.error("Error al eliminar tarea:", error);
                     alert("Error al eliminar la tarea.");
@@ -406,16 +488,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
         
-        // Botón Editar
         if (e.target.matches('.btn-edit-task')) {
-             alert('La edición de tareas no está implementada en este script.');
-             // Aquí abrirías el modal de actividad en modo 'edit'
+             const button = e.target;
+             try {
+                const taskJson = button.dataset.taskJson.replace(/&apos;/g, '"');
+                const task = JSON.parse(taskJson);
+
+                document.getElementById('activity-modal-title').textContent = "Editar actividad";
+                document.getElementById('activity-name').value = task.nombreTarea;
+                document.getElementById('activity-end').value = task.fechaVencimiento;
+                
+                activityModal.dataset.mode = 'edit';
+                activityModal.dataset.editingId = task.idTarea;
+                activityModal.classList.remove('hidden');
+
+             } catch (err) {
+                console.error("Error al parsear JSON de la tarea:", err);
+                alert("No se pudo cargar la información de la tarea para editar.");
+             }
         }
     });
 
 
     // --- 8. EJECUCIÓN INICIAL ---
     await loadProfileAndGreeting();
-    await loadProjectData(); // Esto carga todo lo demás
+    await loadProjectData(); 
 
 });
