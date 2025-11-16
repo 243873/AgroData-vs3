@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- LÓGICA DE RENDERIZADO ---
+    // --- LÓGICA DE RENDERIZADO ---
     function renderProjects(filterKey = 'all') {
         projectsListContainer.innerHTML = '';
         let projectsToRender = allProjects;
@@ -84,38 +85,36 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         projectsToRender.forEach(project => {
+            // --- ★ INICIO DE LA MODIFICACIÓN ★ ---
+            // Se re-calculan las variables para que coincidan con la vista del cliente
             const estado = STATUS_MAP[project.idEstado] || { text: 'Desconocido', filter: 'desconocido' };
             const fullName = `${project.nombre} ${project.apellidoPaterno || ''} ${project.apellidoMaterno || ''}`;
-            const cultivos = project.cultivoPorSolicitud ? project.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ') : 'N/A';
-            const progreso = project.porcentajeAvance ? project.porcentajeAvance.toFixed(0) : '0';
-
-            const card = document.createElement('div');
-            card.className = 'project-card';
+            const cultivosNombres = project.cultivoPorSolicitud ? project.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ') : 'N/A';
             
             // La URL al detalle incluye los IDs necesarios
             const detailUrl = `proyecto-detalle.html?idPlan=${project.idPlan}&idSolicitud=${project.idSolicitud}`;
+
+            // Se crea un <a> en lugar de un <div> para que toda la tarjeta sea un enlace
+            const card = document.createElement('a');
+            card.className = 'project-card';
+            card.href = detailUrl;
             
+            // Se usa la misma estructura HTML interna que 'proyectos-lista.js' del cliente
+            // Se omite la barra de progreso y el span de estado.
             card.innerHTML = `
                 <div class="card-info">
-                    <h5>Plan de Cultivo: ID ${project.idPlan}</h5>
-                    <p class="card-title">${project.motivoAsesoria.substring(0, 50)}...</p>
-                    <div class="card-details">
-                        <span class="info-item"><img src="/Imagenes/user.png" class="icon">${fullName}</span>
-                        <span class="info-item"><img src="/Imagenes/marker.png" class="icon">${project.direccionTerreno}</span>
-                        <span class="info-item"><img src="/Imagenes/calendar.png" class="icon">Inicio: ${project.fechaInicio}</span>
-                    </div>
-                    <div class="card-tags">
-                        ${cultivos.split(',').map(c => `<span class="cultivo-tag">${c}</span>`).join('')}
-                    </div>
-                    <div class="progress-bar-container">
-                        <label>Avance: ${progreso}%</label>
-                        <div class="progress-bar"><div class="progress-bar-fill" style="width: ${progreso}%;"></div></div>
+                    <h5>Plan de Cultivo: ${cultivosNombres}</h5>
+                    <div class="card-info-details">
+                        <p><img src="/Imagenes/user.png" class="icon"> ${fullName}</p>
+                        <p><img src="/Imagenes/marker.png" class="icon"> ${project.direccionTerreno}</p>
+                        <p><img src="/Imagenes/tree-sapling.png" class="icon"> Cultivos: ${cultivosNombres}</p>
                     </div>
                 </div>
                 <div class="card-actions">
-                    <span class="project-status status-${estado.filter}">${estado.text}</span>
-                    <a href="${detailUrl}" class="btn-details">Ver Detalles</a>
+                    <span class="btn-details">Ver Detalles</span>
                 </div>`;
+            // --- ★ FIN DE LA MODIFICACIÓN ★ ---
+            
             projectsListContainer.appendChild(card);
         });
     }

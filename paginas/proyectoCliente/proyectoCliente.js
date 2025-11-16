@@ -8,33 +8,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     const authToken = currentUser.token;
     const API_BASE_URL = "http://localhost:7000"; 
 
-    let currentProject = null; // Guardará el PlanCultivo
-    let projectTasks = [];     // Guardará las Tareas
-    let currentActivityId = null; // El idTarea que se está editando
+    let currentProject = null; 
+    let projectTasks = [];     
+    let currentActivityId = null; 
     let newActivityImageBase64 = null;
     let newPlagaImageBase64 = null;
 
-    // --- ★ CORRECCIÓN ★ ---
-    // Mapeo de estados de TAREA simplificado
     const estadoMap = { 1: 'Pendiente', 2: 'Completada' };
-    const HOY = new Date(); // Para comparar fechas de vencimiento
-    HOY.setHours(0, 0, 0, 0); // Ignorar la hora
+    const HOY = new Date(); 
+    HOY.setHours(0, 0, 0, 0); 
 
     // --- 2. SELECCIÓN DE ELEMENTOS DEL DOM ---
     const projectContainer = document.querySelector('.project-container');
     const welcomeMessage = document.getElementById('welcomeMessage');
     const projectTitle = document.getElementById('project-title');
-    const projectGeneralInfo = document.getElementById('project-general-info');
-    const cropTabNavigation = document.getElementById('crop-tab-navigation');
-    const cropTabContent = document.getElementById('crop-tab-content');
     
-    // Modales
+    // --- ★ MODIFICACIÓN: Nuevos selectores de Pestañas ---
+    const infoView = document.getElementById('info-view');
+    const actividadesView = document.getElementById('actividades-view');
+    // const reporteView = document.getElementById('reporte-view'); // No existe en el HTML del cliente
+    
+    // (Modales y sus contenidos no cambian)
     const editActivityModal = document.getElementById('edit-activity-modal');
     const imageViewerModal = document.getElementById('image-viewer-modal');
     const plagaReportModal = document.getElementById('plaga-report-modal');
     const successModal = document.getElementById('success-modal');
-    
-    // Contenido Modal Actividad
     const modalActivityTitle = document.getElementById('modal-activity-title');
     const activityComment = document.getElementById('activity-comment');
     const activityImageInput = document.getElementById('activity-image-input');
@@ -43,8 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const imagePreview = document.getElementById('image-preview');
     const cancelEditBtn = document.getElementById('cancel-edit-btn');
     const saveActivityBtn = document.getElementById('save-activity-btn');
-    
-    // (Resto de selectores DOM sin cambios)
     const viewerModalTitle = document.getElementById('viewer-modal-title');
     const modalReportImage = document.getElementById('modal-report-image');
     const closeImageViewerBtn = document.getElementById('close-image-viewer-btn');
@@ -57,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     // --- 3. LÓGICA DE DATOS (API) ---
-
+    // (fetchWithToken, fetchUserProfile, loadProjectData no cambian)
     async function fetchWithToken(url, options = {}) {
         const defaultHeaders = {
             'Authorization': `Bearer ${authToken}`,
@@ -97,20 +93,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadProjectData(projectId) {
         try {
             const allProjects = await fetchWithToken(`/obtenerPlanCultivos`);
+            // Busca el plan basado en idPlan (de la URL) e idUsuario (del token)
             currentProject = allProjects.find(p => p.idPlan == projectId && p.idUsuario == currentUser.id);
             
             if (!currentProject) {
-                console.error("Debug: allProjects", allProjects);
-                console.error("Debug: projectId", projectId);
-                console.error("Debug: currentUser.id", currentUser.id);
                 throw new Error('Proyecto no encontrado o no te pertenece.');
             }
-
+            
+            // Busca las tareas (la API ya filtra por usuario)
             const allUserTasks = await fetchWithToken(`/tarea`);
             projectTasks = allUserTasks.filter(task => task.idPlan == currentProject.idPlan);
             
             console.log("Tareas filtradas para este proyecto:", projectTasks);
-
             return true;
         } catch (error) {
             console.error("Error cargando datos del proyecto:", error);
@@ -126,55 +120,56 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 4. LÓGICA DE RENDERIZADO PRINCIPAL ---
     
-    // (renderProject y renderGeneralInfo sin cambios)
     function renderProject() {
         const cultivosNombres = currentProject.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ');
         projectTitle.textContent = `Plan de Cultivo: ${cultivosNombres}`;
         
         renderGeneralInfo();
-        renderTabs();
+        renderActividadesPane(); // Esto ahora incluye las plagas
+        // (No se llama a renderReportePane)
+        initializeTabNavigation(); // Activar los listeners de las pestañas
     }
     
     function renderGeneralInfo() {
-        projectGeneralInfo.querySelector('.info-grid').innerHTML = `
-            <div>
-                <div class="info-group"><label>Superficie Total:</label><p>${currentProject.superficieTotal} hectáreas</p></div>
-                <div class="info-group"><label>Ubicación:</label><p>${currentProject.direccionTerreno}</p></div>
-                <div class="info-group"><label>Agricultor:</label><p>${currentProject.nombre} ${currentProject.apellidoPaterno}</p></div>
-                <div class="info-group"><label>Motivo de la Asesoría:</label><p>${currentProject.motivoAsesoria}</p></div>
-                <div class="info-group"><label>Fecha Inicio:</label><p>${currentProject.fechaInicio}</p></div>
-                <div class="info-group"><label>Fecha Fin:</label><p>${currentProject.fechaFin || 'N/A'}</p></div>
-                <div class="info-group"><label>Observaciones del Agrónomo:</label><p>${currentProject.observaciones || 'Sin observaciones.'}</p></div>
+        // Esta función ahora renderiza en 'infoView'
+        const cultivosHtml = currentProject.cultivoPorSolicitud.map(c => 
+            `<span class="tag">${c.nombreCultivo}</span>`
+        ).join('');
+        
+        // Usamos la misma estructura de 'info-card' que el agrónomo
+        infoView.innerHTML = `
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Detalles del Cliente</h4>
+                    <p><strong>Nombre:</strong> ${currentProject.nombre} ${currentProject.apellidoPaterno}</p>
+                    <p><strong>Ubicación:</strong> ${currentProject.direccionTerreno}</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Datos de la Asesoría</h4>
+                    <p><strong>Objetivo/Motivo:</strong> ${currentProject.motivoAsesoria}</p>
+                    <p><strong>Observaciones Agrónomo:</strong> ${currentProject.observaciones || 'Sin observaciones'}</p>
+                    <p><strong>Superficie:</strong> ${currentProject.superficieTotal} hectáreas</p>
+                    <p><strong>Cultivos:</strong> ${cultivosHtml}</p>
+                </div>
             </div>
         `;
     }
 
-    // (renderTabs sin cambios)
-    function renderTabs() {
-        cropTabNavigation.innerHTML = '';
-        cropTabContent.innerHTML = '';
-
-        cropTabNavigation.innerHTML += `<button class="tab-btn active" data-target="tab-actividades">Actividades</button>`;
-        cropTabContent.innerHTML += `<div id="tab-actividades" class="tab-pane active">${renderActividadesPane()}</div>`;
-
-        cropTabNavigation.innerHTML += `<button class="tab-btn" data-target="tab-plagas">Reportes de Plaga</button>`;
-        cropTabContent.innerHTML += `<div id="tab-plagas" class="tab-pane">${renderPlagasPane()}</div>`;
-
-        addTabListeners();
-    }
-
-    // --- ★ CORRECCIÓN: Renderizado de Tareas para Cliente ---
     function renderActividadesPane() {
-        let actividadesHTML = '';
+        let actividadesHTML = `
+            <div class="container-header">
+                <h4>Actividades del Plan</h4>
+            </div>
+        `;
+        
         if (projectTasks && projectTasks.length > 0) {
-            
-            actividadesHTML = projectTasks.map(act => {
+            actividadesHTML += projectTasks.map(act => {
                 let estadoNombre = estadoMap[act.idEstado] || 'Desconocido';
                 let estadoClass = `status-${estadoNombre.toLowerCase().replace(/[\s()]/g, '-')}`;
                 let buttonHtml = '';
                 
-                // Lógica de estado visual "Atrasada"
-                const fechaVencimiento = new Date(act.fechaVencimiento + 'T00:00:00'); // Asegurar que se compare bien
+                const fechaVencimiento = new Date(act.fechaVencimiento + 'T00:00:00');
                 const isAtrasada = act.idEstado === 1 && fechaVencimiento < HOY;
 
                 if (isAtrasada) {
@@ -182,87 +177,77 @@ document.addEventListener('DOMContentLoaded', async () => {
                     estadoClass = 'status-atrasada';
                 }
 
-                // Lógica para el botón
-                if (act.idEstado === 1) { // 1: Pendiente (o Atrasada)
+                if (act.idEstado === 1) { // Pendiente o Atrasada
                     buttonHtml = `<button class="btn btn-primary btn-edit" data-id="${act.idTarea}">Registrar Evidencia</button>`;
-                } else if (act.idEstado === 2) { // 2: Completada
+                } else if (act.idEstado === 2) { // Completada
                     buttonHtml = `<button class="btn btn-primary" style="background-color: #28a745; border-color: #28a745;" disabled>Completada</button>`;
-                } else {
-                     // Para cualquier otro estado (3, 5, etc. si existieran)
-                     buttonHtml = `<button class="btn btn-secondary" disabled>${estadoNombre}</button>`;
                 }
 
+                // Usamos la clase 'activity-item' del agrónomo
                 return `
-                    <div class="activity-card">
-                        <div class="activity-header">
-                            <h5>${act.nombreTarea}</h5>
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <div class="status-badge ${estadoClass}">${estadoNombre}</div>
-                                ${buttonHtml}
-                            </div>
+                    <div class="activity-item"> 
+                        <div class="activity-info">
+                            <strong>${act.nombreTarea}</strong>
+                            <p>Estado: <span class="${estadoClass}">${estadoNombre}</span></p>
+                            <p>Vence: ${act.fechaVencimiento}</p>
                         </div>
-                        <p>${act.descripcion || 'Sin descripción.'}</p>
-                        <div class="activity-dates">
-                            <span><strong>Inicio:</strong> ${act.fechaInicio}</span>
-                            <span><strong>Vencimiento:</strong> ${act.fechaVencimiento}</span>
-                        </div>
-                        <div class="evidence-box">
-                            <span><strong>Evidencia:</strong> ${act.idEstado === 2 ? 'Evidencia enviada.' : 'Pendiente de envío.'}</span>
+                        <div class="activity-actions">
+                            ${buttonHtml}
                         </div>
                     </div>`;
             }).join('');
         } else {
-            actividadesHTML = '<p>Aún no hay actividades planificadas para este proyecto.</p>';
+            actividadesHTML += '<p>Aún no hay actividades planificadas para este proyecto.</p>';
         }
 
-        return `<h4>Actividades del Plan</h4>
-                <div class="activities-list">${actividadesHTML}</div>`;
+        actividadesHTML += `
+            <div class="container-header" style="margin-top: 30px;">
+                <h4>Reporte de Plagas</h4>
+                <button id="add-plaga-btn" class="btn btn-primary">Registrar Avistamiento</button>
+            </div>
+            <div id="plagas-list">
+                ${currentProject.reportePlagas.length === 0 ? '<p>No hay reportes de plaga para este plan.</p>' : 
+                    currentProject.reportePlagas.map(plaga => `
+                        <div class="plaga-item">
+                            <p><strong>Tipo:</strong> ${plaga.tipoPlaga}</p>
+                            <p><strong>Descripción:</strong> ${plaga.descripcion}</p>
+                            <p><strong>Fecha:</strong> ${new Date(plaga.fechaReporte).toLocaleDateString()}</p>
+                        </div>
+                    `).join('')
+                }
+            </div>
+        `;
+
+        actividadesView.innerHTML = actividadesHTML;
     }
 
-    // (renderPlagasPane y addTabListeners sin cambios)
-    function renderPlagasPane() {
-        let plagaHTML = '';
-        const reportes = currentProject.reportePlagas; 
-
-        if (reportes && reportes.length > 0) {
-            plagaHTML = reportes.map(reporte => `
-                <div class="info-group"><label>Fecha de reporte:</label><p>${new Date(reporte.fechaReporte).toLocaleString()}</p></div>
-                <div class="info-group"><label>Tipo de plaga:</label><p>${reporte.tipoPlaga}</p></div>
-                <div class="info-group"><label>Descripción:</label><p>${reporte.descripcion}</p></div>
-                ${reporte.imagen ? `<button class="btn btn-secondary view-plaga-image" data-url="${reporte.imagen}">Ver Imagen del Reporte</button>` : ''}
-                <hr style="margin: 15px 0;">
-            `).join('');
-        }
-        
-        plagaHTML += `<button class="btn btn-primary btn-add-plaga" data-id-plan="${currentProject.idPlan}">Crear Nuevo Reporte de Plaga</button>`;
-
-        return `<h4>Reportes de Plaga del Plan</h4>
-                <div class="plaga-report-section">${plagaHTML}</div>`;
-    }
+    // (Se elimina renderReportePane)
     
-    function addTabListeners() {
-        const buttons = cropTabNavigation.querySelectorAll('.tab-btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                cropTabNavigation.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                cropTabContent.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-                btn.classList.add('active');
-                const pane = document.getElementById(btn.dataset.target);
-                if (pane) pane.classList.add('active');
-            });
+    function initializeTabNavigation() {
+        const tabContainer = document.querySelector('.tab-navigation');
+        if (!tabContainer) return;
+
+        tabContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.tab-btn')) {
+                tabContainer.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+                
+                const tabId = e.target.dataset.tab;
+                e.target.classList.add('active');
+                document.getElementById(`${tabId}-view`).classList.remove('hidden');
+            }
         });
     }
     
     // --- 5. MANEJO DE EVENTOS (MODALES) ---
     
-    // (Listener 'click' principal sin cambios en los selectores)
-    document.querySelector('.main-content').addEventListener('click', (e) => {
+    // El listener ahora es 'actividadesView'
+    actividadesView.addEventListener('click', (e) => {
         const editBtn = e.target.closest('.btn-edit');
-        const viewPlagaImageBtn = e.target.closest('.view-plaga-image');
-        const addPlagaBtn = e.target.closest('.btn-add-plaga');
+        const addPlagaBtn = e.target.closest('#add-plaga-btn'); 
 
         if (editBtn) {
-            currentActivityId = editBtn.dataset.id;
+            currentActivityId = editBtn.dataset.id; 
             const task = projectTasks.find(t => t.idTarea == currentActivityId);
             
             if (task) {
@@ -274,12 +259,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 activityImageInput.value = '';
                 editActivityModal.classList.remove('hidden');
             }
-        }
-        
-        if (viewPlagaImageBtn) { 
-            viewerModalTitle.textContent = "Reporte de Plaga"; 
-            modalReportImage.src = viewPlagaImageBtn.dataset.url; 
-            imageViewerModal.classList.remove('hidden'); 
         }
 
         if (addPlagaBtn) {
@@ -294,9 +273,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    /**
-     * Guardar Evidencia de Actividad (Llama a /registroactividades)
-     */
+    // Mover el listener de 'ver imagen' al contenedor principal
+    document.querySelector('.main-content').addEventListener('click', (e) => {
+        const viewPlagaImageBtn = e.target.closest('.view-plaga-image');
+         if (viewPlagaImageBtn) { 
+            viewerModalTitle.textContent = "Reporte de Plaga"; 
+            modalReportImage.src = viewPlagaImageBtn.dataset.url; 
+            imageViewerModal.classList.remove('hidden'); 
+        }
+    });
+
+
+    // (saveActivityBtn, savePlagaBtn, y el resto de listeners de modales no cambian)
     saveActivityBtn.addEventListener('click', async () => {
         if (!currentActivityId) return;
 
@@ -313,27 +301,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         try {
-            // 1. Enviar evidencia
             await fetchWithToken(`/registroactividades/`, {
                 method: 'POST',
                 body: JSON.stringify([registroActividad]) 
             });
 
-            // --- ★ CORRECCIÓN ★ ---
-            // 2. Actualizar estado de la tarea a "Completada" (ID 2)
             await fetchWithToken(`/tarea/${currentActivityId}/2`, {
                 method: 'PATCH'
             });
 
-            // 3. Ocultar modal y recargar
             editActivityModal.classList.add('hidden');
             successModal.classList.remove('hidden');
             setTimeout(() => successModal.classList.add('hidden'), 2000);
 
-            // Recargar solo las tareas y re-renderizar
             const allTasks = await fetchWithToken(`/tarea`);
             projectTasks = allTasks.filter(task => task.idPlan == currentProject.idPlan);
-            renderTabs(); // Re-renderiza la pestaña de actividades
+            renderActividadesPane(); // Solo re-renderiza la pestaña de actividades
 
         } catch (error) {
             console.error("Error al guardar evidencia:", error);
@@ -341,7 +324,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     
-    // (savePlagaBtn y manejo de inputs de imagen sin cambios)
     savePlagaBtn.addEventListener('click', async () => {
         const tipo = document.getElementById('plaga-tipo').value;
         const descripcion = document.getElementById('plaga-descripcion').value;
@@ -371,8 +353,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             successModal.classList.remove('hidden');
             setTimeout(() => successModal.classList.add('hidden'), 2000);
 
+            // Recargar todo el proyecto para que la lista de plagas se actualice
             await loadProjectData(currentProject.idPlan);
-            renderProject(); 
+            renderActividadesPane(); // Re-renderizar la pestaña de actividades
 
         } catch (error) {
             console.error("Error al guardar reporte de plaga:", error);

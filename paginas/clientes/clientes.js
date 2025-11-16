@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const cultivosArray = cliente.cultivos ? cliente.cultivos.split(',').map(c => c.trim()) : [];
             const cultivosHtml = cultivosArray.map(cultivo => `<span class="cultivo-tag">${cultivo}</span>`).join('');
             
-            const ubicacionDisplay = cliente.direcciones ? cliente.split('\n')[0] : 'N/A';
+            const ubicacionDisplay = cliente.direcciones ? cliente.direcciones.split('\n')[0] : 'N/A';
             const areaDisplay = cliente.superficieTotal ? cliente.superficieTotal.toFixed(2) : '0.00';
 
             const card = document.createElement('div');

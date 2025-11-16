@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- MODAL PARA EDITAR ACTIVIDAD (Sin cambios) -->
     <div id="edit-activity-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 id="modal-activity-title"></h3>
@@ -30,8 +29,6 @@
             </div>
         </div>
     </div>
-
-    <!-- MODAL PARA VER IMAGEN GRANDE (Sin cambios) -->
     <div id="image-viewer-modal" class="modal-overlay hidden">
         <div class="modal-content large">
             <h3 id="viewer-modal-title"></h3>
@@ -41,8 +38,6 @@
             </div>
         </div>
     </div>
-
-    <!-- MODAL PARA REPORTAR PLAGA (Sin cambios) -->
     <div id="plaga-report-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3>Reporte de Plaga</h3>
@@ -61,15 +56,12 @@
             </div>
         </div>
     </div>
-
-    <!-- MODAL DE ÉXITO (Sin cambios) -->
     <div id="success-modal" class="modal-overlay hidden">
         <div class="modal-content success">
             <div class="success-icon">✔</div>
             <h3>Se han guardado los cambios</h3>
         </div>
     </div>
-
     <div class="page-wrapper">
         <header class="top-header">
             <div class="logo-container"><img src="/Imagenes/log2.png" alt="Logo" class="logo"><h1>AgroData</h1></div>
@@ -79,35 +71,34 @@
             <ul>
                 <li><a href="/paginas/inicioCliente/inicioCliente.html"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
                 <li><a href="/paginas/perfilCliente/perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
-                <li class="active"><a href="/paginas/proyectos/proyectos-lista.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
+                <li class="active"><a href="/paginas/proyectoCliente/proyectos-lista.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
                 <li><a href="/paginas/talleresCliente/talleres-historial.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
             </ul>
         </nav>
+        
         <main class="main-content">
-            <div class="project-container content-hidden">
+            <div id="project-container" class="project-container content-hidden">
                 <div class="project-header">
                     <a href="proyectos-lista.html" class="btn btn-secondary" id="btn-regresar">← Regresar</a>
-                    <h2 id="project-title"></h2>
+                    <h2 id="project-title">Cargando proyecto...</h2>
                 </div>
                 
-                <!-- SECCIÓN DE INFORMACIÓN GENERAL DEL PROYECTO -->
-                <div id="project-general-info" class="content-box">
-                    <h4>Información del proyecto</h4>
-                    <div class="info-grid">
-                        <!-- Esta información se llenará dinámicamente -->
-                    </div>
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="info">Información</button>
+                    <button class="tab-btn" data-tab="actividades">Actividades</button>
+                </div>
+                
+                <div id="info-view" class="tab-content">
+                    <p>Cargando información...</p>
+                </div>
+                
+                <div id="actividades-view" class="tab-content hidden">
+                    <p>Cargando actividades...</p>
                 </div>
 
-                <!-- NAVEGACIÓN Y CONTENIDO DE LAS PESTAÑAS DE CULTIVO -->
-                <div class="tab-navigation" id="crop-tab-navigation">
-                    <!-- Las pestañas (Papa, Chayote, etc.) se generarán aquí dinámicamente -->
                 </div>
-                <div id="crop-tab-content" class="tab-content">
-                    <!-- El contenido de cada pestaña se generará aquí dinámicamente -->
-                </div>
-            </div>
         </main>
-    </div>
+        </div>
     <script src="proyectoCliente.js"></script>
 </body>
 </html>

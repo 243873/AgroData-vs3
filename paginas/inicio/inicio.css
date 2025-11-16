@@ -121,6 +121,13 @@ html, body {
     gap: 15px; /* Espacio entre notificaciones */
 }
 
+.notification-actions .btn {
+    width: 130px; /* Ancho fijo */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    text-align: center; /* Centra el texto dentro del botón */
+    padding: 10px 15px; /* Ajuste del padding para que se vea bien */
+}
+
 .notification-item {
     background-color: #F8F9FA; /* Color de fondo de notificación del cliente */
     border: 1px solid #E9ECEF; /* Borde del cliente */

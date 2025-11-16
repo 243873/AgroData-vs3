@@ -126,6 +126,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 2. FUNCIÓN DE RENDERIZADO DE SOLICITUDES ---
 
+// ... (Todo el código anterior, como fetchWithAuth, loadProfileAndGreeting, fetchSolicitudes, etc., queda igual) ...
+
+    // --- 2. FUNCIÓN DE RENDERIZADO DE SOLICITUDES ---
+
     const renderSolicitudes = () => {
         const filterType = document.querySelector('.filter-btn.active').dataset.filter;
         requestListContainer.innerHTML = '';
@@ -144,13 +148,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         filteredSolicitudes.forEach(solicitud => {
             const card = document.createElement('div');
-            card.className = 'request-card';
+            card.className = 'request-card'; // Quitamos 'expanded'
             card.dataset.id = solicitud.id;
             card.dataset.type = solicitud.type;
 
             const estadoDisplay = mapStatusIdToDisplay(solicitud.idEstado);
 
-            // Detalles generales del resumen
             const summaryDetails = `
                 <div class="info-item"><img src="/Imagenes/user.png" class="info-icon"> Agricultor ID: ${solicitud.idAgricultor}</div>
                 <div class="info-item"><img src="/Imagenes/marker.png" class="info-icon"> ${solicitud.direccionTerreno || solicitud.direccion || 'No especificada'}</div>
@@ -161,7 +164,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             let isActionable = solicitud.idEstado === STATUS_IDS.PENDIENTE;
 
             if (solicitud.type === 'asesoria') {
-                // Asesoría: Muestra cultivos (de CultivoPorSolicitud) y detalles específicos
                 const cultivos = solicitud.cultivos ? solicitud.cultivos.map(c => c.nombreCultivo).join(', ') : 'N/A';
                 tagsHTML = `<div class="summary-tags"><span>Cultivos:</span><span class="request-tag">${cultivos}</span></div>`;
                 detailsHTML = `
@@ -174,7 +176,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
 
             } else { // Taller
-                // Taller: Muestra el ID del taller (se podría mejorar buscando el nombre en el futuro)
                 tagsHTML = `<div class="summary-tags"><span>Taller ID:</span><span class="request-tag">${solicitud.idTaller}</span></div>`;
                 detailsHTML = `
                     <div class="details-grid">
@@ -183,23 +184,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="info-group"><label>Estado de Pago:</label><p>${solicitud.estadoPagoImagen ? 'Comprobante Subido' : 'Pendiente'}</p></div>
                     </div>`;
 
-                // Flujo de pago: Botón de verificar comprobante
                 if (solicitud.estadoPagoImagen) {
                     detailsHTML += `<div class="taller-flow-box">
                         <button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}">Ver Comprobante</button>
                         ${isActionable ? '' : `<button class="btn btn-primary btn-verify-taller" data-id="${solicitud.id}" data-type="${solicitud.type}">Verificar y Completar</button>`}
                     </div>`;
-                    isActionable = false; // Deshabilitar botones estándar si hay un comprobante para verificar
+                    isActionable = false; 
                 }
                 
-                // NOTA: Si el estado es 1 (Pendiente), es porque es nuevo. Si es 2 (Aceptada), el cliente debe subir el pago.
                 if(solicitud.idEstado === STATUS_IDS.ACEPTADA && !solicitud.estadoPagoImagen) {
                     detailsHTML += `<div class="taller-flow-box"><p>Esperando el comprobante de pago del cliente...</p></div>`;
                     isActionable = false;
                 }
             }
             
-            // Botones de acción
             let actionsHTML = '';
             if (isActionable) {
                 actionsHTML = `
@@ -226,11 +224,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- 3. FUNCIÓN DE ACTUALIZACIÓN DE ESTADO ---
-
+    // (handleStatusUpdate sin cambios)
     async function handleStatusUpdate(id, type, newStatusId) {
         let endpoint = (type === 'asesoria') ? 'solicitudasesoria' : 'solicitudtaller';
         let url = `${API_BASE_URL}/${endpoint}/${id}/${newStatusId}`;
-        console.log(endpoint);
         
         try {
             const response = await fetchWithAuth(url, { method: 'PATCH' });
@@ -240,9 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error(`Error en API: ${errorText}`);
             }
 
-            // Recargar datos y renderizar
             await fetchSolicitudes(); 
-            // Cerrar modal si está abierto
             closeModal(rejectionModal);
             
         } catch (error) {
@@ -254,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 4. MANEJO DE EVENTOS ---
     
-    // 1. Filtros
+    // 1. Filtros (Sin cambios)
     document.querySelector('.filter-buttons').addEventListener('click', (e) => {
         if (e.target.matches('.filter-btn')) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -263,6 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    // --- ★ MODIFICACIÓN: Listener de Acciones ---
     // 2. Acciones en las tarjetas (Delegación)
     requestListContainer.addEventListener('click', (e) => {
         const card = e.target.closest('.request-card');
@@ -271,38 +267,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         const solicitudId = parseInt(card.dataset.id);
         const solicitudType = card.dataset.type;
 
+        // --- ★ CORRECCIÓN "VER MÁS" ★ ---
         if (e.target.matches('.btn-details')) {
             e.preventDefault();
-            const detailsView = card.querySelector('.details-view');
-            detailsView.classList.toggle('expanded');
-            e.target.textContent = detailsView.classList.contains('expanded') ? 'Ver menos' : 'Ver más';
+            // Añade o quita la clase 'expanded' a la tarjeta padre
+            const isExpanded = card.classList.toggle('expanded');
+            // Cambia el texto del botón
+            e.target.textContent = isExpanded ? 'Ver menos' : 'Ver más';
         }
+        // --- ★ FIN DE CORRECCIÓN ★ ---
         
         if (e.target.matches('.btn-accept')) {
-            // Aceptar Asesoría o Taller (Ambos van al estado 2: Aceptada / En espera de pago)
             handleStatusUpdate(solicitudId, solicitudType, STATUS_IDS.ACEPTADA);
         }
         
         if (e.target.matches('.btn-reject')) {
-            // Abrir modal de rechazo
             currentSolicitud = { id: solicitudId, type: solicitudType };
             openModal(rejectionModal);
         }
         
         if (e.target.matches('.btn-verify-taller')) {
-            // Verificar pago (Taller va al estado 3: Completado)
             handleStatusUpdate(solicitudId, solicitudType, STATUS_IDS.COMPLETADO);
         }
         
         if (e.target.matches('.view-receipt-btn')) {
-            // Abrir modal de comprobante
             const imgSrc = e.target.dataset.imgSrc;
             document.getElementById('receiptImage').src = imgSrc;
             openModal(receiptModal);
         }
     });
 
-    // 3. Modal de Rechazo
+    // 3. Modal de Rechazo (Sin cambios)
     cancelRejectionBtn.addEventListener('click', () => closeModal(rejectionModal));
     acceptRejectionBtn.addEventListener('click', () => {
         if (currentSolicitud.id) {
@@ -310,11 +305,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     
-    // 4. Cerrar Modal de Comprobante
+    // 4. Cerrar Modal de Comprobante (Sin cambios)
     closeReceiptBtn.addEventListener('click', () => closeModal(receiptModal));
 
 
     // --- INICIALIZACIÓN ---
-    await loadProfileAndGreeting(); // 1. Saludo dinámico
-    await fetchSolicitudes(); // 2. Cargar datos
+    await loadProfileAndGreeting(); 
+    await fetchSolicitudes();
 });
