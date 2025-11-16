@@ -1,3 +1,4 @@
+// paginas/proyectos/proyecto-detalle.js
 document.addEventListener('DOMContentLoaded', async () => {
     
     // --- 1. CONFIGURACIÓN INICIAL Y AUTENTICACIÓN ---
@@ -36,27 +37,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     const activityModal = document.getElementById('activity-modal');
     const deleteActivityModal = document.getElementById('delete-activity-modal'); 
 
-    // --- ★ MODIFICACIÓN 1: Añadir selectores de Modal de Éxito ---
     const successModal = document.getElementById('successModal');
     const successMessage = document.getElementById('successMessage');
 
     let currentPlan = null;
     let currentSolicitud = null;
-    let currentActivities = [];
+    let currentPlanActivities = [];
+    let currentPestActivities = [];
     let taskToDeleteId = null;
+    let reportIdToLink = null; // <-- Variable para guardar el ID del reporte a vincular
 
     const estadoMap = { 1: 'Pendiente', 2: 'Completada' };
     const HOY = new Date(); 
     HOY.setHours(0, 0, 0, 0); 
 
-    // --- ★ MODIFICACIÓN 2: Añadir función para mostrar modal de éxito ---
     function showSuccess(message) {
         if (successModal && successMessage) {
             successMessage.textContent = message;
             successModal.classList.remove('hidden');
             setTimeout(() => successModal.classList.add('hidden'), 2000);
         } else {
-            // Fallback si el HTML no se actualizó
             alert(message);
         }
     }
@@ -115,14 +115,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             loadReport();
 
         } catch (error) {
-            console.error("Error fatal al cargar datos del proyecto:", error);
+            console.error("Fatal error loading project data:", error);
             projectTitle.textContent = "Error al cargar proyecto";
             infoView.innerHTML = `<p class="error-message">No se pudieron cargar los datos. ${error.message}</p>`;
         }
     }
 
     // --- 6. RENDERIZADO DE PESTAÑAS ---
-    // (renderInfoTab, loadActivities, renderActivitiesTab, loadReport, renderReportTab sin cambios)
+    
     function renderInfoTab() {
         if (!currentPlan || !currentSolicitud) return;
 
@@ -172,7 +172,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadActivities() {
         try {
             const allTasks = await fetchWithAuth(`${API_BASE_URL}/tarea`);
-            currentActivities = allTasks.filter(task => task.idPlan === idPlan);
+            const tasksForThisPlan = allTasks.filter(task => task.idPlan === idPlan);
+
+            currentPlanActivities = tasksForThisPlan.filter(t => !t.nombreTarea.toLowerCase().includes('plaga'));
+            currentPestActivities = tasksForThisPlan.filter(t => t.nombreTarea.toLowerCase().includes('plaga'));
+            
             renderActivitiesTab();
         } catch (error) {
             console.error("Error al cargar actividades:", error);
@@ -188,50 +192,40 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `;
 
-        if (currentActivities.length === 0) {
-            activitiesHtml += '<p>No hay actividades asignadas a este plan.</p>';
+        if (currentPlanActivities.length === 0) {
+            activitiesHtml += '<p>No hay actividades generales asignadas a este plan.</p>';
         } else {
-            activitiesHtml += currentActivities.map(task => {
-                const taskJson = JSON.stringify(task).replace(/'/g, "&apos;");
-                
-                let estadoNombre = estadoMap[task.idEstado] || 'Desconocido';
-                let estadoClass = `status-${estadoNombre.toLowerCase().replace(/[\s()]/g, '-')}`;
-
-                const fechaVencimiento = new Date(task.fechaVencimiento + 'T00:00:00');
-                const isAtrasada = task.idEstado === 1 && fechaVencimiento < HOY;
-
-                if (isAtrasada) {
-                    estadoNombre = 'Atrasada';
-                    estadoClass = 'status-atrasada';
-                }
-                
-                return `
-                <div class="activity-item">
-                    <div class="activity-info">
-                        <strong>${task.nombreTarea}</strong>
-                        <p>Estado: <span class="${estadoClass}">${estadoNombre}</span></p>
-                        <p>Vence: ${task.fechaVencimiento}</p>
-                    </div>
-                    <div class="activity-actions">
-                        <button class="btn btn-secondary btn-edit-task" data-task-json='${taskJson}'>Editar</button>
-                        <button class="btn btn-danger btn-delete-task" data-task-id="${task.idTarea}">Eliminar</button>
-                    </div>
-                </div>
-            `}).join('');
+            activitiesHtml += currentPlanActivities.map(task => renderTaskItem(task)).join('');
         }
         
         activitiesHtml += `
             <div class="container-header" style="margin-top: 30px;">
-                <h4>Reporte de Plagas</h4>
-                <button id="add-plaga-btn" class="btn btn-primary">Registrar Avistamiento</button>
+                <h4>Actividades de Reporte de Plaga</h4>
+                </div>
+        `;
+        
+        if (currentPestActivities.length === 0) {
+            activitiesHtml += '<p>No hay actividades de plaga asignadas a este plan.</p>';
+        } else {
+            activitiesHtml += currentPestActivities.map(task => renderTaskItem(task)).join('');
+        }
+
+        activitiesHtml += `
+            <div class="container-header" style="margin-top: 30px;">
+                <h4>Reportes de Plaga Recibidos</h4>
             </div>
             <div id="plagas-list">
                 ${currentPlan.reportePlagas.length === 0 ? '<p>No hay reportes de plaga para este plan.</p>' : 
                     currentPlan.reportePlagas.map(plaga => `
                         <div class="plaga-item">
-                            <p><strong>Tipo:</strong> ${plaga.tipoPlaga}</p>
-                            <p><strong>Descripción:</strong> ${plaga.descripcion}</p>
-                            <p><strong>Fecha:</strong> ${new Date(plaga.fechaReporte).toLocaleDateString()}</p>
+                            <div class="plaga-info">
+                                <p><strong>ID ${plaga.idReportePlaga}:</strong> ${plaga.tipoPlaga}</p>
+                                <p><strong>Descripción:</strong> ${plaga.descripcion}</p>
+                                <p><strong>Fecha:</strong> ${new Date(plaga.fechaReporte).toLocaleDateString()}</p>
+                            </div>
+                            <div class="plaga-actions">
+                                <button class="btn btn-primary btn-sm btn-create-task-from-report" data-report-id="${plaga.idReportePlaga}">Crear Tarea</button>
+                            </div>
                         </div>
                     `).join('')
                 }
@@ -243,14 +237,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('add-activity-btn').addEventListener('click', () => {
             document.getElementById('activity-modal-title').textContent = "Agregar nueva actividad";
             document.getElementById('activity-form').reset();
+            reportIdToLink = null; 
             activityModal.dataset.mode = 'add';
             activityModal.dataset.editingId = ''; 
             activityModal.classList.remove('hidden');
         });
+    }
+
+    function renderTaskItem(task) {
+        const taskJson = JSON.stringify(task).replace(/'/g, "&apos;");
         
-        document.getElementById('add-plaga-btn').addEventListener('click', () => {
-            alert('Funcionalidad de "Registrar Avistamiento" no implementada en este script.');
-        });
+        let estadoNombre = estadoMap[task.idEstado] || 'Desconocido';
+        let estadoClass = `status-${estadoNombre.toLowerCase().replace(/[\s()]/g, '-')}`;
+
+        const fechaVencimiento = new Date(task.fechaVencimiento + 'T00:00:00');
+        const isAtrasada = task.idEstado === 1 && fechaVencimiento < HOY;
+
+        if (isAtrasada) {
+            estadoNombre = 'Atrasada';
+            estadoClass = 'status-atrasada';
+        }
+        
+        return `
+        <div class="activity-item">
+            <div class="activity-info">
+                <strong>${task.nombreTarea}</strong>
+                <p>Estado: <span class="${estadoClass}">${estadoNombre}</span></p>
+                <p>Vence: ${task.fechaVencimiento}</p>
+            </div>
+            <div class="activity-actions">
+                <button class="btn btn-secondary btn-edit-task" data-task-json='${taskJson}'>Editar</button>
+                <button class="btn btn-danger btn-delete-task" data-task-id="${task.idTarea}">Eliminar</button>
+            </div>
+        </div>
+    `;
     }
 
     async function loadReport() {
@@ -263,56 +283,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // --- ★ ESTA ES LA FUNCIÓN COMPLETA Y CORREGIDA ★ ---
     function renderReportTab(reporte) {
         if (!reporte) {
             reporteView.innerHTML = '<p>No hay datos para generar un reporte.</p>';
             return;
         }
-
+        
         const total = reporte.totalTareas;
         const totalPendientes = reporte.tareasPendientes + reporte.tareasAtrasadas;
+        let hPendiente = 0, hAtrasada = 0, hCompletada = 0;
         
-        let hPendiente = 0;
-        let hAtrasada = 0;
-        let hCompletada = 0;
-
         if (total > 0) {
-            const maxPendiente = Math.max(totalPendientes, reporte.tareasCompletadas);
-            const baseAltura = maxPendiente > 0 ? (100 / maxPendiente) : 0;
-            
             hPendiente = (reporte.tareasPendientes / total) * 100;
             hAtrasada = (reporte.tareasAtrasadas / total) * 100;
             hCompletada = (reporte.tareasCompletadas / total) * 100;
         }
 
-        const chartHtml = `
-            <div class="chart-section">
-                <h4>Distribución de Tareas</h4>
-                <div class="chart-container">
-                    <div class="bar-wrapper">
-                        <div class="bar bar-pendiente" style="height: ${hPendiente}%;">
-                            <span class="value">${reporte.tareasPendientes}</span>
-                        </div>
-                        <span class="bar-label">Pendientes (A tiempo)</span>
-                    </div>
-                    
-                    <div class="bar-wrapper">
-                        <div class="bar bar-atrasada" style="height: ${hAtrasada}%;">
-                            <span class="value">${reporte.tareasAtrasadas}</span>
-                        </div>
-                        <span class="bar-label">Atrasadas</span>
-                    </div>
-
-                    <div class="bar-wrapper">
-                        <div class="bar bar-completada" style="height: ${hCompletada}%;">
-                            <span class="value">${reporte.tareasCompletadas}</span>
-                        </div>
-                        <span class="bar-label">Completadas</span>
-                    </div>
-                </div>
-            </div>
-        `;
-
+        // --- CÓDIGO DE ESTADÍSTICAS (RESTABLECIDO) ---
         const statsHtml = `
             <div class="report-grid">
                 <div class="report-card">
@@ -348,11 +336,48 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `;
 
+        // --- CÓDIGO DE GRÁFICA (RESTABLECIDO) ---
+        const chartHtml = `
+            <div class="chart-section">
+                <h4>Distribución de Tareas</h4>
+                <div class="chart-container">
+                    <div class="bar-wrapper">
+                        <div class="bar bar-pendiente" style="height: ${hPendiente}%;">
+                            <span class="value">${reporte.tareasPendientes}</span>
+                        </div>
+                        <span class="bar-label">Pendientes (A tiempo)</span>
+                    </div>
+                    
+                    <div class="bar-wrapper">
+                        <div class="bar bar-atrasada" style="height: ${hAtrasada}%;">
+                            <span class="value">${reporte.tareasAtrasadas}</span>
+                        </div>
+                        <span class="bar-label">Atrasadas</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar bar-completada" style="height: ${hCompletada}%;">
+                            <span class="value">${reporte.tareasCompletadas}</span>
+                        </div>
+                        <span class="bar-label">Completadas</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
         reporteView.innerHTML = statsHtml + chartHtml;
         
-        document.getElementById('edit-report-obs-btn').addEventListener('click', () => {
-             alert('Funcionalidad de "Registrar Observaciones" no implementada en este script.');
-        });
+        // --- ★ CORRECCIÓN PARA EL ERROR DE CONSOLA ★ ---
+        // Se comprueba si el botón existe ANTES de añadir el listener
+        const obsBtn = document.getElementById('edit-report-obs-btn');
+        if (obsBtn) {
+            obsBtn.addEventListener('click', () => {
+                 alert('Funcionalidad de "Registrar Observaciones" no implementada en este script.');
+            });
+        } else {
+            // Este mensaje aparecerá si la caché del navegador sigue corrupta
+            console.warn("El botón 'edit-report-obs-btn' no se encontró en el DOM. La caché del navegador puede estar corrupta.");
+        }
     }
 
 
@@ -370,21 +395,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('save-info-btn').addEventListener('click', async () => {
         const objetivo = document.getElementById('info-objetivo').value;
         const observaciones = document.getElementById('info-observaciones').value;
-
         try {
             await fetchWithAuth(`${API_BASE_URL}/planes/${idSolicitud}/${idPlan}`, {
                 method: 'PUT',
-                body: JSON.stringify({
-                    objetivo: objetivo,
-                    observaciones: observaciones 
-                })
+                body: JSON.stringify({ objetivo: objetivo, observaciones: observaciones })
             });
-            
             currentPlan.motivoAsesoria = objetivo;
             currentPlan.observaciones = observaciones;
             renderInfoTab(); 
             infoModal.classList.add('hidden');
-            
+            showSuccess('Información actualizada');
         } catch (error) {
             console.error("Error al guardar observaciones:", error);
             alert("Error al guardar. Verifique la consola.");
@@ -392,11 +412,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     document.getElementById('cancel-info-btn').addEventListener('click', () => infoModal.classList.add('hidden'));
 
-
-    // --- ★ MODIFICACIÓN 3: Lógica Modal Actividad (Crear y Editar) ---
     document.getElementById('save-activity-btn').addEventListener('click', async () => {
         const nombreTarea = document.getElementById('activity-name').value;
         const fechaVencimiento = document.getElementById('activity-end').value;
+        const idReportePlaga = reportIdToLink || 0; 
 
         if (!nombreTarea || !fechaVencimiento) {
             alert("El nombre y la fecha de fin son obligatorios.");
@@ -422,19 +441,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             fechaVencimiento: fechaVencimiento,
             fechaInicio: new Date().toISOString().split('T')[0], 
             idEstado: 1, 
-            idUsuario: idUsuarioCliente
+            idUsuario: idUsuarioCliente,
+            idReportePlaga: idReportePlaga 
         };
 
         if (mode === 'edit' && editingId) {
             url = `${API_BASE_URL}/tarea/${editingId}`;
             method = 'PUT';
             tareaPayload.idTarea = parseInt(editingId);
-            originalTask = currentActivities.find(t => t.idTarea == editingId);
+            originalTask = [...currentPlanActivities, ...currentPestActivities].find(t => t.idTarea == editingId);
             
             if (originalTask) {
                 tareaPayload.fechaInicio = originalTask.fechaInicio;
                 tareaPayload.idUsuario = originalTask.idUsuario; 
-                tareaPayload.idEstado = 1; 
+                tareaPayload.idEstado = 1;
+                tareaPayload.idReportePlaga = 0;
             }
         } 
 
@@ -447,26 +468,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             activityModal.classList.add('hidden');
             loadActivities(); 
-            
-            // --- ★ MODIFICACIÓN 4: Mostrar modal de éxito ---
             showSuccess(mode === 'edit' ? 'Actividad actualizada' : 'Actividad agregada');
 
         } catch (error) {
             console.error(`Error al ${mode === 'edit' ? 'actualizar' : 'guardar'} la actividad:`, error);
             alert(`Error al ${mode === 'edit' ? 'actualizar' : 'guardar'}. Verifique la consola.`);
+        } finally {
+            reportIdToLink = null; 
         }
     });
-    document.getElementById('cancel-activity-btn').addEventListener('click', () => activityModal.classList.add('hidden'));
+    
+    document.getElementById('cancel-activity-btn').addEventListener('click', () => {
+        reportIdToLink = null; 
+        activityModal.classList.add('hidden');
+    });
 
-    // --- ★ MODIFICACIÓN 5: Lógica de botones Eliminar/Editar ---
     actividadesView.addEventListener('click', async (e) => {
-        // Botón Eliminar
         if (e.target.matches('.btn-delete-task')) {
-            taskToDeleteId = e.target.dataset.taskId; // Guardar ID
-            deleteActivityModal.classList.remove('hidden'); // Mostrar modal
+            taskToDeleteId = e.target.dataset.taskId;
+            deleteActivityModal.classList.remove('hidden');
         }
         
-        // Botón Editar
         if (e.target.matches('.btn-edit-task')) {
              const button = e.target;
              try {
@@ -477,6 +499,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.getElementById('activity-name').value = task.nombreTarea;
                 document.getElementById('activity-end').value = task.fechaVencimiento;
                 
+                reportIdToLink = null; 
+
                 activityModal.dataset.mode = 'edit';
                 activityModal.dataset.editingId = task.idTarea;
                 activityModal.classList.remove('hidden');
@@ -486,9 +510,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                 alert("No se pudo cargar la información de la tarea para editar.");
              }
         }
+
+        const createBtn = e.target.closest('.btn-create-task-from-report');
+        if (createBtn) {
+            reportIdToLink = parseInt(createBtn.dataset.reportId); 
+            const plaga = currentPlan.reportePlagas.find(p => p.idReportePlaga === reportIdToLink);
+            
+            document.getElementById('activity-modal-title').textContent = "Crear Tarea para Reporte de Plaga";
+            document.getElementById('activity-form').reset();
+            
+            if (plaga) {
+                document.getElementById('activity-name').value = `Revisar reporte de plaga: ${plaga.tipoPlaga}`;
+            } else {
+                document.getElementById('activity-name').value = 'Revisar reporte de plaga: ';
+            }
+
+            activityModal.dataset.mode = 'add';
+            activityModal.dataset.editingId = '';
+            activityModal.classList.remove('hidden');
+        }
     });
 
-    // --- ★ MODIFICACIÓN 6: Listeners para el Modal de Eliminación ---
     document.getElementById('cancel-delete-btn').addEventListener('click', () => {
         deleteActivityModal.classList.add('hidden');
         taskToDeleteId = null;
@@ -496,13 +538,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('accept-delete-btn').addEventListener('click', async () => {
         if (!taskToDeleteId) return;
-
         try {
             await fetchWithAuth(`${API_BASE_URL}/tarea/${taskToDeleteId}`, {
                 method: 'DELETE'
             });
             loadActivities(); 
-            showSuccess('Tarea eliminada'); // <-- Mostrar modal de éxito
+            showSuccess('Tarea eliminada');
         } catch (error) {
             console.error("Error al eliminar tarea:", error);
             alert("Error al eliminar la tarea.");

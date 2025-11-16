@@ -27,6 +27,12 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .btn-primary { background-color: #1C6E3E; color: white; }
 .btn-danger { background-color: #DC3545; color: white; }
 .btn-upload { background-color: #F0F0F0; color: #333; border: 1px solid #E0E0E0; width: 100%; padding: 10px; }
+/* Botón pequeño para ver imagen */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+}
 
 
 /* --- CONTENEDOR PRINCIPAL DEL PROYECTO (Estilo Agrónomo) --- */
@@ -81,6 +87,19 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     padding: 20px;
 }
 .info-card.full-width { grid-column: 1 / -1; }
+/* NUEVO: Estilos para el card de reportar plaga */
+#report-plaga-card {
+    background-color: #FFFBEB; /* Amarillo pálido */
+    border-color: #FBE1A9;
+}
+#report-plaga-card h4 {
+    color: #856404;
+}
+#report-plaga-card p {
+    color: #555;
+    margin-bottom: 15px;
+}
+
 .solicitud-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -128,8 +147,13 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .plaga-item {
     padding: 10px 0;
     border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 .plaga-item p { margin: 4px 0; }
+.plaga-item:last-child { border-bottom: none; }
 
 
 /* --- MODALES (Estilos genéricos) --- */

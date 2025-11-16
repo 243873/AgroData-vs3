@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     
-    // Usar las variables del objeto
     const userId = usuarioActual.id;     
     const userRol = usuarioActual.rol;
     const authToken = usuarioActual.token; // <--- Token para la API
@@ -327,13 +326,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 if (tipo === 'asesoria' || tipo === 'tarea') {
                     // Ambas van a la misma página (proyectos)
-                    window.location.href = '/paginas/proyectoCliente/proyectoCliente.html'; 
+                    window.location.href = '/paginas/proyectoCliente/proyectos-lista.html'; 
                 } else if (tipo === 'taller') {
                     // Taller va a su historial
                     window.location.href = '/paginas/talleresCliente/talleres-historial.html';
                 } else {
                     // Fallback por si acaso
-                    window.location.href = '/paginas/proyectoCliente/proyectoCliente.html';
+                    window.location.href = '/paginas/proyectoCliente/proyectos-lista.html';
                 }
             }
         });
@@ -362,7 +361,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ===============================================
-    // --- 6. LÓGICA DE ASESORÍAS ---
+    // --- 6. LÓGICA DE ASESORÍAS (MODIFICADA) ---
     // ===============================================
 
     const showAsesoriaFormBtn = document.getElementById('show-asesoria-form');
@@ -378,7 +377,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     let asesoriaSelectedCultivos = [];
-    let asesoriaFormDataStore = {};
+    let singleAsesoriaFormData = {}; // Almacenará los datos del formulario único
 
     if (showAsesoriaFormBtn) {
         showAsesoriaFormBtn.addEventListener('click', () => {
@@ -402,7 +401,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 alert('Debes seleccionar entre 1 y 3 cultivos.');
                 return;
             }
-            generateAsesoriaFormTabs();
+            
+            // Llama a la nueva función de generación de formulario único
+            generateSingleAsesoriaForm(asesoriaSelectedCultivos);
+
             asesoriaSelectionView.classList.add('hidden');
             asesoriaFormDetailsView.classList.remove('hidden');
         });
@@ -412,215 +414,225 @@ document.addEventListener('DOMContentLoaded', async () => {
         backToAsesoriaSelectionBtn.addEventListener('click', () => {
             asesoriaFormDetailsView.classList.add('hidden');
             asesoriaSelectionView.classList.remove('hidden');
-            const tabNav = asesoriaFormDetailsView.querySelector('.tab-nav');
-            const tabContent = asesoriaForm.querySelector('.tab-content');
-            if (tabNav) tabNav.innerHTML = '';
-            if (tabContent) tabContent.innerHTML = '';
-            asesoriaFormDataStore = {};
+            
+            // Limpieza del formulario único
+            const formContentContainer = asesoriaForm.querySelector('#single-asesoria-form-content');
+            if (formContentContainer) formContentContainer.innerHTML = '';
+            singleAsesoriaFormData = {}; // Limpiar el almacén de datos
         });
     }
+    
+    /**
+     * Genera la estructura de un formulario único para todos los cultivos seleccionados.
+     */
+    function generateSingleAsesoriaForm(selectedCultivos) {
+        const formContentContainer = asesoriaFormDetailsView.querySelector('#single-asesoria-form-content');
+        if (!formContentContainer) return;
 
-    function generateAsesoriaFormTabs() {
-        const tabNav = asesoriaFormDetailsView.querySelector('.tab-nav');
-        const tabContent = asesoriaForm.querySelector('.tab-content');
-        tabNav.innerHTML = '';
-        tabContent.innerHTML = '';
-        asesoriaFormDataStore = {};
-
-        asesoriaSelectedCultivos.forEach((cultivo, index) => {
-            const normalized = cultivo.nombre.replace(/\s+/g, '-');
-            const cultivoKey = cultivo.nombre;
-
-            const pane = document.createElement('div');
-            pane.id = `asesoria-tab-${normalized}`;
-            pane.className = `tab-pane ${index === 0 ? 'active' : ''}`;
-            
-            pane.innerHTML = createAsesoriaFormFields(normalized, cultivoKey);
-            tabContent.appendChild(pane);
-
-            const tabButton = document.createElement('button');
-            tabButton.type = 'button';
-            tabButton.className = `tab-btn ${index === 0 ? 'active' : ''}`;
-            tabButton.textContent = cultivo.nombre;
-            
-            tabButton.addEventListener('click', () => {
-                tabNav.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                tabContent.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-                tabButton.classList.add('active');
-                pane.classList.add('active');
-            });
-
-            tabNav.appendChild(tabButton);
-
-            asesoriaFormDataStore[cultivoKey] = { contacto: currentUser.telefono || '' };
-        });
-
-        addAsesoriaInputListeners();
-    }
-
-    function createAsesoriaFormFields(normalized, cultivoLabel) {
         const riegoOptions = catalogoRiego.map(riego => 
             `<option value="${riego.idRiego}">${riego.nombreRiego}</option>`
         ).join('');
 
+        const cultivosNombres = selectedCultivos.map(c => c.nombre).join(', ');
+        
+        // Actualiza el mensaje del encabezado
+        const headerP = asesoriaFormDetailsView.querySelector('.form-header p');
+        if(headerP) headerP.innerHTML = `Paso 2 de 2: Completa los detalles de tu solicitud para: <strong>${cultivosNombres}</strong>`;
+
+        formContentContainer.innerHTML = createSingleAsesoriaFormFields(riegoOptions);
+        
+        // Inicializa el almacén de datos
+        singleAsesoriaFormData = {
+            superficie: '', ubicacion: '', tipoRiego: '',
+            utilizaMaquinaria: 'No', maquinariaNombre: '',
+            tienePlaga: 'No', plagaDescripcion: '', motivo: '',
+            contacto: currentUser.telefono || ''
+        };
+
+        addAsesoriaInputListeners();
+    }
+    
+    /**
+     * Define los campos del formulario único.
+     */
+    function createSingleAsesoriaFormFields(riegoOptions) {
         return `
-            <div class="form-group">
-                <label for="superficie-${normalized}">Superficie (Hectáreas):</label>
-                <input type="text" id="superficie-${normalized}" placeholder="Ej: 5.5" required data-field="superficie" data-key="${cultivoLabel}">
-            </div>
-            <div class="form-group">
-                <label for="ubicacion-${normalized}">Ubicación del Terreno:</label>
-                <input type="text" id="ubicacion-${normalized}" placeholder="Ej: San Cristóbal, Chiapas" required data-field="ubicacion" data-key="${cultivoLabel}">
-            </div>
-            
-            <div class="form-group">
-                <label for="tipoRiego-${normalized}">Tipo de Riego:</label>
-                <select id="tipoRiego-${normalized}" required data-field="tipoRiego" data-key="${cultivoLabel}">
-                    <option value="">Seleccione...</option>
-                    ${riegoOptions}
-                </select>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="superficie">Superficie Total (Hectáreas):</label>
+                    <input type="number" step="0.01" min="0.01" id="superficie" placeholder="Ej: 5.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="ubicacion">Ubicación del Terreno:</label>
+                    <input type="text" id="ubicacion" placeholder="Ej: San Cristóbal, Chiapas" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipoRiego">Tipo de Riego:</label>
+                    <select id="tipoRiego" required>
+                        <option value="">Seleccione...</option>
+                        ${riegoOptions}
+                    </select>
+                </div>
             </div>
 
             <div class="form-group">
                 <label>¿Utiliza maquinaria?</label>
                 <div class="options-group">
-                    <label class="option-control"><input type="radio" name="maquinaria-${normalized}" value="Si" data-key="${cultivoLabel}"><span class="visual"></span> Sí</label>
-                    <label class="option-control"><input type="radio" name="maquinaria-${normalized}" value="No" checked data-key="${cultivoLabel}"><span class="visual"></span> No</label>
+                    <label class="option-control"><input type="radio" name="maquinaria" value="Si" required><span class="visual"></span> Sí</label>
+                    <label class="option-control"><input type="radio" name="maquinaria" value="No" checked><span class="visual"></span> No</label>
                 </div>
             </div>
-            <div id="maquinariaInfo-${normalized}" class="form-group hidden">
-                <label for="maquinariaNombre-${normalized}">Nombre de la maquinaria:</label>
-                <textarea id="maquinariaNombre-${normalized}" data-field="maquinariaDetalle" data-key="${cultivoLabel}"></textarea>
+            <div id="maquinariaInfo" class="form-group hidden">
+                <label for="maquinariaNombre">Nombre de la maquinaria:</label>
+                <textarea id="maquinariaNombre"></textarea>
             </div>
             <div class="form-group">
                 <label>¿Tiene alguna plaga registrada?</label>
                 <div class="options-group">
-                    <label class="option-control"><input type="radio" name="plaga-${normalized}" value="Si" data-key="${cultivoLabel}"><span class="visual"></span> Sí</label>
-                    <label class="option-control"><input type="radio" name="plaga-${normalized}" value="No" checked data-key="${cultivoLabel}"><span class="visual"></span> No</label>
+                    <label class="option-control"><input type="radio" name="plaga" value="Si" required><span class="visual"></span> Sí</label>
+                    <label class="option-control"><input type="radio" name="plaga" value="No" checked><span class="visual"></span> No</label>
                 </div>
             </div>
-            <div id="plagaInfo-${normalized}" class="form-group hidden">
-                <label for="plagaDescripcion-${normalized}">Descripción de la plaga:</label>
-                <textarea id="plagaDescripcion-${normalized}" data-field="plagaDetalle" data-key="${cultivoLabel}"></textarea>
+            <div id="plagaInfo" class="form-group hidden">
+                <label for="plagaDescripcion">Descripción de la plaga:</label>
+                <textarea id="plagaDescripcion"></textarea>
             </div>
-            <div class="form-group">
-                <label for="motivo-${normalized}">Motivo de la asesoría:</label>
-                <textarea id="motivo-${normalized}" required data-field="motivo" data-key="${cultivoLabel}"></textarea>
+            <div class="form-group full-width">
+                <label for="motivo">Motivo de la asesoría (General):</label>
+                <textarea id="motivo" required></textarea>
             </div>
         `;
     }
-
+    
+    /**
+     * Agrega los listeners de entrada para el formulario único.
+     */
     function addAsesoriaInputListeners() {
-        const tabContent = asesoriaForm.querySelector('.tab-content');
+        const formContent = asesoriaForm.querySelector('#single-asesoria-form-content');
         
-        tabContent.addEventListener('input', (e) => {
-            const key = e.target.dataset.key;
-            const field = e.target.dataset.field;
-            if (key && field) {
-                if (!asesoriaFormDataStore[key]) asesoriaFormDataStore[key] = {};
-                asesoriaFormDataStore[key][field] = e.target.value;
+        formContent.addEventListener('input', (e) => {
+            const target = e.target;
+            if (target.id) {
+                singleAsesoriaFormData[target.id] = target.value;
             }
         });
 
-        tabContent.addEventListener('change', (e) => {
-            const key = e.target.dataset.key;
-            const pane = e.target.closest('.tab-pane');
-            if (!pane || !key) return;
+        formContent.addEventListener('change', (e) => {
+            const target = e.target;
+            
+            if (target.name === 'maquinaria') {
+                const maquinariaInfo = document.getElementById('maquinariaInfo');
+                if (maquinariaInfo) maquinariaInfo.classList.toggle('hidden', target.value !== 'Si');
+                singleAsesoriaFormData.utilizaMaquinaria = target.value;
+            }
 
-            if (e.target.name && e.target.name.startsWith('maquinaria-')) {
-                const normalized = e.target.name.substring('maquinaria-'.length);
-                const maquinariaInfo = pane.querySelector(`#maquinariaInfo-${normalized}`);
-                if (maquinariaInfo) maquinariaInfo.classList.toggle('hidden', e.target.value !== 'Si');
-                if (!asesoriaFormDataStore[key]) asesoriaFormDataStore[key] = {};
-                asesoriaFormDataStore[key]['utilizaMaquinaria'] = e.target.value;
+            if (target.name === 'plaga') {
+                const plagaInfo = document.getElementById('plagaInfo');
+                if (plagaInfo) plagaInfo.classList.toggle('hidden', target.value !== 'Si');
+                singleAsesoriaFormData.tienePlaga = target.value;
             }
-            if (e.target.name && e.target.name.startsWith('plaga-')) {
-                const normalized = e.target.name.substring('plaga-'.length);
-                const plagaInfo = pane.querySelector(`#plagaInfo-${normalized}`);
-                if (plagaInfo) plagaInfo.classList.toggle('hidden', e.target.value !== 'Si');
-                if (!asesoriaFormDataStore[key]) asesoriaFormDataStore[key] = {};
-                asesoriaFormDataStore[key]['tienePlaga'] = e.target.value;
-            }
-            if (e.target.dataset.field === 'tipoRiego') {
-                if (!asesoriaFormDataStore[key]) asesoriaFormDataStore[key] = {};
-                asesoriaFormDataStore[key]['tipoRiego'] = e.target.value;
+            
+            if (target.id === 'tipoRiego') {
+                singleAsesoriaFormData.tipoRiego = target.value;
             }
         });
     }
 
-    function validateAsesoriaForms() {
+    /**
+     * Valida el formulario único.
+     */
+    function validateSingleAsesoriaForm() {
         let allValid = true;
-        const panes = asesoriaForm.querySelectorAll('.tab-pane');
-        asesoriaForm.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+        // Limpia todos los errores
+        asesoriaForm.querySelectorAll('input, select, textarea').forEach(el => el.classList.remove('input-error'));
 
-        panes.forEach(pane => {
-            const normalizedId = pane.id.substring('asesoria-tab-'.length);
+        const data = singleAsesoriaFormData;
 
-            const superficieInput = pane.querySelector(`#superficie-${normalizedId}`);
-            const ubicacionInput = pane.querySelector(`#ubicacion-${normalizedId}`);
-            const motivoInput = pane.querySelector(`#motivo-${normalizedId}`);
-            const riegoInput = pane.querySelector(`#tipoRiego-${normalizedId}`);
+        const superficieInput = document.getElementById('superficie');
+        const ubicacionInput = document.getElementById('ubicacion');
+        const motivoInput = document.getElementById('motivo');
+        const riegoInput = document.getElementById('tipoRiego');
+        const maquinariaRadio = asesoriaForm.querySelector('input[name="maquinaria"]:checked');
+        const plagaRadio = asesoriaForm.querySelector('input[name="plaga"]:checked');
+        const maquinariaDetalleInput = document.getElementById('maquinariaNombre');
+        const plagaDetalleInput = document.getElementById('plagaDescripcion');
+        
+        // Validación de Superficie
+        const isSuperficieValid = superficieInput && !isNaN(parseFloat(superficieInput.value)) && parseFloat(superficieInput.value) > 0;
 
-            if (!superficieInput || !superficieInput.value.trim() || isNaN(parseFloat(superficieInput.value))) {
-                superficieInput.classList.add('input-error'); allValid = false;
-            }
-            if (!ubicacionInput || !ubicacionInput.value.trim()) {
-                ubicacionInput.classList.add('input-error'); allValid = false;
-            }
-            if (!motivoInput || !motivoInput.value.trim()) {
-                motivoInput.classList.add('input-error'); allValid = false;
-            }
-            if (!riegoInput || !riegoInput.value.trim()) {
-                riegoInput.classList.add('input-error'); allValid = false;
-            }
-        });
+        if (!isSuperficieValid) {
+            if (superficieInput) superficieInput.classList.add('input-error'); allValid = false;
+        }
+        
+        // Validación de Ubicación
+        if (!ubicacionInput || !ubicacionInput.value.trim()) {
+            if (ubicacionInput) ubicacionInput.classList.add('input-error'); allValid = false;
+        }
+        
+        // Validación de Motivo
+        if (!motivoInput || !motivoInput.value.trim()) {
+            if (motivoInput) motivoInput.classList.add('input-error'); allValid = false;
+        }
+        
+        // Validación de Tipo de Riego
+        if (!riegoInput || !riegoInput.value.trim()) {
+            if (riegoInput) riegoInput.classList.add('input-error'); allValid = false;
+        }
+
+        // Validación de Detalle de Maquinaria (si 'Si' está marcado)
+        if (maquinariaRadio && maquinariaRadio.value === 'Si' && (!maquinariaDetalleInput || !maquinariaDetalleInput.value.trim())) {
+            if (maquinariaDetalleInput) maquinariaDetalleInput.classList.add('input-error'); allValid = false;
+        }
+        // Validación de Detalle de Plaga (si 'Si' está marcado)
+        if (plagaRadio && plagaRadio.value === 'Si' && (!plagaDetalleInput || !plagaDetalleInput.value.trim())) {
+            if (plagaDetalleInput) plagaDetalleInput.classList.add('input-error'); allValid = false;
+        }
 
         if (!allValid) {
-            alert('Por favor, completa todos los campos obligatorios (Superficie, Ubicación, Riego y Motivo) en todas las pestañas de cultivo.');
+            alert('Por favor, completa todos los campos obligatorios.');
         }
         return allValid;
     }
 
+
     if (asesoriaForm) {
         asesoriaForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!validateAsesoriaForms()) {
+            // Llama a la nueva función de validación
+            if (!validateSingleAsesoriaForm()) {
                 return;
             }
 
-            const primerCultivoKey = asesoriaSelectedCultivos[0].nombre;
-            const dataBase = asesoriaFormDataStore[primerCultivoKey];
-
-            const superficieTotal = asesoriaSelectedCultivos.reduce((total, cultivo) => {
-                const data = asesoriaFormDataStore[cultivo.nombre];
-                return total + parseFloat(data.superficie || 0);
-            }, 0);
-
-            const motivoAsesoria = asesoriaSelectedCultivos.map(cultivo => {
-                const data = asesoriaFormDataStore[cultivo.nombre];
-                return `${cultivo.nombre}: ${data.motivo || 'N/A'}`;
-            }).join('; ');
+            const data = singleAsesoriaFormData; // Usa los datos del formulario único
 
             const cultivosParaApi = asesoriaSelectedCultivos.map(cultivo => ({
                 idCultivo: cultivo.id
             }));
 
+            // El motivo de asesoría ahora incluye los nombres de los cultivos
+            const cultivosNombres = asesoriaSelectedCultivos.map(c => c.nombre).join(', ');
+            const motivoConCultivos = `Cultivos: ${cultivosNombres}. Motivo General: ${data.motivo}`;
+
+            // Construcción del payload usando los datos unificados
             const solicitudAPIS = {
                 idAgricultor: parseInt(currentUser.id),
                 idEstado: 1, // 1 = Pendiente
-                //fechaSolicitud: new Date().toISOString(),
                 fechaSolicitud: getFechaLocalParaJava(),
                 
-                superficieTotal: superficieTotal,
-                direccionTerreno: dataBase.ubicacion,
-                motivoAsesoria: motivoAsesoria,
-                tipoRiego: parseInt(dataBase.tipoRiego),
+                // Datos del formulario único
+                superficieTotal: parseFloat(data.superficie),
+                direccionTerreno: data.ubicacion,
+                motivoAsesoria: motivoConCultivos, // Motivo modificado
+                tipoRiego: parseInt(data.tipoRiego),
 
-                usoMaquinaria: dataBase.utilizaMaquinaria === 'Si',
-                tienePlaga: dataBase.tienePlaga === 'Si',
+                // Variables booleanas
+                usoMaquinaria: data.utilizaMaquinaria === 'Si',
+                tienePlaga: data.tienePlaga === 'Si',
 
-                nombreMaquinaria: (dataBase.utilizaMaquinaria === 'Si') ? dataBase.maquinariaDetalle : null,
-                descripcionPlaga: (dataBase.tienePlaga === 'Si') ? dataBase.plagaDetalle : null,
+                // Campos condicionales
+                nombreMaquinaria: (data.utilizaMaquinaria === 'Si') ? data.maquinariaNombre : null,
+                descripcionPlaga: (data.tienePlaga === 'Si') ? data.plagaDescripcion : null,
 
                 cultivos: cultivosParaApi
             };
@@ -628,7 +640,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log("Enviando Payload de Asesoría:", JSON.stringify(solicitudAPIS, null, 2));
 
             try {
-                // Usamos fetchWithCors para enviar la solicitud
                 const response = await fetchWithCors(`${API_BASE_URL}/solicitudasesoria`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

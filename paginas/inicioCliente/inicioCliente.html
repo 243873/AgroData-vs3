@@ -88,7 +88,6 @@
 
             <!-- FORMULARIO DE ASESORÍAS (Oculto) -->
             <div id="asesoria-form-view" class="content-container hidden">
-                <!-- VISTA 1: SELECCIÓN DE CULTIVOS (Asesorías) -->
                 <div class="asesoria-selection-view">
                     <div class="form-header">
                         <h4>Solicitud de Asesoría</h4>
@@ -108,15 +107,16 @@
                     </div>
                 </div>
 
-                <!-- VISTA 2: FORMULARIO CON PESTAÑAS (Asesorías) -->
                 <div class="asesoria-form-details-view hidden">
                     <div class="form-header">
                         <h4>Solicitud de Asesoría</h4>
-                        <p>Paso 2 de 2: Completa los detalles por cada cultivo seleccionado.</p>
+                        <p>Paso 2 de 2: Completa los detalles de tu terreno y solicitud.</p>
                     </div>
-                    <div class="tab-nav"></div>
+                    
                     <form class="asesoriaForm" novalidate>
-                        <div class="tab-content"></div>
+                        <div id="single-asesoria-form-content">
+                            </div>
+                        
                         <div class="form-actions">
                             <button type="button" class="btn btn-secondary back-to-selection">Regresar a Selección</button>
                             <button type="submit" class="btn btn-submit">Enviar Solicitud</button>

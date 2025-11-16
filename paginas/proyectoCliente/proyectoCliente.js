@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             `<span class="tag">${c.nombreCultivo}</span>`
         ).join('');
         
-        // Usamos la misma estructura de 'info-card' que el agrónomo
+        // --- MODIFICACIÓN: Se añade un nuevo info-card para el botón de reportar plaga ---
         infoView.innerHTML = `
             <div class="info-grid">
                 <div class="info-card">
@@ -151,6 +151,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p><strong>Observaciones Agrónomo:</strong> ${currentProject.observaciones || 'Sin observaciones'}</p>
                     <p><strong>Superficie:</strong> ${currentProject.superficieTotal} hectáreas</p>
                     <p><strong>Cultivos:</strong> ${cultivosHtml}</p>
+                </div>
+
+                <div class="info-card full-width" id="report-plaga-card">
+                    <h4>Reportar Problema</h4>
+                    <p>¿Detectaste una plaga o enfermedad? Infórmanos para asignar una actividad de revisión.</p>
+                    <button id="add-plaga-btn-info" class="btn btn-danger" style="width: 100%;">Registrar Reporte de Plaga</button>
                 </div>
             </div>
         `;
@@ -200,10 +206,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             actividadesHTML += '<p>Aún no hay actividades planificadas para este proyecto.</p>';
         }
 
+        // --- MODIFICACIÓN: Se elimina el botón "Registrar Avistamiento" de esta sección ---
         actividadesHTML += `
             <div class="container-header" style="margin-top: 30px;">
-                <h4>Reporte de Plagas</h4>
-                <button id="add-plaga-btn" class="btn btn-primary">Registrar Avistamiento</button>
+                <h4>Historial de Reportes de Plaga</h4>
             </div>
             <div id="plagas-list">
                 ${currentProject.reportePlagas.length === 0 ? '<p>No hay reportes de plaga para este plan.</p>' : 
@@ -212,6 +218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p><strong>Tipo:</strong> ${plaga.tipoPlaga}</p>
                             <p><strong>Descripción:</strong> ${plaga.descripcion}</p>
                             <p><strong>Fecha:</strong> ${new Date(plaga.fechaReporte).toLocaleDateString()}</p>
+                            ${plaga.imagen ? `<button class="btn btn-secondary btn-sm view-plaga-image" data-url="${plaga.imagen}">Ver Imagen</button>` : ''}
                         </div>
                     `).join('')
                 }
@@ -241,10 +248,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // --- 5. MANEJO DE EVENTOS (MODALES) ---
     
-    // El listener ahora es 'actividadesView'
-    actividadesView.addEventListener('click', (e) => {
+    // MODIFICACIÓN: Se usa 'projectContainer' para delegar eventos,
+    // ya que el botón de plaga ahora está en el info-view.
+    projectContainer.addEventListener('click', (e) => {
         const editBtn = e.target.closest('.btn-edit');
-        const addPlagaBtn = e.target.closest('#add-plaga-btn'); 
+        const addPlagaBtn = e.target.closest('#add-plaga-btn-info'); // Escucha el nuevo botón en info-view
+        const viewPlagaImageBtn = e.target.closest('.view-plaga-image'); // Escucha el botón de ver imagen
 
         if (editBtn) {
             currentActivityId = editBtn.dataset.id; 
@@ -262,6 +271,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (addPlagaBtn) {
+            // Abre el modal de reporte de plaga
             document.getElementById('plaga-fecha').valueAsDate = new Date();
             document.getElementById('plaga-tipo').value = '';
             document.getElementById('plaga-descripcion').value = '';
@@ -271,20 +281,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             plagaImageInput.value = '';
             plagaReportModal.classList.remove('hidden');
         }
-    });
 
-    // Mover el listener de 'ver imagen' al contenedor principal
-    document.querySelector('.main-content').addEventListener('click', (e) => {
-        const viewPlagaImageBtn = e.target.closest('.view-plaga-image');
-         if (viewPlagaImageBtn) { 
+        if (viewPlagaImageBtn) { 
+            // Abre el modal para ver la imagen de la plaga
             viewerModalTitle.textContent = "Reporte de Plaga"; 
             modalReportImage.src = viewPlagaImageBtn.dataset.url; 
             imageViewerModal.classList.remove('hidden'); 
         }
     });
 
-
-    // (saveActivityBtn, savePlagaBtn, y el resto de listeners de modales no cambian)
+    // =================================================================
+    // --- INICIO DE LA CORRECCIÓN ---
+    // =================================================================
     saveActivityBtn.addEventListener('click', async () => {
         if (!currentActivityId) return;
 
@@ -301,28 +309,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         try {
+            // 1. Registrar la evidencia
             await fetchWithToken(`/registroactividades/`, {
                 method: 'POST',
                 body: JSON.stringify([registroActividad]) 
             });
 
+            // 2. Marcar la tarea como completada (estado 2)
             await fetchWithToken(`/tarea/${currentActivityId}/2`, {
                 method: 'PATCH'
             });
 
+            // 3. Ocultar modales y mostrar éxito
             editActivityModal.classList.add('hidden');
             successModal.classList.remove('hidden');
             setTimeout(() => successModal.classList.add('hidden'), 2000);
 
+            // 4. Recargar la lista de tareas
             const allTasks = await fetchWithToken(`/tarea`);
             projectTasks = allTasks.filter(task => task.idPlan == currentProject.idPlan);
             renderActividadesPane(); // Solo re-renderiza la pestaña de actividades
 
-        } catch (error) {
+        } catch (error) { // <-- ¡ESTE ES EL BLOQUE QUE FALTABA!
             console.error("Error al guardar evidencia:", error);
             alert("Error al guardar la evidencia. Verifique la consola.");
         }
     });
+    // =================================================================
+    // --- FIN DE LA CORRECCIÓN ---
+    // =================================================================
     
     savePlagaBtn.addEventListener('click', async () => {
         const tipo = document.getElementById('plaga-tipo').value;
@@ -336,11 +351,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const reportePlaga = {
             idPlan: currentProject.idPlan,
-            fechaReporte: new Date(fecha).toISOString(),
+            // --- MODIFICACIÓN: Corrección de formato de fecha ---
+            // fechaReporte: new Date(fecha).toISOString(), // Esto envía UTC
+            fechaReporte: `${fecha}T00:00:00`, // Envía la fecha local
             tipoPlaga: tipo,
             descripcion: descripcion,
             imagen: newPlagaImageBase64, 
-            idEstado: 1
+            idEstado: 1,
+            idTarea: 0 // Se envía 0 o null si no está ligada a una tarea específica
         };
 
         try {
@@ -355,7 +373,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Recargar todo el proyecto para que la lista de plagas se actualice
             await loadProjectData(currentProject.idPlan);
-            renderActividadesPane(); // Re-renderizar la pestaña de actividades
+            // Re-renderizar ambas pestañas
+            renderGeneralInfo();
+            renderActividadesPane();
 
         } catch (error) {
             console.error("Error al guardar reporte de plaga:", error);
