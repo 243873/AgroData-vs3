@@ -1,9 +1,6 @@
 // registro.js (REGISTRO ADAPTADO A LA API)
 
 document.addEventListener("DOMContentLoaded", function() {
-    // URL base de tu API que está corriendo en http://localhost:7000
-    const API_BASE_URL = "http://localhost:7000"; 
-
     // Elementos del DOM (referencias de validación se mantienen)
     const registerForm = document.getElementById("registerForm");
     const submitBtn = document.querySelector(".submit-btn");

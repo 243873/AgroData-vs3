@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- URL DEL SERVIDOR ---
-    const BASE_URL = 'http://localhost:7000';
 
     // --- OBTENER ELEMENTOS DEL DOM ---
     const editButton = document.getElementById('editButton');
@@ -81,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const loadUserData = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/perfil/${authInfo.id}`, {
+            const response = await fetch(`${API_BASE_URL}/perfil/${authInfo.id}`, {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${authInfo.token}` }
             });
@@ -159,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch(`${BASE_URL}/perfil/${authInfo.id}`, {
+            const response = await fetch(`${API_BASE_URL}/perfil/${authInfo.id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${authInfo.token}`,

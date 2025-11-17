@@ -1,8 +1,6 @@
 // paginas/proyectos/proyecto-detalle.js
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    // --- 1. CONFIGURACIÓN INICIAL ---
-    const API_BASE_URL = 'http://localhost:7000';
+
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
 
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {

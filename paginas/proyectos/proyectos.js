@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- URL DEL SERVIDOR y AUTENTICACIÓN ---
-    const API_BASE_URL = 'http://localhost:7000';
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
 
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {

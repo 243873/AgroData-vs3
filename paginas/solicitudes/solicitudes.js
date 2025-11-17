@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- 1. CONFIGURACIÓN ---
-    const API_BASE_URL = 'http://localhost:7000';
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
 
     const STATUS_IDS = {

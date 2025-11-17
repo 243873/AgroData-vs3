@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         return; 
     }
     const authToken = currentUser.token;
-    const API_BASE_URL = "http://localhost:7000"; // Asegúrate que el puerto es 8001
 
     // 2. ELEMENTOS DEL DOM
     const projectsListContainer = document.getElementById('projects-list-container');

@@ -1,8 +1,6 @@
 // main.js (INICIO DE SESIÓN - CÓDIGO FINAL CORREGIDO CON TOKEN)
 
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. CONFIGURACIÓN
-    const API_BASE_URL = "http://localhost:7000"; 
     
     // Elementos del DOM
     const loginForm = document.getElementById("loginForm");

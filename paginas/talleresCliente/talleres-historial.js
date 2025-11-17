@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const API_BASE_URL = "http://localhost:7000";
     const authString = localStorage.getItem('usuarioActual');
     const usuarioActual = authString ? JSON.parse(authString) : null;
 

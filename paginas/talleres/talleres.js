@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const API_BASE_URL = 'http://localhost:7000';
-    const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
+    const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {
         localStorage.clear(); window.location.href = '../../index.html'; return;
     }

@@ -1,9 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // ===============================================
-    // --- 1. CONFIGURACIÓN INICIAL Y VERIFICACIÓN DE SESIÓN ---
-    // ===============================================
-    
-    const API_BASE_URL = "http://localhost:7000"; 
 
     function getFechaLocalParaJava() {
         const date = new Date();

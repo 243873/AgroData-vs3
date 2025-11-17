@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return; 
     }
     const authToken = currentUser.token;
-    const API_BASE_URL = "http://localhost:7000"; 
 
     let currentProject = null; 
     let projectTasks = []; 
