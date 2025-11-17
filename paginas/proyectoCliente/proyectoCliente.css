@@ -170,3 +170,16 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 #image-preview-container, #plaga-preview-container { margin-top: 10px; }
 #image-preview, #plaga-preview { max-width: 100px; border-radius: 5px; }
 #modal-report-image { max-width: 100%; border-radius: 8px; }
+
+/* Añadir al final de proyectoCliente.css */
+.view-plaga-image {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #1C6E3E;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.view-plaga-image:hover {
+    color: #2FB05E;
+}

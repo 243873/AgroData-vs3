@@ -39,10 +39,10 @@
         <div class="modal-content">
             <h3 id="activity-modal-title">Agregar nueva actividad</h3>
             <form id="activity-form">
-                
                 <div class="form-group"><label for="activity-name">Nombre de la actividad:</label><input type="text" id="activity-name" required></div>
+                <div class="form-group"><label for="activity-start">Fecha de Inicio:</label><input type="date" id="activity-start" required></div>
                 <div class="form-group"><label for="activity-end">Fecha de Vencimiento:</label><input type="date" id="activity-end" required></div>
-                </form>
+            </form>
             <div class="modal-actions">
                 <button id="cancel-activity-btn" class="btn btn-secondary">Cancelar</button>
                 <button id="save-activity-btn" class="btn btn-primary">Guardar</button>
@@ -57,6 +57,19 @@
             <div class="modal-actions-center">
                 <button id="cancel-delete-btn" class="btn btn-secondary">Cancelar</button>
                 <button id="accept-delete-btn" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="evidence-modal" class="modal-overlay hidden">
+        <div class="modal-content large">
+            <h3>Evidencia de la Actividad</h3>
+            <div style="text-align: center; margin: 20px 0;">
+                <img id="evidence-image-full" src="" alt="Evidencia" style="max-width: 100%; max-height: 70vh; border-radius: 8px; border: 1px solid #ddd;">
+            </div>
+            <p id="evidence-desc-text" style="color: #555; font-style: italic;"></p>
+            <div class="modal-actions-center">
+                <button id="close-evidence-btn" class="btn btn-primary">Cerrar</button>
             </div>
         </div>
     </div>
@@ -80,9 +93,13 @@
 
         <main class="main-content">
             <div id="project-container" class="project-container">
-                <div class="project-header">
-                    <a href="proyectos.html" class="btn btn-secondary">← Regresar</a>
-                    <h2 id="project-title">Cargando proyecto...</h2>
+                
+                <div class="project-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <a href="proyectos.html" class="btn btn-secondary">← Regresar</a>
+                        <h2 id="project-title" style="margin: 0;">Cargando...</h2>
+                    </div>
+                    <button id="btn-complete-project" class="btn btn-primary hidden">Finalizar Proyecto</button>
                 </div>
                 <div class="tab-navigation">
                     <button class="tab-btn active" data-tab="info">Información del proyecto</button>

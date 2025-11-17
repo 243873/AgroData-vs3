@@ -14,19 +14,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // --- ELEMENTOS DEL DOM ---
     const projectsListContainer = document.getElementById('projects-list-container');
-    const deleteModal = document.getElementById('delete-modal');
-    const welcomeMessage = document.getElementById('welcomeMessage'); // Elemento a corregir
+    const welcomeMessage = document.getElementById('welcomeMessage');
     
-    let projectIdToDelete = null;
     let allProjects = []; 
 
-    // --- Mapeo de Estados de PlanCultivo ---
+    // --- ★ LÓGICA DE FILTROS (MODIFICADA) ★ ---
+    // IDs de Estado: 1=Pendiente, 2=En Progreso, 3=En Progreso, 4=Rechazado, 5=Completado
     const STATUS_MAP = {
-        1: { text: 'Pendiente', filter: 'pendiente' },
-        2: { text: 'En Progreso', filter: 'en-progreso' },
-        3: { text: 'En Progreso', filter: 'en-progreso' },
-        4: { text: 'Rechazado', filter: 'rechazado' },
-        5: { text: 'Completado', filter: 'completado' }, 
+        5: { text: 'Completado', filter: 'completado' },
+        4: { text: 'Rechazado', filter: 'rechazado' }, // Opcional si quieres mostrar rechazados
+        // Todos los demás se consideran "En Progreso" por defecto en la función de renderizado
     };
 
     // --- FUNCIONES HELPER (API) ---
@@ -40,15 +37,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
             if (response.ok) {
                 const user = await response.json();
-                // ✅ CORRECCIÓN 1: Saludo dinámico exitoso
                 if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, ${user.nombre}`;
             } else {
-                // ✅ CORRECCIÓN 2: Saludo por defecto si el fetch falla (status != 200)
                 if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, Agrónomo`;
             }
         } catch (error) { 
             console.error('Error al cargar saludo:', error);
-            // ✅ CORRECCIÓN 3: Saludo por defecto si el fetch falla (excepción)
             if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, Agrónomo`;
         }
     }
@@ -70,13 +64,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- LÓGICA DE RENDERIZADO ---
-    // --- LÓGICA DE RENDERIZADO ---
     function renderProjects(filterKey = 'all') {
         projectsListContainer.innerHTML = '';
-        let projectsToRender = allProjects;
+        let projectsToRender = [];
 
-        if (filterKey !== 'all') {
-            projectsToRender = allProjects.filter(p => STATUS_MAP[p.idEstado] && STATUS_MAP[p.idEstado].filter === filterKey);
+        // ★ LÓGICA DE FILTRADO ★
+        if (filterKey === 'all') {
+            projectsToRender = allProjects;
+        } else {
+            projectsToRender = allProjects.filter(p => {
+                // Si es estado 5, es 'completado'. Cualquier otro (que no sea rechazado) es 'en-progreso'
+                if (filterKey === 'completado') return p.idEstado === 5;
+                if (filterKey === 'en-progreso') return p.idEstado !== 5 && p.idEstado !== 4; 
+                return false;
+            });
         }
 
         if (projectsToRender.length === 0) {
@@ -85,22 +86,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         projectsToRender.forEach(project => {
-            // --- ★ INICIO DE LA MODIFICACIÓN ★ ---
-            // Se re-calculan las variables para que coincidan con la vista del cliente
-            const estado = STATUS_MAP[project.idEstado] || { text: 'Desconocido', filter: 'desconocido' };
             const fullName = `${project.nombre} ${project.apellidoPaterno || ''} ${project.apellidoMaterno || ''}`;
             const cultivosNombres = project.cultivoPorSolicitud ? project.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ') : 'N/A';
-            
-            // La URL al detalle incluye los IDs necesarios
             const detailUrl = `proyecto-detalle.html?idPlan=${project.idPlan}&idSolicitud=${project.idSolicitud}`;
 
-            // Se crea un <a> en lugar de un <div> para que toda la tarjeta sea un enlace
             const card = document.createElement('a');
             card.className = 'project-card';
             card.href = detailUrl;
             
-            // Se usa la misma estructura HTML interna que 'proyectos-lista.js' del cliente
-            // Se omite la barra de progreso y el span de estado.
             card.innerHTML = `
                 <div class="card-info">
                     <h5>Plan de Cultivo: ${cultivosNombres}</h5>
@@ -113,7 +106,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="card-actions">
                     <span class="btn-details">Ver Detalles</span>
                 </div>`;
-            // --- ★ FIN DE LA MODIFICACIÓN ★ ---
             
             projectsListContainer.appendChild(card);
         });
@@ -127,7 +119,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderProjects(e.target.dataset.filter);
         }
     });
-    // (La lógica de eliminación se ha omitido para la vista de lista, ya que se maneja en el detalle)
 
     // --- INICIALIZACIÓN ---
     await loadProfileAndGreeting();

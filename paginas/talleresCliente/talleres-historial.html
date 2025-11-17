@@ -33,26 +33,20 @@
 
         <main class="main-content">
             <div class="historial-container">
+                <div class="container-header">
+                    <h4>Mis Talleres</h4>
+                </div>
+                
                 <div class="filter-buttons">
-                    <button class="btn btn-filter active" data-view="solicitudes">Solicitud de talleres</button>
-                    <button class="btn btn-filter" data-view="historial">Historial de talleres</button>
+                    <button class="btn filter-btn active" data-filter="todos">Todos</button>
+                    <button class="btn filter-btn" data-filter="completados">Completados</button>
+                    <button class="btn filter-btn" data-filter="en-curso">En Curso</button>
+                    <button class="btn filter-btn" data-filter="proximo">Próximo</button>
                 </div>
 
-                <!-- VISTA DE SOLICITUDES (PENDIENTES, ETC.) -->
-                <div id="solicitudes-view">
-                    <div id="list-view"></div>
-                    <div id="detail-view" class="hidden"></div>
-                </div>
-
-                <!-- VISTA DE HISTORIAL (COMPLETADOS) -->
-                <div id="historial-view" class="hidden">
-                    <div class="historial-header">
-                        <h4>Registro de talleres completados:</h4>
-                    </div>
-                    <div id="historial-cards-container" class="historial-grid">
-                        <!-- Las tarjetas del historial se generarán aquí -->
-                    </div>
-                </div>
+                <div id="talleres-list-view"></div>
+                
+                <div id="detail-view" class="hidden"></div>
             </div>
         </main>
     </div>
