@@ -1,444 +1,173 @@
-/* --- ESTILOS DE PLANTILLA BASE --- */
-html, body { 
-    margin: 0; 
-    padding: 0; 
-    height: 100%; 
-    font-family: 'Montserrat', sans-serif; 
-    background-color: #F9F5EE; 
-    color: #1B1B1B; 
-}
-.page-wrapper { 
-    display: flex; 
-    flex-direction: column; 
-    height: 100vh; 
-    overflow: hidden; 
-}
-.top-header { 
-    background-color: #1C6E3E; 
-    color: #FFFFFF; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 15px 40px; 
-    flex-shrink: 0; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-}
-.logo-container { 
-    display: flex; 
-    align-items: center; 
-    gap: 15px; 
-}
+/* --- ESTILOS BASE --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo-container { display: flex; align-items: center; gap: 15px; }
 .logo { width: 50px; }
 .top-header h1 { font-size: 32px; margin: 0; }
 .welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
-.navbar { 
-    background-color: #FFFFFF; 
-    padding: 10px 40px; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-    flex-shrink: 0; 
-}
-.navbar ul { 
-    margin: 0; 
-    padding: 0; 
-    list-style: none; 
-    display: flex; 
-    gap: 60px; 
-}
-.navbar a { 
-    text-decoration: none; 
-    color: #333; 
-    font-weight: 500; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-    padding: 10px 0; 
-    border-bottom: 2px solid transparent; 
-}
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
+.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
+.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
 .nav-icon { width: 16px; height: 16px; }
 .navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
-.main-content { 
-    flex-grow: 1; 
-    padding: 30px 40px; 
-    overflow-y: auto; 
-}
+.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
 .hidden { display: none !important; }
 
-/* --- CONTENEDOR PRINCIPAL Y FILTROS --- */
-.historial-container { 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    background-color: #FFFFFF; 
-    border-radius: 12px; 
-    padding: 35px; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
-}
-.filter-buttons { 
-    display: flex; 
-    margin-bottom: 25px; 
-}
-.btn-filter { 
-    flex: 1; 
-    background-color: #FFFFFF; 
-    color: #1C6E3E; 
-    border: 1px solid #1C6E3E; 
-}
-.btn-filter:first-child { border-radius: 25px 0 0 25px; }
-.btn-filter:last-child { border-radius: 0 25px 25px 0; }
-.btn-filter.active { background-color: #1C6E3E; color: #FFFFFF; }
-.btn { 
-    border: none; 
-    padding: 12px 30px; 
-    border-radius: 25px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    font-size: 16px; 
-    transition: all 0.2s; 
+/* --- CONTENEDOR PRINCIPAL --- */
+.historial-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.container-header h4 { font-size: 22px; font-weight: 600; margin: 0 0 20px 0; }
+
+/* --- NAVEGACIÓN --- */
+.workshops-nav { display: flex; border-bottom: 1px solid #CCC; margin-bottom: 25px; }
+.nav-button { padding: 12px 20px; border: none; background-color: transparent; cursor: pointer; font-size: 16px; font-weight: 500; color: #666; border-bottom: 3px solid transparent; }
+.nav-button.active { color: #1C6E3E; border-bottom-color: #1C6E3E; font-weight: 600; }
+
+/* --- FILTROS --- */
+.filter-buttons { display: flex; gap: 10px; margin-bottom: 25px; }
+.btn { border: none; padding: 8px 20px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.filter-btn { background-color: transparent; color: #333; border: 1px solid #ccc; }
+.filter-btn:hover { background-color: #e0e0e0; }
+.filter-btn.active { background-color: #1C6E3E; color: white; border-color: #1C6E3E; }
+
+/* --- GRIDS --- */
+#talleres-list-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+/* Para solicitudes usamos una lista vertical simple */
+#solicitudes-list-view { display: flex; flex-direction: column; gap: 20px; }
+
+
+/* ================================================== */
+/* --- ★ TARJETA DE TRÁMITE (DISEÑO) ★ --- */
+/* ================================================== */
+.tramite-card {
+    background-color: #FDFBF7; 
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* --- VISTA DE LISTA: TARJETA DE SOLICITUD --- */
-.solicitud-card { 
-    background-color: #F8F9FA; 
-    border: 1px solid #E9ECEF; 
-    border-radius: 10px; 
-    padding: 25px; 
-    margin-bottom: 20px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
+.tramite-info { flex-grow: 1; }
+.tramite-user-name { font-size: 16px; font-weight: 600; color: #1B1B1B; margin-bottom: 15px; }
+.tramite-details-row { display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 20px; }
+.tramite-detail-item { display: flex; align-items: center; gap: 8px; color: #333; font-size: 14px; }
+.tramite-detail-item .icon { width: 16px; height: 16px; opacity: 0.7; }
+.tramite-label { font-size: 14px; color: #333; margin-bottom: 8px; display: block; }
+.taller-pill { display: inline-block; background-color: #1C6E3E; color: white; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; }
+
+.tramite-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    min-width: 160px; /* Ancho fijo para alinear */
 }
-.card-info h5 { margin: 0 0 15px; font-size: 18px; }
-.card-info-details { 
-    display: grid; 
-    grid-template-columns: repeat(3, auto); 
-    justify-content: start; 
-    gap: 30px; 
+
+/* --- BOTÓN VER DETALLES (REDONDO) --- */
+.btn-ver-detalles {
+    background-color: #F3EFE0;
+    color: #333;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px; /* Redondo */
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
 }
-.card-info p { 
-    margin: 0; 
-    color: #555; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-    font-size: 14px; 
+.btn-ver-detalles:hover { background-color: #E0DCC0; }
+
+/* --- ★ MODIFICACIÓN: BADGE DE ESTADO (RECTANGULAR) ★ --- */
+.status-badge-tramite {
+    padding: 10px 25px;
+    border-radius: 6px; /* Rectangular con bordes suaves */
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    width: 100%; /* Mismo ancho que el botón */
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.card-info .icon { 
-    width: 16px; 
-    height: 16px; 
-    opacity: 0.7; 
-}
-.card-actions { 
-    text-align: right; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 10px; 
-    align-items: flex-end; 
-}
-.btn-details { 
-    background-color: #F0EFEA; 
-    color: #333; 
-    border: 1px solid #DCD9D0; 
-}
-.status-badge, .btn-details { 
+
+/* Colores de estado */
+.bg-pendiente { background-color: #1C6E3E; } 
+.bg-espera { background-color: #17A2B8; } 
+.bg-revision { background-color: #6C757D; }
+.bg-rechazada { background-color: #DC3545; }
+
+
+/* ================================================== */
+/* --- ESTILOS GENERALES Y DE HISTORIAL --- */
+/* ================================================== */
+.historial-card { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.historial-card-body { padding: 20px; }
+.historial-card-body h5 { margin: 0 0 15px 0; font-size: 18px; color: #1B1B1B; }
+.historial-card-body p { margin: 0 0 10px 0; color: #555; font-size: 14px; display: flex; align-items: center; }
+.historial-card-body .icon { width: 16px; height: 16px; min-width: 16px; opacity: 0.7; margin-right: 10px; object-fit: contain; }
+.historial-card-footer { margin-top: auto; background-color: #F1F3F5; border-top: 1px solid #E9ECEF; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
+
+/* Estilos para el footer de la tarjeta simple (si se usa) */
+.btn-details { padding: 10px 25px; border-radius: 20px; font-weight: 600; text-align: center; width: 160px; box-sizing: border-box; background-color: #F0EFEA; color: #333; border: 1px solid #DCD9D0; }
+
+/* --- MODIFICACIÓN AQUÍ TAMBIÉN PARA HISTORIAL SIMPLE --- */
+.status-badge { 
     padding: 10px 25px; 
-    border-radius: 20px; 
+    border-radius: 6px; /* Rectangular */
     font-weight: 600; 
     text-align: center; 
     width: 160px; 
     box-sizing: border-box; 
 }
 .status-pendiente { background-color: #FFC107; color: #333; }
-.status-confirmado-en-espera { background-color: #8BC34A; color: white; }
+.status-confirmado-en-espera { background-color: #17A2B8; color: white; }
 .status-completado { background-color: #1C6E3E; color: white; }
 .status-rechazada { background-color: #DC3545; color: white; }
 
-/* --- VISTA DE DETALLES --- */
-.detail-card { 
-    border: 1px solid #E9ECEF; 
-    border-radius: 10px; 
-    padding: 30px; 
-    display: grid; 
-    grid-template-columns: 1fr 1px 1.2fr; 
-    gap: 40px; 
-}
-.detail-column .info-group { margin-bottom: 25px; }
-.detail-column .info-group label { 
-    display: block; 
-    font-size: 14px; 
-    font-weight: 600; 
-    color: #333; 
-    margin-bottom: 8px; 
-}
-.detail-column .info-group p { 
-    font-size: 16px; 
-    margin: 0; 
-    color: #555; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-}
-.vertical-divider { background-color: #E9ECEF; }
-.detail-actions p { 
-    font-size: 14px; 
-    color: #666; 
-    line-height: 1.5; 
-}
-.info-box { 
-    background-color: #F8F9FA; 
-    padding: 15px; 
-    border-radius: 8px; 
-    margin-top: 20px; 
-}
-.btn-action-box { 
-    display: block; 
-    width: 100%; 
-    background-color: #F0F0F0; 
-    border: 1px dashed #CCC; 
-    padding: 15px; 
-    border-radius: 8px; 
-    font-weight: 600; 
-    text-align: center; 
-    cursor: pointer; 
-    margin-top: 20px; 
-}
-.image-preview-container { margin-top: 20px; text-align: center; }
-.image-preview { 
-    max-width: 100%; 
-    max-height: 180px; 
-    border-radius: 8px; 
-    border: 1px solid #CCC; 
-}
-.btn-update { 
-    background-color: #1C6E3E; 
-    color: white; 
-    border: none; 
-    margin-top: 15px; 
-    width: 100%; 
-    padding: 12px; 
-    border-radius: 8px; 
-    font-size: 16px; 
-}
-
-/* ========================================= */
-/* === ESTILOS PARA HISTORIAL DE TALLERES === */
-/* ========================================= */
-.historial-header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    margin-bottom: 20px; 
-}
-.historial-header h4 { font-size: 18px; color: #555; }
-.history-filters { display: flex; gap: 10px; }
-.btn-history-filter { 
-    background-color: #F0F0F0; 
-    color: #333; 
-    border-radius: 20px; 
-    padding: 8px 20px; 
-    font-size: 14px; 
-    border: 1px solid #E0E0E0; 
-}
-.btn-history-filter.active { 
-    background-color: #333; 
-    color: white; 
-    border-color: #333; 
-}
-.historial-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-    gap: 25px; 
-}
-.historial-card { 
-    background-color: #F8F9FA; 
-    border: 1px solid #E9ECEF; 
-    border-radius: 10px; 
-    overflow: hidden; 
-    display: flex; 
-    flex-direction: column; 
-}
-.historial-card-body { padding: 20px; }
-.historial-card p { 
-    margin: 0 0 12px; 
-    color: #555; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-}
-.historial-card-body .icon {
-    width: 16px;
-    height: 16px;
-    min-width: 16px;
-    opacity: 0.7;
-    vertical-align: middle;
-}
-.toggle-details { 
-    color: #1C6E3E; 
-    font-weight: 600; 
-    cursor: pointer; 
-    text-decoration: none; 
-    display: block; 
-    padding: 10px; 
-    background-color: #F0F0F0; 
-    text-align: center; 
-}
-.expandable-content { 
-    padding: 20px 20px 0; 
-    background-color: #F8F9FA; 
-    display: none; 
-}
-.expandable-content.expanded { display: block; }
-.expandable-content .info-group { margin-bottom: 15px; }
-.btn-ver-comprobante { 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-    color: #1C6E3E; 
-    font-weight: 600; 
-    cursor: pointer; 
-}
-.historial-card-footer { margin-top: auto; }
-.btn-status { 
-    width: 100%; 
-    padding: 15px; 
-    font-size: 16px; 
-    border-radius: 0; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 10px; 
-}
-.status-completado { background-color: #1C6E3E; color: white; }
-.status-en-curso { background-color: #1C6E3E; color: white; }
-.status-proximo { background-color: #555; color: white; }
-
-/* --- MODAL PARA VER COMPROBANTE --- */
-.modal-overlay { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0,0,0,0.7); 
-    z-index: 1000; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-}
-.modal-content { 
-    background-color: #FFFFFF; 
-    padding: 20px; 
-    border-radius: 12px; 
-    text-align: center; 
-    max-width: 90%; 
-    max-height: 90%; 
-}
-.modal-content h3 { margin: 0 0 15px; }
-.comprobante-image-container { margin-bottom: 15px; }
-#comprobanteImage { max-width: 100%; max-height: 70vh; }
-.btn-secondary { 
-    background-color: #F0F0F0; 
-    color: #333; 
-    border: 1px solid #CCC; 
-}
-
-/* --- ESTILOS PARA LA NUEVA VISTA DE PROCESO --- */
-.proceso-view {
+/* --- TARJETA DE HISTORIAL (COMPLEJA) --- */
+.workshop-card {
+    background-color: #FDFBF7; 
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    transition: transform 0.2s;
+    min-height: 320px;
 }
+.workshop-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.card-body { padding: 20px 20px 10px 20px; flex-grow: 1; }
+.taller-label { font-size: 12px; color: #333; font-weight: 600; margin-bottom: 2px; }
+.taller-title { font-size: 16px; color: #1B1B1B; font-weight: 400; margin: 0 0 15px 0; }
+.info-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.info-icon { width: 16px; height: 16px; opacity: 0.6; margin-top: 2px; }
+.info-text { font-size: 14px; color: #333; margin: 0; }
+.info-label { display: block; font-size: 12px; color: #666; margin-bottom: 2px; }
+.expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; padding: 0 20px; }
+.expandable-content.open { max-height: 300px; padding-bottom: 15px; }
+.date-info { margin-bottom: 10px; }
+.view-receipt-link { display: inline-flex; align-items: center; gap: 5px; color: #1C6E3E; font-size: 13px; font-weight: 600; text-decoration: none; margin-top: 5px; }
+.view-receipt-link:hover { text-decoration: underline; }
+.toggle-btn-container { padding: 10px 20px; text-align: center; }
+.toggle-btn { background-color: #F0EFEA; border: none; width: 100%; padding: 8px; border-radius: 20px; color: #555; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: background 0.2s; }
+.toggle-btn:hover { background-color: #E0DFDA; }
+.toggle-icon { font-size: 10px; transition: transform 0.3s; }
+.toggle-btn.open .toggle-icon { transform: rotate(180deg); }
+.card-footer { padding: 12px; text-align: center; color: white; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.footer-proximo { background-color: #1C6E3E; }
+.footer-en-curso { background-color: #008000; }
+.footer-completado { background-color: #14532d; }
 
-.proceso-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #E9ECEF;
-}
-
-.proceso-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    flex: 1;
-    position: relative;
-}
-
-.proceso-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 20px;
-    left: 60%;
-    width: 80%;
-    height: 2px;
-    background-color: #E9ECEF;
-    z-index: 0;
-}
-
-.proceso-step.completed:not(:last-child)::after,
-.proceso-step.rejected:not(:last-child)::after {
-    background-color: #1C6E3E;
-}
-/* --- ESTILO PARA SEPARAR EL BOTÓN VOLVER --- */
-#backToListBtn {
-    margin-bottom: 20px; /* Crea un espacio de 20px debajo del botón */
-}
-.step-number {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #E9ECEF;
-    color: #999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    margin-bottom: 8px;
-    z-index: 1;
-}
-
-.proceso-step.active .step-number {
-    background-color: #1C6E3E;
-    color: white;
-}
-
-.proceso-step.completed .step-number,
-.proceso-step.rejected .step-number {
-    background-color: #1C6E3E;
-    color: white;
-}
-
-.proceso-step.rejected .step-number {
-    background-color: #DC3545;
-}
-
-.step-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: #666;
-}
-
-.proceso-step.active .step-title {
-    color: #1C6E3E;
-}
-
-.proceso-content {
-    flex-grow: 1;
-}
-
-.proceso-content h5 {
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
-.proceso-content p {
-    line-height: 1.6;
-}
-
-.btn-action-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
+/* --- MODAL --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+.modal-content { background-color: white; padding: 20px; border-radius: 12px; text-align: center; max-width: 90%; }
+.comprobante-image-container img { max-height: 70vh; max-width: 100%; border-radius: 8px; }
+.btn-secondary { background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; margin-top: 15px; }
+.btn-action-box { width: 100%; padding: 15px; background-color: #f0f0f0; border: 1px dashed #ccc; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+.btn-update { width: 100%; padding: 12px; background-color: #1C6E3E; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }

@@ -33,18 +33,30 @@
 
         <main class="main-content">
             <div class="historial-container">
-                <div class="container-header">
-                    <h4>Mis Talleres</h4>
-                </div>
-                
-                <div class="filter-buttons">
-                    <button class="btn filter-btn active" data-filter="todos">Todos</button>
-                    <button class="btn filter-btn" data-filter="completados">Completados</button>
-                    <button class="btn filter-btn" data-filter="en-curso">En Curso</button>
-                    <button class="btn filter-btn" data-filter="proximo">Próximo</button>
+                <div class="workshops-nav" style="display: flex; border-bottom: 1px solid #CCC; margin-bottom: 25px;">
+                    <button class="nav-button active" data-view="solicitudes">Solicitud de talleres</button>
+                    <button class="nav-button" data-view="historial">Historial de talleres</button>
                 </div>
 
-                <div id="talleres-list-view"></div>
+                <div id="view-solicitudes">
+                    <div class="container-header">
+                        <h4>Mis Solicitudes en Trámite</h4>
+                    </div>
+                    <div id="solicitudes-list-view"></div>
+                </div>
+
+                <div id="view-historial" class="hidden">
+                    <div class="container-header">
+                        <h4>Registro de talleres:</h4>
+                        <div class="filter-buttons">
+                            <button class="btn filter-btn active" data-filter="todos">Todos</button>
+                            <button class="btn filter-btn" data-filter="completado">Completado</button>
+                            <button class="btn filter-btn" data-filter="en-curso">En curso</button>
+                            <button class="btn filter-btn" data-filter="proximo">Próximo</button>
+                        </div>
+                    </div>
+                    <div id="talleres-list-view"></div>
+                </div>
                 
                 <div id="detail-view" class="hidden"></div>
             </div>

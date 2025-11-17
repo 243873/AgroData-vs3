@@ -1,45 +1,12 @@
-/* --- ESTILOS DE PLANTILLA BASE (DISEÑO CONSISTENTE) --- */
-html, body { 
-    margin: 0; 
-    padding: 0; 
-    height: 100%; 
-    font-family: 'Montserrat', sans-serif; 
-    background-color: #F9F5EE; 
-    color: #1B1B1B; 
-}
-.page-wrapper { 
-    display: flex; 
-    flex-direction: column; 
-    height: 100vh; 
-    overflow: hidden; 
-}
-.top-header { 
-    background-color: #1C6E3E; 
-    color: #FFFFFF; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 15px 40px; 
-    flex-shrink: 0; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-}
+/* --- ESTILOS BASE --- */
+html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
+.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .logo-container { display: flex; align-items: center; gap: 15px; }
 .logo { width: 50px; }
 .top-header h1 { font-size: 32px; margin: 0; }
 .welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
-.navbar { 
-    background-color: #FFFFFF; 
-    padding: 10px 40px; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-    flex-shrink: 0; 
-}
-.btn-comp{
-    width: 100%;
-    &:hover {
-        background-color: #14532d;
-        color: white;
-    }
-}
+.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
 .navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
 .navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
 .nav-icon { width: 16px; height: 16px; }
@@ -47,7 +14,7 @@ html, body {
 .main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
 .hidden { display: none !important; }
 
-/* --- CONTENEDOR PRINCIPAL Y NAVEGACIÓN --- */
+/* Layout */
 .content-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
 .workshops-nav { display: flex; border-bottom: 1px solid #CCC; margin-bottom: 25px; }
 .nav-button { padding: 12px 20px; border: none; background-color: transparent; cursor: pointer; font-size: 16px; font-weight: 500; color: #666; border-bottom: 3px solid transparent; }
@@ -55,7 +22,7 @@ html, body {
 .container-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
 .container-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
 
-/* --- BOTONES GENERALES --- */
+/* Botones Generales */
 .btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 .btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 .btn-primary { background-color: #1C6E3E; color: #FFFFFF; }
@@ -63,58 +30,115 @@ html, body {
 .btn-danger { background-color: #D9534F; color: #FFFFFF; }
 .btn-delete { background-color: transparent; color: #D9534F; border: 1px solid #D9534F; }
 
-/* --- VISTA: TALLERES DISPONIBLES --- */
-.workshop-list { display: flex; flex-direction: column; gap: 15px; }
-.workshop-item { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; padding: 20px; }
-.workshop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.workshop-header h5 { margin: 0; font-size: 18px; color: #333; }
-.workshop-description { font-size: 14px; color: #555; line-height: 1.5; margin: 0 0 10px 0; }
-.workshop-cost { font-size: 14px; font-weight: 600; color: #1C6E3E; margin: 0; }
+/* --- ESTILO 1: TALLERES DISPONIBLES (LISTA VERTICAL) --- */
+.workshop-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
 
-/* ======================================================= */
-/* === VISTA: HISTORIAL DE TALLERES (ESTILO CORREGIDO) === */
-/* ======================================================= */
+.workshop-item {
+    background-color: #FDFBF7; /* Fondo crema claro */
+    border: 1px solid #EAE0C9; /* Borde suave */
+    border-radius: 12px;
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.workshop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.workshop-header h5 {
+    margin: 0;
+    font-size: 18px;
+    color: #1B1B1B;
+    font-weight: 600;
+}
+
+/* Botón "Editar" estilo pastilla verde */
+.workshop-header .btn-edit {
+    background-color: #1C6E3E;
+    color: white;
+    border-radius: 20px;
+    padding: 6px 25px;
+    font-size: 13px;
+    border: none;
+    font-weight: 500;
+}
+
+.workshop-description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin: 0 0 15px 0;
+}
+
+.workshop-cost {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1C6E3E;
+    margin: 0;
+}
+
+/* Botón "Agregar nuevo taller" alineado a la derecha en header */
+#addNewWorkshopBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #1C6E3E;
+    color: white;
+    padding: 8px 20px;
+    font-size: 14px;
+    border-radius: 20px;
+}
+
+/* --- ESTILO 2: HISTORIAL (GRID DE TARJETAS) --- */
 .filter-buttons { display: flex; gap: 10px; }
-/* CORRECCIÓN: Estilos de botones de filtro */
-.btn.filter-btn { 
-    background-color: #FFFFFF; 
-    color: #1C6E3E; 
-    border: 1px solid #1C6E3E;
-}
-.btn.filter-btn.active { 
-    background-color: #1C6E3E; 
-    color: #FFFFFF; 
-}
+.filter-btn { background-color: transparent; color: #333; border: 1px solid #ccc; padding: 8px 20px; }
+.filter-btn:hover { background-color: #e0e0e0; }
+.filter-btn.active { background-color: #1C6E3E; color: white; border-color: #1C6E3E; }
 
-.workshop-history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
-.history-card { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
-.history-card-body { padding: 20px; }
-.history-card-body p { margin: 0 0 12px; color: #555; display: flex; align-items: center; gap: 8px; }
-.history-card-body .icon { width: 16px; height: 16px; min-width: 16px; opacity: 0.7; }
+#workshop-history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
 
-/* CORRECCIÓN: Lógica de CSS para expandir */
-.expandable-content { 
-    max-height: 0;
+/* Tarjeta Historial (Diseño completo) */
+.workshop-card {
+    background-color: #FDFBF7; 
+    border-radius: 15px;
     overflow: hidden;
-    padding: 0 20px;
-    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+    min-height: 320px;
 }
-/* Esta regla es más específica y ahora funciona correctamente con el JS */
-.expandable-content.expanded {
-    max-height: 200px;
-    padding: 20px 20px 0 20px;
-}
+.workshop-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.card-body { padding: 20px 20px 10px 20px; flex-grow: 1; }
+.taller-label { font-size: 12px; color: #333; font-weight: 600; margin-bottom: 2px; }
+.taller-title { font-size: 16px; color: #1B1B1B; font-weight: 400; margin: 0 0 15px 0; }
+.info-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.info-icon { width: 16px; height: 16px; opacity: 0.6; margin-top: 2px; }
+.info-text { font-size: 14px; color: #333; margin: 0; }
+.info-label { display: block; font-size: 12px; color: #666; margin-bottom: 2px; }
 
-.expandable-content .info-group { margin-bottom: 15px; }
-.view-receipt { display: inline-flex; align-items: center; gap: 8px; color: #1C6E3E; font-weight: 600; cursor: pointer; text-decoration: underline; }
-.history-card-footer { margin-top: auto; }
-.toggle-details-btn { color: #1C6E3E; font-weight: 600; cursor: pointer; text-decoration: none; display: block; padding: 10px; background-color: #F0F0F0; text-align: center; transition: background-color 0.2s; }
-.toggle-details-btn:hover { background-color: #e0e0e0; }
-.btn-status { width: 100%; padding: 15px; font-size: 16px; border-radius: 0; display: flex; justify-content: center; align-items: center; gap: 10px; border: none; font-family: 'Montserrat', sans-serif; cursor: default !important; }
-.btn-status:hover { transform: none; box-shadow: none; }
-.status-completado { background-color: #1C6E3E; color: white; }
-.status-en-curso { background-color: #ffc107; color: #1B1B1B; }
-.status-pendiente { background-color: #6c757d; color: white; }
+.expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; padding: 0 20px; }
+.expandable-content.open { max-height: 300px; padding-bottom: 15px; }
+
+.toggle-btn-container { padding: 10px 20px; text-align: center; }
+.toggle-btn { background-color: #F0EFEA; border: none; width: 100%; padding: 8px; border-radius: 20px; color: #555; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: background 0.2s; }
+.toggle-btn:hover { background-color: #E0DFDA; }
+.toggle-icon { font-size: 10px; transition: transform 0.3s; }
+.toggle-btn.open .toggle-icon { transform: rotate(180deg); }
+
+.card-footer { padding: 12px; text-align: center; color: white; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.footer-proximo { background-color: #1C6E3E; }
+.footer-en-curso { background-color: #008000; }
+.footer-completado { background-color: #14532d; }
 
 /* --- MODALES --- */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
@@ -124,8 +148,5 @@ html, body {
 .form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500; }
 .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: 'Montserrat', sans-serif; resize: vertical; }
 .modal-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; }
-.modal-actions-center { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
 .main-actions { display: flex; gap: 15px; }
 .success-icon { width: 60px; height: 60px; margin-bottom: 15px; }
-.receipt-modal-content img { max-width: 100%; border: 1px solid #CCC; margin: 20px 0; }
-.receipt-modal-content button { width: 100%; }

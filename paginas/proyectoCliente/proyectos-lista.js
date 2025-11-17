@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
                         <h5>Plan de Cultivo: ${cultivosNombres}</h5>
                         <div class="card-info-details">
                             <p><img src="/Imagenes/user.png" class="icon"> ${project.nombre} ${project.apellidoPaterno}</p>
-                            <p><img src="/Imagenes/location.png" class="icon"> ${project.direccionTerreno}</p>
+                            <p><img src="/Imagenes/marker.png" class="icon"> ${project.direccionTerreno}</p>
                             <p><img src="/Imagenes/tree-sapling.png" class="icon"> Cultivos: ${cultivosNombres}</p>
                         </div>
                     </div>

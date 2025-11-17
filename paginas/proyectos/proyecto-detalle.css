@@ -182,3 +182,20 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .form-group textarea { resize: vertical; min-height: 80px; }
 .modal-content.success { padding: 40px; }
 .success-icon { font-size: 40px; color: #1C6E3E; border: 3px solid #1C6E3E; border-radius: 50%; width: 60px; height: 60px; line-height: 60px; margin: 0 auto 20px; }
+
+/* --- ESTILOS PARA EL REPORTE --- */
+.evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.evidence-card {
+    background-color: #FDFBF7;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #EEE;
+}
+/* (El JS ya incluye estilos inline para asegurar que se vea bien sin modificar el CSS externo obligatoriamente) */

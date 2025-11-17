@@ -1,174 +1,157 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- CONFIGURACIÓN ---
     const API_BASE_URL = 'http://localhost:7000';
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
-
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {
-        localStorage.clear();
-        window.location.href = '../../index.html';
-        return;
+        localStorage.clear(); window.location.href = '../../index.html'; return;
     }
     const authToken = authInfo.token;
     
-    // --- ELEMENTOS ---
     const workshopListContainer = document.getElementById('workshop-list');
     const historyGridContainer = document.getElementById('workshop-history-grid');
     const modal = document.getElementById('workshopModal');
     const deleteModal = document.getElementById('deleteConfirmationModal');
     const successModal = document.getElementById('successModal');
-    const receiptModal = document.getElementById('receiptModal');
     const workshopForm = document.getElementById('workshopForm');
     const welcomeMessage = document.getElementById('welcomeMessage');
+    const addNewWorkshopBtn = document.getElementById('addNewWorkshopBtn');
+    const receiptModal = document.getElementById('receiptModal');
+    const receiptImage = document.getElementById('receiptImage');
+    const closeReceipt = document.getElementById('closeReceipt');
     
     let editingWorkshopId = null;
     let catalogoTalleres = []; 
 
-    // --- HELPERS ---
+    if(addNewWorkshopBtn) addNewWorkshopBtn.innerHTML = '<span>+</span> Agregar nuevo taller';
+
+    const addDays = (date, days) => { const r = new Date(date); r.setDate(r.getDate() + days); return r; };
     async function fetchWithAuth(url, options = {}) {
         const headers = { 'Authorization': `Bearer ${authToken}`, ...(options.headers || {}) };
         return await fetch(url, { ...options, headers });
     }
-    const openModal = (m) => m.classList.remove('hidden');
-    const closeModal = (m) => m.classList.add('hidden');
-    const showSuccess = (msg) => { 
-        successModal.querySelector('h2').textContent = msg; 
-        openModal(successModal); 
-        setTimeout(() => closeModal(successModal), 2000); 
-    };
+    const openModalFunc = (m) => m.classList.remove('hidden');
+    const closeModalFunc = (m) => m.classList.add('hidden');
+    const showSuccess = () => { successModal.querySelector('h2').textContent = "Guardado"; openModalFunc(successModal); setTimeout(() => closeModalFunc(successModal), 2000); };
 
     async function loadProfileAndGreeting() {
         try {
-            const response = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
-            if (response.ok) {
-                const user = await response.json();
-                if(welcomeMessage) welcomeMessage.textContent = `Bienvenido, ${user.nombre}`;
-            }
+            const res = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
+            if (res.ok) { const u = await res.json(); if(welcomeMessage) welcomeMessage.textContent = `Bienvenido, ${u.nombre}`; }
         } catch (e) {}
     }
 
-    // --- 1. CATÁLOGO (Sin cambios) ---
+    // --- 1. CATÁLOGO ---
     async function fetchTalleresDisponibles() {
-        workshopListContainer.innerHTML = '<p>Cargando catálogo...</p>';
+        workshopListContainer.innerHTML = '<p>Cargando...</p>';
         try {
             const res = await fetchWithAuth(`${API_BASE_URL}/talleres/`, { method: 'GET' });
-            if (res.ok) {
-                catalogoTalleres = await res.json();
-                renderTalleresDisponibles();
-            }
-        } catch (e) { workshopListContainer.innerHTML = `<p>Error: ${e.message}</p>`; }
+            if (res.ok) { catalogoTalleres = await res.json(); renderTalleresDisponibles(); }
+        } catch (e) {}
     }
 
     const renderTalleresDisponibles = () => {
         workshopListContainer.innerHTML = '';
-        if (catalogoTalleres.length === 0) {
-            workshopListContainer.innerHTML = '<p>No hay talleres disponibles.</p>';
-            return;
-        }
         catalogoTalleres.forEach(t => {
-            const item = document.createElement('div');
-            item.className = 'workshop-item';
-            const estadoVisual = t.idEstado === 4 ? 'Completado' : 'Disponible'; 
-            item.innerHTML = `
+            const div = document.createElement('div');
+            div.className = 'workshop-item';
+            div.innerHTML = `
                 <div class="workshop-header">
                     <h5>${t.nombreTaller}</h5>
-                    <button class="btn btn-secondary btn-edit" data-id="${t.idTaller}">Editar</button>
+                    <button class="btn btn-edit" data-id="${t.idTaller}">Editar</button>
                 </div>
                 <p class="workshop-description">${t.descripcion}</p>
                 <p class="workshop-cost">Costo: $${t.costo.toLocaleString()}</p>
-                <p class="workshop-status status-${estadoVisual.toLowerCase()}">${estadoVisual}</p>
             `;
-            workshopListContainer.appendChild(item);
+            workshopListContainer.appendChild(div);
         });
     };
 
-    // --- 2. HISTORIAL (CON FILTROS CORREGIDOS) ---
+    // --- 2. HISTORIAL ---
+    function getVisualState(taller) {
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const fInicio = new Date(taller.fechaAplicarTaller);
+        const fFin = taller.fechaFin ? new Date(taller.fechaFin) : addDays(fInicio, 7);
+
+        if (today < fInicio) return { status: 'proximo', label: 'Próximo' };
+        if (today >= fInicio && today <= fFin) return { status: 'en-curso', label: 'En curso' };
+        return { status: 'completado', label: 'Completado' };
+    }
+
     async function fetchHistorialTalleres(filtro = 'todos') {
         historyGridContainer.innerHTML = '<p>Cargando historial...</p>';
         try {
-            // ★ SIEMPRE TRAEMOS TODO PARA PODER FILTRAR EN EL CLIENTE ★
             const url = `${API_BASE_URL}/solicitudtaller`;
             const response = await fetchWithAuth(url, { method: 'GET' });
-            if (!response.ok) throw new Error("Error al cargar historial.");
-
+            if (!response.ok) throw new Error("Error");
             const allData = await response.json();
-            renderHistorialTalleres(allData, filtro);
 
-        } catch (error) {
-            historyGridContainer.innerHTML = `<p>Error: ${error.message}</p>`;
-        }
+            const inscritos = allData.filter(t => t.idEstado === 5);
+            const filtradas = inscritos.filter(t => {
+                const visual = getVisualState(t);
+                if (filtro === 'todos') return true;
+                return visual.status === filtro; 
+            });
+
+            if (filtradas.length === 0) { historyGridContainer.innerHTML = '<p>No hay talleres.</p>'; return; }
+
+            historyGridContainer.innerHTML = '';
+            filtradas.forEach(s => {
+                const nombre = catalogoTalleres.find(c => c.idTaller === s.idTaller)?.nombreTaller || `Taller ${s.idTaller}`;
+                const visual = getVisualState(s);
+                const cliente = s.nombreAgricultor || `ID: ${s.idAgricultor}`;
+                const fInicioStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
+                const fFinStr = s.fechaFin ? new Date(s.fechaFin).toLocaleDateString('es-ES') : '...';
+                
+                // ★ AÑADIDO: Enlace para ver el comprobante en el historial del agrónomo ★
+                const receiptHTML = s.estadoPagoImagen 
+                    ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">Ver comprobante</a></div>` 
+                    : '';
+
+                const cardHTML = `
+                    <div class="workshop-card">
+                        <div class="card-body">
+                            <p class="taller-label">Taller:</p>
+                            <h5 class="taller-title">${nombre}</h5>
+                            <div class="info-row"><img src="/Imagenes/user.png" class="info-icon"><div><span class="info-label">Cliente:</span><p class="info-text">${cliente}</p></div></div>
+                            <div class="info-row"><img src="/Imagenes/marker.png" class="info-icon"><div><span class="info-label">Ubicación:</span><p class="info-text">${s.direccion}</p></div></div>
+                            <div class="expandable-content">
+                                <div class="date-info"><p class="info-text">Fecha Inicio: <br> ${fInicioStr}</p><p class="info-text" style="margin-top:5px;">Fecha Fin: <br> ${fFinStr}</p></div>
+                                ${receiptHTML}
+                            </div>
+                        </div>
+                        <div class="toggle-btn-container"><button class="toggle-btn"><span class="btn-text">Ver más</span><span class="toggle-icon">▼</span></button></div>
+                        <div class="card-footer footer-${visual.status}">${visual.status === 'completado' ? '✔' : (visual.status === 'en-curso' ? '▶' : '⏱')} ${visual.label}</div>
+                    </div>`;
+                
+                const div = document.createElement('div');
+                div.innerHTML = cardHTML;
+                const cardEl = div.firstElementChild;
+                
+                const toggleBtn = cardEl.querySelector('.toggle-btn');
+                const content = cardEl.querySelector('.expandable-content');
+                const btnText = cardEl.querySelector('.btn-text');
+                toggleBtn.addEventListener('click', () => {
+                    content.classList.toggle('open');
+                    toggleBtn.classList.toggle('open');
+                    btnText.textContent = content.classList.contains('open') ? 'Ver menos' : 'Ver más';
+                });
+                
+                const link = cardEl.querySelector('.view-receipt-link');
+                if(link) {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        receiptImage.src = e.target.dataset.url;
+                        openModalFunc(receiptModal);
+                    });
+                }
+                
+                historyGridContainer.appendChild(cardEl);
+            });
+
+        } catch (error) { historyGridContainer.innerHTML = `<p>Error.</p>`; }
     }
 
-    const renderHistorialTalleres = (historial, filtro) => {
-        historyGridContainer.innerHTML = '';
-        
-        // ★ FILTRADO INTELIGENTE ★
-        const filtered = historial.filter(t => {
-            // Estados: 1=Pendiente, 2=Aceptada, 3=Rechazada, 4=Revisión, 5=Completado
-            if (filtro === 'todos') return true;
-            if (filtro === 'completados') return t.idEstado === 5;
-            // "En Curso" agrupa Aceptada (2) y Revisión (4)
-            if (filtro === 'en-curso') return t.idEstado === 2 || t.idEstado === 4;
-            // "Próximo" agrupa Pendiente (1)
-            if (filtro === 'proximo') return t.idEstado === 1;
-            return false;
-        });
-
-        if (filtered.length === 0) {
-            historyGridContainer.innerHTML = '<p>No hay solicitudes en esta categoría.</p>';
-            return;
-        }
-
-        filtered.forEach(taller => {
-            let label = 'Desconocido';
-            let claseColor = 'pendiente';
-
-            switch(taller.idEstado) {
-                case 1: label = 'Próximo (Pendiente)'; claseColor = 'pendiente'; break;
-                case 2: label = 'En Curso (Aceptada)'; claseColor = 'en-curso'; break;
-                case 4: label = 'En Curso (Revisión)'; claseColor = 'revision'; break;
-                case 5: label = 'Completado'; claseColor = 'completado'; break;
-                case 3: label = 'Rechazado'; claseColor = 'rechazado'; break;
-            }
-            
-            const nombreTaller = catalogoTalleres.find(c => c.idTaller === taller.idTaller)?.nombreTaller || `Taller ${taller.idTaller}`;
-            
-            const card = document.createElement('div');
-            card.className = 'history-card';
-            card.innerHTML = `
-                <div class="history-card-body">
-                    <p><strong>Taller:</strong> ${nombreTaller}</p>
-                    <p><img src="/Imagenes/user.png" class="icon"> <strong>Agricultor ID:</strong> ${taller.idAgricultor}</p>
-                    <p><img src="/Imagenes/location.png" class="icon"> ${taller.direccion}</p>
-                    <div class="expandable-content">
-                        <div class="info-group"><p><strong>Fecha:</strong> ${taller.fechaAplicarTaller}</p></div>
-                        <div class="info-group"><p><strong>Comentario:</strong> ${taller.comentario || 'N/A'}</p></div>
-                        ${taller.estadoPagoImagen ? `<a href="#" class="view-receipt" data-img-src="${taller.estadoPagoImagen}">Ver comprobante</a>` : ''}
-                    </div>
-                </div>
-                <div class="history-card-footer">
-                    <a href="#" class="toggle-details-btn">▼ Ver más</a>
-                    <div class="footer-actions">
-                        <button class="btn btn-status status-${claseColor}" disabled>${label}</button>
-                        ${taller.idEstado === 4 ? `<button class="btn btn-complete btn-comp" data-solicitud-id="${taller.idSolicitudTaller}">Marcar Completado</button>` : ''}
-                    </div>
-                </div>`;
-            historyGridContainer.appendChild(card);
-        });
-    };
-
-    // --- EVENTOS ---
-    
-    // Evento de Filtros (CORREGIDO)
-    document.querySelector('.filter-buttons').addEventListener('click', (e) => {
-        if (e.target.matches('.filter-btn')) {
-            document.querySelectorAll('.filter-buttons .filter-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-            // Usamos el dataset.filter ('todos', 'completados', etc.) para llamar a la función
-            fetchHistorialTalleres(e.target.dataset.filter);
-        }
-    });
-
-    // Navegación
+    // ... (RESTO DE EVENTOS: nav, filtros, modales, eliminar, igual que antes) ...
     document.querySelector('.workshops-nav').addEventListener('click', (e) => {
         if (e.target.matches('.nav-button')) {
             document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
@@ -176,17 +159,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             const view = e.target.dataset.view;
             document.getElementById('view-capacitaciones').classList.toggle('hidden', view !== 'capacitaciones');
             document.getElementById('view-historial').classList.toggle('hidden', view !== 'historial');
-            
             if (view === 'historial') {
-                // Resetea el filtro al entrar
                 document.querySelector('.filter-buttons .filter-btn[data-filter="todos"]').click();
-            } else {
-                fetchTalleresDisponibles();
-            }
+            } else { fetchTalleresDisponibles(); }
         }
     });
 
-    // --- (Resto de lógica de Modales y Eliminar igual que antes) ---
+    document.querySelector('.filter-buttons').addEventListener('click', (e) => {
+        if (e.target.matches('.filter-btn')) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            fetchHistorialTalleres(e.target.dataset.filter);
+        }
+    });
+
+    document.getElementById('addNewWorkshopBtn').addEventListener('click', () => {
+        editingWorkshopId = null;
+        workshopForm.reset();
+        document.getElementById('modalTitle').textContent = 'Agregar Nuevo Taller';
+        document.getElementById('deleteWorkshopBtn').classList.add('hidden');
+        openModalFunc(modal);
+    });
+
+    document.getElementById('cancelWorkshop').addEventListener('click', () => closeModalFunc(modal));
+    document.getElementById('saveWorkshop').addEventListener('click', () => workshopForm.requestSubmit());
+    
     workshopForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const payload = {
@@ -198,14 +195,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const method = editingWorkshopId ? 'PUT' : 'POST';
         const url = editingWorkshopId ? `${API_BASE_URL}/talleres/${editingWorkshopId}` : `${API_BASE_URL}/talleres/`;
         try {
-            const res = await fetchWithAuth(url, { method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-            if (!res.ok) throw new Error(await res.text());
+            await fetchWithAuth(url, { method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
             await fetchTalleresDisponibles();
-            closeModal(modal);
+            closeModalFunc(modal);
             showSuccess();
         } catch (err) { alert(err.message); }
     });
-
+    
     workshopListContainer.addEventListener('click', (e) => {
         const btn = e.target.closest('.btn-edit');
         if (btn) {
@@ -217,66 +213,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 workshopForm.elements['workshopCost'].value = t.costo;
                 document.getElementById('modalTitle').textContent = 'Editar Taller';
                 document.getElementById('deleteWorkshopBtn').classList.remove('hidden');
-                openModal(modal);
+                openModalFunc(modal);
             }
         }
     });
-    
-    document.getElementById('addNewWorkshopBtn').addEventListener('click', () => {
-        editingWorkshopId = null;
-        workshopForm.reset();
-        document.getElementById('modalTitle').textContent = 'Agregar Nuevo Taller';
-        document.getElementById('deleteWorkshopBtn').classList.add('hidden');
-        openModal(modal);
-    });
-    
-    document.getElementById('cancelWorkshop').addEventListener('click', () => closeModal(modal));
-    document.getElementById('saveWorkshop').addEventListener('click', () => workshopForm.requestSubmit());
-    document.getElementById('deleteWorkshopBtn').addEventListener('click', () => { closeModal(modal); openModal(deleteModal); });
-    document.getElementById('cancelDelete').addEventListener('click', () => closeModal(deleteModal));
-    document.getElementById('closeReceipt').addEventListener('click', () => closeModal(receiptModal));
 
+    document.getElementById('deleteWorkshopBtn').addEventListener('click', () => { closeModalFunc(modal); openModalFunc(deleteModal); });
+    document.getElementById('cancelDelete').addEventListener('click', () => closeModalFunc(deleteModal));
     document.getElementById('acceptDelete').addEventListener('click', async () => {
-        try {
+         try {
             await fetchWithAuth(`${API_BASE_URL}/talleres/${editingWorkshopId}`, { method: 'DELETE' });
             await fetchTalleresDisponibles();
-            closeModal(deleteModal);
-            showSuccess("Eliminado");
-        } catch (e) { alert(e.message); closeModal(deleteModal); }
-    });
-
-    // Acciones Historial (Expandir, Recibo, Completar)
-    historyGridContainer.addEventListener('click', async (e) => {
-        const toggle = e.target.closest('.toggle-details-btn');
-        const receipt = e.target.closest('.view-receipt');
-        const complete = e.target.closest('.btn-complete');
-
-        if (toggle) {
-            e.preventDefault();
-            const content = toggle.closest('.history-card').querySelector('.expandable-content');
-            content.classList.toggle('expanded');
-            toggle.innerHTML = content.classList.contains('expanded') ? '▲ Ver menos' : '▼ Ver más';
-        }
-        if (receipt) {
-            e.preventDefault();
-            document.getElementById('receiptImage').src = receipt.dataset.imgSrc;
-            openModal(receiptModal);
-        }
-        if (complete) {
-            e.preventDefault();
-            if (confirm('¿Marcar como completado?')) {
-                try {
-                    await fetchWithAuth(`${API_BASE_URL}/solicitudtaller/${complete.dataset.solicitudId}/5`, { 
-                        method: 'PATCH' 
-                    });
-                    showSuccess('Completado');
-                    const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-                    fetchHistorialTalleres(activeFilter);
-                } catch (err) { alert(err.message); }
-            }
-        }
+            closeModalFunc(deleteModal);
+        } catch (e) { alert(e.message); closeModalFunc(deleteModal); }
     });
     
+    if(closeReceipt) closeReceipt.addEventListener('click', () => closeModalFunc(receiptModal));
+
     await loadProfileAndGreeting();
     await fetchTalleresDisponibles();
 });
