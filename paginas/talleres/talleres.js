@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let editingWorkshopId = null;
     let catalogoTalleres = []; 
 
-    if(addNewWorkshopBtn) addNewWorkshopBtn.innerHTML = '<span>+</span> Agregar nuevo taller';
+    if(addNewWorkshopBtn) addNewWorkshopBtn.innerHTML = `<span>+</span> ${t('workshop.addNew')}`;
 
     const addDays = (date, days) => { const r = new Date(date); r.setDate(r.getDate() + days); return r; };
     async function fetchWithAuth(url, options = {}) {
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const openModalFunc = (m) => m.classList.remove('hidden');
     const closeModalFunc = (m) => m.classList.add('hidden');
-    const showSuccess = () => { successModal.querySelector('h2').textContent = "Guardado"; openModalFunc(successModal); setTimeout(() => closeModalFunc(successModal), 2000); };
+    const showSuccess = () => { successModal.querySelector('h2').textContent = t('workshop.saved'); openModalFunc(successModal); setTimeout(() => closeModalFunc(successModal), 2000); };
 
     async function loadProfileAndGreeting() {
         try {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 1. CATÁLOGO ---
     async function fetchTalleresDisponibles() {
-        workshopListContainer.innerHTML = '<p>Cargando...</p>';
+        workshopListContainer.innerHTML = `<p>${t('workshop.loading')}</p>`;
         try {
             const res = await fetchWithAuth(`${API_BASE_URL}/talleres/`, { method: 'GET' });
             if (res.ok) { catalogoTalleres = await res.json(); renderTalleresDisponibles(); }
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <button class="btn btn-edit" data-id="${t.idTaller}">Editar</button>
                 </div>
                 <p class="workshop-description">${t.descripcion}</p>
-                <p class="workshop-cost">Costo: $${t.costo.toLocaleString()}</p>
+                <p class="workshop-cost">${t('workshop.cost')} $${t.costo.toLocaleString()}</p>
             `;
             workshopListContainer.appendChild(div);
         });
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function fetchHistorialTalleres(filtro = 'todos') {
-        historyGridContainer.innerHTML = '<p>Cargando historial...</p>';
+        historyGridContainer.innerHTML = `<p>${t('workshop.loadingHistory')}</p>`;
         try {
             const url = `${API_BASE_URL}/solicitudtaller`;
             const response = await fetchWithAuth(url, { method: 'GET' });
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return visual.status === filtro; 
             });
 
-            if (filtradas.length === 0) { historyGridContainer.innerHTML = '<p>No hay talleres.</p>'; return; }
+            if (filtradas.length === 0) { historyGridContainer.innerHTML = `<p>${t('workshop.noWorkshops')}</p>`; return; }
 
             historyGridContainer.innerHTML = '';
             filtradas.forEach(s => {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 // ★ AÑADIDO: Enlace para ver el comprobante en el historial del agrónomo ★
                 const receiptHTML = s.estadoPagoImagen 
-                    ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">Ver comprobante</a></div>` 
+                    ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">${t('workshop.viewReceipt')}</a></div>` 
                     : '';
 
                 const cardHTML = `
@@ -111,14 +111,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="card-body">
                             <p class="taller-label">Taller:</p>
                             <h5 class="taller-title">${nombre}</h5>
-                            <div class="info-row"><img src="/Imagenes/user.png" class="info-icon"><div><span class="info-label">Cliente:</span><p class="info-text">${cliente}</p></div></div>
-                            <div class="info-row"><img src="/Imagenes/marker.png" class="info-icon"><div><span class="info-label">Ubicación:</span><p class="info-text">${s.direccion}</p></div></div>
+                            <div class="info-row"><img src="/Imagenes/user.png" class="info-icon"><div><span class="info-label">${t('workshop.client')}</span><p class="info-text">${cliente}</p></div></div>
+                            <div class="info-row"><img src="/Imagenes/marker.png" class="info-icon"><div><span class="info-label">${t('workshop.location')}</span><p class="info-text">${s.direccion}</p></div></div>
                             <div class="expandable-content">
-                                <div class="date-info"><p class="info-text">Fecha Inicio: <br> ${fInicioStr}</p><p class="info-text" style="margin-top:5px;">Fecha Fin: <br> ${fFinStr}</p></div>
+                                <div class="date-info"><p class="info-text">${t('workshop.startDate')} <br> ${fInicioStr}</p><p class="info-text" style="margin-top:5px;">${t('workshop.endDate')} <br> ${fFinStr}</p></div>
                                 ${receiptHTML}
                             </div>
                         </div>
-                        <div class="toggle-btn-container"><button class="toggle-btn"><span class="btn-text">Ver más</span><span class="toggle-icon">▼</span></button></div>
+                        <div class="toggle-btn-container"><button class="toggle-btn"><span class="btn-text">${t('workshop.seeMore')}</span><span class="toggle-icon">▼</span></button></div>
                         <div class="card-footer footer-${visual.status}">${visual.status === 'completado' ? '✔' : (visual.status === 'en-curso' ? '▶' : '⏱')} ${visual.label}</div>
                     </div>`;
                 
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 toggleBtn.addEventListener('click', () => {
                     content.classList.toggle('open');
                     toggleBtn.classList.toggle('open');
-                    btnText.textContent = content.classList.contains('open') ? 'Ver menos' : 'Ver más';
+                    btnText.textContent = content.classList.contains('open') ? t('workshop.seeLess') : t('workshop.seeMore');
                 });
                 
                 const link = cardEl.querySelector('.view-receipt-link');
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 historyGridContainer.appendChild(cardEl);
             });
 
-        } catch (error) { historyGridContainer.innerHTML = `<p>Error.</p>`; }
+        } catch (error) { historyGridContainer.innerHTML = `<p>${t('workshop.error')}</p>`; }
     }
 
     // ... (RESTO DE EVENTOS: nav, filtros, modales, eliminar, igual que antes) ...
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('addNewWorkshopBtn').addEventListener('click', () => {
         editingWorkshopId = null;
         workshopForm.reset();
-        document.getElementById('modalTitle').textContent = 'Agregar Nuevo Taller';
+        document.getElementById('modalTitle').textContent = t('workshop.addNewTitle');
         document.getElementById('deleteWorkshopBtn').classList.add('hidden');
         openModalFunc(modal);
     });
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 workshopForm.elements['workshopName'].value = t.nombreTaller;
                 workshopForm.elements['workshopDescription'].value = t.descripcion;
                 workshopForm.elements['workshopCost'].value = t.costo;
-                document.getElementById('modalTitle').textContent = 'Editar Taller';
+                document.getElementById('modalTitle').textContent = t('workshop.editTitle');
                 document.getElementById('deleteWorkshopBtn').classList.remove('hidden');
                 openModalFunc(modal);
             }

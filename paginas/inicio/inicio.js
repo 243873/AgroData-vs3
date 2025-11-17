@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithCors(`${API_BASE_URL}/perfil/${userId}`, { method: 'GET' });
             if (response.ok) {
                 const user = await response.json();
-                welcomeMessage.textContent = `Bienvenido, ${user.nombre}`;
+                welcomeMessage.textContent = `${t('common.welcome')}, ${user.nombre}`;
             } else {
-                welcomeMessage.textContent = `Bienvenido, Agrónomo`;
+                welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`;
             }
         } catch (error) {
-            welcomeMessage.textContent = `Bienvenido, Agrónomo`; 
+            welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`; 
         }
     }
 
@@ -132,15 +132,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             switch (tipo) {
                 case 'asesoria':
                     // Cambio 1: Quitamos el ID del mensaje
-                    texto = `¡Nueva solicitud de Asesoría! Un cliente espera aprobación.`;
+                    texto = t('notifications.newAdvisory');
                     link = '/paginas/solicitudes/solicitudes.html';
-                    linkText = 'Ir a Solicitudes';
+                    linkText = t('notifications.goToRequests');
                     break;
                 case 'taller':
                     // Cambio 1b: Quitamos el ID para consistencia
-                    texto = `¡Nueva solicitud de Taller! Un cliente espera aprobación.`;
+                    texto = t('notifications.newWorkshop');
                     link = '/paginas/solicitudes/solicitudes.html';
-                    linkText = 'Ir a Solicitudes';
+                    linkText = t('notifications.goToRequests');
                     break;
                 case 'tarea':
                     // Cambio 2: Usamos el ID del Plan en lugar del ID de la tarea
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         texto = `Una Tarea ${planText} tiene un nuevo estado: '${estado}'.`;
                     }
                     link = '/paginas/proyectos/proyectos.html'; 
-                    linkText = 'Ir a Proyectos';
+                    linkText = t('notifications.goToProjects');
                     break;
                 default:
                     texto = `Notificación con estado: ${estado}.`;
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <span class="notification-text">${texto}</span>
                 <div class="notification-actions">
                     <a href="${link}" class="btn btn-primary">${linkText}</a>
-                    <button class="btn btn-danger">Descartar</button>
+                    <button class="btn btn-danger" data-i18n="notifications.discard">Descartar</button>
                 </div>
             `;
             notificationsList.appendChild(item);

@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!container) return;
 
         if (notificaciones.length === 0) {
-            container.innerHTML = '<p class="empty-state">No tienes notificaciones pendientes.</p>';
+            container.innerHTML = `<p class="empty-state">${t('clientDash.noPendingNotifications')}</p>`;
             return;
         }
 
@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             item.innerHTML = `
                 <div class="notification-text">
-                    ¡Tu <strong>${textoTipo}</strong> ha cambiado de estado a: <strong>${estado}</strong>!
+                    ¡Tu <strong>${textoTipo}</strong> ${t('clientDash.notificationChanged')} <strong>${estado}</strong>!
                 </div>
                 <div class="notification-actions">
-                    <button class="btn btn-primary btn-goto" data-type="${tipo}" data-id="${id}">Ir a Solicitudes</button>
-                    <button class="btn btn-danger btn-discard" data-id="${id}">Descartar</button>
+                    <button class="btn btn-primary btn-goto" data-type="${tipo}" data-id="${id}">${t('clientDash.goToRequests')}</button>
+                    <button class="btn btn-danger btn-discard" data-id="${id}">${t('clientDash.discard')}</button>
                 </div>
             `;
             container.appendChild(item);
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (notificationToDiscard) {
                 notificationToDiscard.remove(); 
                 if (notificationsList.children.length === 0) {
-                    notificationsList.innerHTML = '<p class="empty-state">No tienes notificaciones pendientes.</p>';
+                    notificationsList.innerHTML = `<p class="empty-state">${t('clientDash.noPendingNotifications')}</p>`;
                 }
             }
             if (confirmationModal) confirmationModal.classList.add('hidden');
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             asesoriaSelectedCultivos = Array.from(checkboxes).map(cb => ({ id: parseInt(cb.value), nombre: cb.dataset.nombre }));
 
             if (asesoriaSelectedCultivos.length === 0 || asesoriaSelectedCultivos.length > 3) {
-                alert('Debes seleccionar entre 1 y 3 cultivos.');
+                alert(t('clientDash.selectCrops'));
                 return;
             }
             generateSingleAsesoriaForm(asesoriaSelectedCultivos);
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (plagaDetalleInput) plagaDetalleInput.classList.add('input-error'); allValid = false;
         }
 
-        if (!allValid) alert('Por favor, completa todos los campos obligatorios.');
+        if (!allValid) alert(t('clientDash.completeFields'));
         return allValid;
     }
 
@@ -460,17 +460,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 if (response.ok || response.status === 201) {
-                    modalTitle.textContent = '¡Solicitud de Asesoría Enviada!';
-                    modalMessage.textContent = 'Tu solicitud ha sido recibida. Un agrónomo se pondrá en contacto contigo.';
+                    modalTitle.textContent = t('clientDash.advisoryRequestSent');
+                    modalMessage.textContent = t('clientDash.advisoryRequestMsg');
                 } else {
                     const errorText = await response.text();
-                    modalTitle.textContent = 'Error al Enviar Solicitud';
+                    modalTitle.textContent = t('clientDash.sendRequestError');
                     modalMessage.textContent = `Hubo un error en la API: ${errorText || response.statusText}.`;
                 }
             } catch (error) {
                 console.error('Error de red:', error);
-                modalTitle.textContent = 'Error de Conexión';
-                modalMessage.textContent = 'No se pudo conectar con el servidor.';
+                modalTitle.textContent = t('clientDash.connectionError');
+                modalMessage.textContent = t('clientDash.connectionErrorMsg');
             }
             if(successModal) successModal.classList.remove('hidden');
         });
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         continueToTallerFormBtn.addEventListener('click', () => {
             const ids = Array.from(document.querySelectorAll('.taller-checkbox:checked')).map(cb => cb.dataset.id);
             if (ids.length === 0) {
-                alert('Por favor, selecciona al menos un taller.');
+                alert(t('clientDash.selectWorkshop'));
                 return;
             }
 
@@ -554,7 +554,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 montoTotal += taller.costo;
             });
 
-            if (montoTotalEl) montoTotalEl.textContent = `Monto Total: $${montoTotal.toLocaleString()}`;
+            if (montoTotalEl) montoTotalEl.textContent = `${t('clientDash.totalAmount')} $${montoTotal.toLocaleString()}`;
 
             if (tallerSelectionView) tallerSelectionView.classList.add('hidden');
             if (tallerFormView) tallerFormView.classList.remove('hidden');
@@ -578,18 +578,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             const today = getTodayString();
 
             if (!fechaInput.value || !direccionInput.value) {
-                alert('Por favor, complete todos los campos (Fecha y Ubicación).');
+                alert(t('clientDash.completeFieldsWorkshop'));
                 return;
             }
             
             // --- Validación de Fecha ---
             if (fechaInput.value < today) {
-                alert('La fecha para aplicar el taller no puede ser anterior a hoy.');
+                alert(t('clientDash.invalidWorkshopDate'));
                 return;
             }
 
             if (selectedTalleres.length === 0) {
-                alert('Error: no hay talleres seleccionados.');
+                alert(t('clientDash.noWorkshopsSelected'));
                 return;
             }
 
@@ -629,14 +629,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             if (fallos === 0) {
-                modalTitle.textContent = '¡Solicitudes Enviadas!';
-                modalMessage.textContent = `Se enviaron ${exitos} solicitudes de taller correctamente.`;
+                modalTitle.textContent = t('clientDash.requestsSent');
+                modalMessage.textContent = t('clientDash.requestsSentSuccess').replace('{count}', exitos);
             } else if (exitos > 0) {
-                modalTitle.textContent = 'Solicitud Parcialmente Exitosa';
-                modalMessage.textContent = `Se enviaron ${exitos} solicitudes, pero ${fallos} fallaron.`;
+                modalTitle.textContent = t('clientDash.partialSuccess');
+                modalMessage.textContent = t('clientDash.partialSuccessMsg').replace('{success}', exitos).replace('{failed}', fallos);
             } else {
-                modalTitle.textContent = 'Error al Enviar Solicitudes';
-                modalMessage.textContent = 'No se pudo enviar ninguna solicitud.';
+                modalTitle.textContent = t('clientDash.sendError');
+                modalMessage.textContent = t('clientDash.sendErrorMsg');
             }
             
             if(successModal) successModal.classList.remove('hidden');

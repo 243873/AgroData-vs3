@@ -45,10 +45,10 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
     async function fetchUserProfile() {
         try {
             const userProfile = await fetchWithToken(`${API_BASE_URL}/perfil/${currentUser.id}`);
-            welcomeMessage.textContent = `Bienvenido, ${userProfile.nombre}`;
+            welcomeMessage.textContent = `${t('common.welcome')}, ${userProfile.nombre}`;
         } catch (error) {
             console.error("Error al cargar perfil:", error);
-            welcomeMessage.textContent = `Bienvenido, Usuario (ID: ${currentUser.id})`;
+            welcomeMessage.textContent = `${t('common.welcome')}, Usuario (ID: ${currentUser.id})`;
         }
     }
 
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
 
         } catch (error) {
             console.error("Error cargando proyectos:", error);
-            projectsListContainer.innerHTML = '<div class="empty-state-message"><p>Error al cargar proyectos. (Probable error de CORS)</p></div>';
+            projectsListContainer.innerHTML = `<div class="empty-state-message"><p>${t('project.loadError')}</p></div>`;
             return [];
         }
     }
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
      * Renderiza las tarjetas de proyecto en el HTML
      */
     async function renderProjects() {
-        projectsListContainer.innerHTML = '<p>Cargando proyectos...</p>';
+        projectsListContainer.innerHTML = `<p>${t('common.loading')}</p>`;
         const myProjects = await getAllProjectsFromAPI();
         
         if (myProjects.length === 0) {
@@ -93,15 +93,15 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
             const card = `
                 <a href="proyectoCliente.html?id=${project.idPlan}" class="project-card">
                     <div class="card-info">
-                        <h5>Plan de Cultivo: ${cultivosNombres}</h5>
+                        <h5>${t('project.cultivationPlan')} ${cultivosNombres}</h5>
                         <div class="card-info-details">
                             <p><img src="/Imagenes/user.png" class="icon"> ${project.nombre} ${project.apellidoPaterno}</p>
                             <p><img src="/Imagenes/marker.png" class="icon"> ${project.direccionTerreno}</p>
-                            <p><img src="/Imagenes/tree-sapling.png" class="icon"> Cultivos: ${cultivosNombres}</p>
+                            <p><img src="/Imagenes/tree-sapling.png" class="icon"> ${t('projects.crops')} ${cultivosNombres}</p>
                         </div>
                     </div>
                     <div class="card-actions">
-                        <span class="btn-details">Ver Detalles</span>
+                        <span class="btn-details">${t('projects.details')}</span>
                     </div>
                 </a>`;
             projectsListContainer.innerHTML += card;

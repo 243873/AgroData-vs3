@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         clientGrid.innerHTML = '';
 
         if (clientes.length === 0) {
-            clientGrid.innerHTML = '<p>No tienes clientes con solicitudes de asesoría registradas por el momento.</p>';
-            clientCountElement.textContent = '0 clientes encontrados';
+            clientGrid.innerHTML = `<p>${t('clients.noClients')}</p>`;
+            clientCountElement.textContent = t('client.noClients');
             return;
         }
         
-        clientCountElement.textContent = `Tienes un total de ${clientes.length} clientes.`;
+        clientCountElement.textContent = `${t('client.totalClients')} ${clientes.length} ${t('client.clientsWord')}`;
 
         clientes.forEach(cliente => {
             const fullName = `${cliente.nombre} ${cliente.apellidoPaterno || ''} ${cliente.apellidoMaterno || ''}`.trim();

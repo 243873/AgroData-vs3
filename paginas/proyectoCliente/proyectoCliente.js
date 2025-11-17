@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return true;
         } catch (error) {
             console.error("Error cargando proyecto:", error);
-            projectContainer.innerHTML = `<div style="padding:40px; text-align:center;"><h2>Error</h2><p>${error.message}</p><a href="proyectos-lista.html" class="btn btn-primary">Volver</a></div>`;
+            projectContainer.innerHTML = `<div style="padding:40px; text-align:center;"><h2>${t('common.error')}</h2><p>${error.message}</p><a href="proyectos-lista.html" class="btn btn-primary">${t('project.back')}</a></div>`;
             return false;
         }
     }
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- 4. RENDERIZADO ---
     function renderProject() {
         const cultivosNombres = currentProject.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ');
-        projectTitle.textContent = `Plan de Cultivo: ${cultivosNombres}`;
+        projectTitle.textContent = `${t('project.cultivationPlan')} ${cultivosNombres}`;
         renderGeneralInfo();
         renderActividadesPane();
         initializeTabNavigation();
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentActivityId = editBtn.dataset.id; 
             const task = projectTasks.find(t => t.idTarea == currentActivityId);
             if (task) {
-                modalActivityTitle.textContent = `Evidencia para: ${task.nombreTarea}`;
+                modalActivityTitle.textContent = `${t('project.evidenceFor')} ${task.nombreTarea}`;
                 activityComment.value = '';
                 imagePreview.src = '';
                 imagePreviewContainer.classList.add('hidden');
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (viewImageBtn) { 
-            viewerModalTitle.textContent = "Evidencia / Reporte"; 
+            viewerModalTitle.textContent = t('project.evidenceReport'); 
             modalReportImage.src = viewImageBtn.dataset.url; 
             imageViewerModal.classList.remove('hidden'); 
         }
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!currentActivityId) return;
         const comentario = activityComment.value;
         if (!comentario && !newActivityImageBase64) {
-            alert("Añade comentario o imagen.");
+            alert(t('project.addCommentImage'));
             return;
         }
         const registroActividad = {
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderActividadesPane(); 
         } catch (error) {
             console.error("Error:", error);
-            alert("Error al guardar.");
+            alert(t('project.saveError'));
         }
     });
     
@@ -285,8 +285,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const fecha = document.getElementById('plaga-fecha').value;
         const today = getTodayString();
 
-        if (!tipo || !descripcion || !fecha) { alert("Completa los campos."); return; }
-        if (fecha < today) { alert('Fecha no válida (pasado).'); return; }
+        if (!tipo || !descripcion || !fecha) { alert(t('project.completeFields')); return; }
+        if (fecha < today) { alert(t('project.invalidDate')); return; }
 
         const reportePlaga = {
             idPlan: currentProject.idPlan,
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderActividadesPane();
         } catch (error) {
             console.error("Error:", error);
-            alert("Error al guardar reporte.");
+            alert(t('project.reportSaveError'));
         }
     });
 

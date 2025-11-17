@@ -35,19 +35,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
             if (response.ok) {
                 const user = await response.json();
-                if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, ${user.nombre}`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${user.nombre}`;
             } else {
-                if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, Agrónomo`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`;
             }
         } catch (error) { 
             console.error('Error al cargar saludo:', error);
-            if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, Agrónomo`;
+            if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`;
         }
     }
 
     // --- LÓGICA DE DATOS ---
     async function fetchAllProjects() {
-        projectsListContainer.innerHTML = '<p class="loading-message">Cargando planes de cultivo...</p>';
+        projectsListContainer.innerHTML = `<p class="loading-message">${t('projects.loading')}</p>`;
         try {
             const response = await fetchWithAuth(`${API_BASE_URL}/obtenerPlanCultivos`, { method: 'GET' });
             if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (projectsToRender.length === 0) {
-            projectsListContainer.innerHTML = '<p>No hay proyectos que coincidan con el filtro.</p>';
+            projectsListContainer.innerHTML = `<p>${t('projects.noProjects')}</p>`;
             return;
         }
 
@@ -94,15 +94,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             card.innerHTML = `
                 <div class="card-info">
-                    <h5>Plan de Cultivo: ${cultivosNombres}</h5>
+                    <h5>${t('projects.cultivationPlan')} ${cultivosNombres}</h5>
                     <div class="card-info-details">
                         <p><img src="/Imagenes/user.png" class="icon"> ${fullName}</p>
                         <p><img src="/Imagenes/marker.png" class="icon"> ${project.direccionTerreno}</p>
-                        <p><img src="/Imagenes/tree-sapling.png" class="icon"> Cultivos: ${cultivosNombres}</p>
+                        <p><img src="/Imagenes/tree-sapling.png" class="icon"> ${t('projects.crops')} ${cultivosNombres}</p>
                     </div>
                 </div>
                 <div class="card-actions">
-                    <span class="btn-details">Ver Detalles</span>
+                    <span class="btn-details">${t('projects.details')}</span>
                 </div>`;
             
             projectsListContainer.appendChild(card);

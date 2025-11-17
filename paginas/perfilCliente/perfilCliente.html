@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroData - Perfil</title>
+    <title data-i18n="nav.profile">AgroData - Perfil</title>
     <link rel="stylesheet" href="perfilCliente.css">
+    <link rel="stylesheet" href="../../css/language-selector.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="successModal" class="modal-overlay hidden">
         <div class="modal-content">
             <img src="/Imagenes/check-circle.png" alt="Éxito" class="success-icon">
-            <h2>Se han guardado los cambios</h2>
+            <h2 data-i18n="profile.saved">Se han guardado los cambios</h2>
         </div>
     </div>
     <div id="logoutModal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h2>¿Seguro que desea cerrar sesión?</h2>
+            <h2 data-i18n="profile.logoutConfirm">¿Seguro que desea cerrar sesión?</h2>
             <div class="modal-actions">
-                <button id="cancelLogout" class="btn btn-danger">Cancelar</button>
-                <button id="acceptLogout" class="btn btn-primary">Aceptar</button>
+                <button id="cancelLogout" class="btn btn-danger" data-i18n="common.cancel">Cancelar</button>
+                <button id="acceptLogout" class="btn btn-primary" data-i18n="common.confirm">Aceptar</button>
             </div>
         </div>
     </div>
@@ -37,24 +38,24 @@
 
         <nav class="navbar">
             <ul>
-                <li><a href="/paginas/inicioCliente/inicioCliente.html"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
-                <li class="active"><a href="perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
-                <li><a href="/paginas/proyectoCliente/proyectoCliente.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
-                <li><a href="/paginas/talleresCliente/talleres-historial.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+                <li><a href="/paginas/inicioCliente/inicioCliente.html"><img src="/Imagenes/home.png" class="nav-icon"> <span data-i18n="nav.home">Inicio</span></a></li>
+                <li class="active"><a href="perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> <span data-i18n="nav.profile">Perfil</span></a></li>
+                <li><a href="/paginas/proyectoCliente/proyectoCliente.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> <span data-i18n="nav.projects">Proyectos</span></a></li>
+                <li><a href="/paginas/talleresCliente/talleres-historial.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> <span data-i18n="nav.workshops">Talleres</span></a></li>
             </ul>
         </nav>
 
         <main class="main-content">
             <div class="profile-container">
                 <div class="profile-header">
-                    <h4>Mi perfil</h4>
+                    <h4 data-i18n="profile.title">Mi perfil</h4>
                     
                     <div>
-                        <button id="logoutButton" class="btn btn-danger btn-logout">Cerrar Sesión</button>
-                        <button id="editButton" class="btn btn-primary">Editar</button>
+                        <button id="logoutButton" class="btn btn-danger btn-logout" data-i18n="profile.logout">Cerrar Sesión</button>
+                        <button id="editButton" class="btn btn-primary" data-i18n="common.edit">Editar</button>
                         <div id="editActions" class="hidden">
-                            <button id="saveButton" class="btn btn-primary">Guardar</button>
-                            <button id="cancelButton" class="btn btn-danger">Cancelar</button>
+                            <button id="saveButton" class="btn btn-primary" data-i18n="common.save">Guardar</button>
+                            <button id="cancelButton" class="btn btn-danger" data-i18n="common.cancel">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -65,7 +66,7 @@
                         </div>
                         <button id="uploadButton" class="btn-upload hidden">
                             <img src="/Imagenes/upload.png" alt="Subir" class="upload-icon">
-                            <span id="uploadButtonText">Subir Imagen</span>
+                            <span id="uploadButtonText" data-i18n="profile.upload">Subir Imagen</span>
                         </button>
                         <input type="file" id="imageInput" class="hidden" accept="image/*">
                     </div>
@@ -75,22 +76,22 @@
                         
                         <div class="profile-grid view-mode">
                             <div class="profile-column">
-                                <div class="info-group"><label>Correo electrónico:</label><p id="viewCorreo">ejemplocorreo@gmail.com</p></div>
+                                <div class="info-group"><label data-i18n="profile.email">Correo electrónico:</label><p id="viewCorreo">ejemplocorreo@gmail.com</p></div>
                             </div>
                             <div class="profile-column">
-                                <div class="info-group"><label>Contacto:</label><p id="viewTelefono">+52 967 000 00</p></div>
+                                <div class="info-group"><label data-i18n="profile.contact">Contacto:</label><p id="viewTelefono">+52 967 000 00</p></div>
                                 </div>
                         </div>
 
                         <div class="profile-grid edit-mode hidden">
                             <div class="profile-column">
-                                <div class="form-group"><label for="editNombre">Nombre:</label><input type="text" id="editNombre"></div>
-                                <div class="form-group"><label for="editApellidoPaterno">Apellido Paterno:</label><input type="text" id="editApellidoPaterno"></div>
-                                <div class="form-group"><label for="editApellidoMaterno">Apellido Materno:</label><input type="text" id="editApellidoMaterno"></div>
+                                <div class="form-group"><label for="editNombre" data-i18n="profile.name">Nombre:</label><input type="text" id="editNombre"></div>
+                                <div class="form-group"><label for="editApellidoPaterno" data-i18n="profile.lastName">Apellido Paterno:</label><input type="text" id="editApellidoPaterno"></div>
+                                <div class="form-group"><label for="editApellidoMaterno" data-i18n="profile.motherName">Apellido Materno:</label><input type="text" id="editApellidoMaterno"></div>
                             </div>
                             <div class="profile-column">
-                                <div class="form-group"><label for="emailInput">Correo electrónico:</label><input type="email" id="emailInput"></div>
-                                <div class="form-group"><label for="contactInput">Contacto:</label><input type="tel" id="contactInput"></div>
+                                <div class="form-group"><label for="emailInput" data-i18n="profile.email">Correo electrónico:</label><input type="email" id="emailInput"></div>
+                                <div class="form-group"><label for="contactInput" data-i18n="profile.contact">Contacto:</label><input type="tel" id="contactInput"></div>
                             </div>
                         </div>
                     </div>
@@ -98,6 +99,7 @@
             </div>
         </main>
     </div>
+    <script src="../../js/i18n.js"></script>
     <script src="../../api-url.js"></script>
     <script src="perfilCliente.js"></script>
 </body>

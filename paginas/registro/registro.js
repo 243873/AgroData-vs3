@@ -35,39 +35,37 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".error-message").forEach(p => p.textContent = "");
         let isValid = true;
         
-        if (nombre === "") { errorNombre.textContent = "El nombre es obligatorio."; isValid = false; }
-        if (ap === "") { errorApellidoPaterno.textContent = "El apellido paterno es obligatorio."; isValid = false; }
-        if (am === "") { errorApellidoMaterno.textContent = "El apellido materno es obligatorio."; isValid = false; }
+        if (nombre === "") { errorNombre.textContent = t('validation.nameRequired'); isValid = false; }
+        if (ap === "") { errorApellidoPaterno.textContent = t('validation.lastNameRequired'); isValid = false; }
+        if (am === "") { errorApellidoMaterno.textContent = t('validation.motherNameRequired'); isValid = false; }
         
         if (tel === "") {
-            errorContacto.textContent = "El número de contacto es obligatorio."; isValid = false;
+            errorContacto.textContent = t('validation.contactRequired'); isValid = false;
         } else if (!/^\d{10}$/.test(tel)) {
-            errorContacto.textContent = "El teléfono debe contener 10 dígitos."; isValid = false;
+            errorContacto.textContent = t('validation.phoneDigits'); isValid = false;
         }
         
         // Validación del correo electrónico
         if (corr === "") {
-            errorEmail.textContent = "El correo electrónico es obligatorio."; isValid = false;
+            errorEmail.textContent = t('validation.emailRequired'); isValid = false;
         } else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(corr)) {
-            errorEmail.textContent = "El correo debe ser una cuenta de Gmail (ejemplo@gmail.com)."; isValid = false;
+            errorEmail.textContent = t('validation.gmailRequired'); isValid = false;
         }
         // NOTA: La validación de si el correo ya existe se hará en el servidor (API)
         
         // Validación de contraseña
         const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&ñÑ])[A-Za-z\\d@$!%*?&ñÑ]{12,}$");
-        const passwordErrorMsg = "La contraseña debe tener al menos 12 caracteres, una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&).";
-
         if (pass === "") {
-            errorPassword.textContent = "La contraseña es obligatoria."; isValid = false;
+            errorPassword.textContent = t('validation.passwordRequired'); isValid = false;
         } else if (!passwordRegex.test(pass)) {
-            errorPassword.textContent = passwordErrorMsg; isValid = false;
+            errorPassword.textContent = t('validation.passwordRules'); isValid = false;
         }
 
         // Coincidencia de contraseñas
         if (confPass === "") {
-            errorConfirmPassword.textContent = "Debes confirmar la contraseña."; isValid = false;
+            errorConfirmPassword.textContent = t('validation.confirmPasswordRequired'); isValid = false;
         } else if (pass !== confPass) {
-            errorConfirmPassword.textContent = "Las contraseñas no coinciden."; isValid = false;
+            errorConfirmPassword.textContent = t('validation.passwordMismatch'); isValid = false;
         }
 
         return isValid;
@@ -105,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // 2. Ejecutar la llamada a la API
         submitBtn.disabled = true;
-        errorEmail.textContent = "Registrando..."; 
+        errorEmail.textContent = t('validation.registering'); 
 
         try {
             const response = await fetch(`${API_BASE_URL}/registro`, { 
@@ -120,17 +118,17 @@ document.addEventListener("DOMContentLoaded", function() {
             const responseBodyText = await response.text(); 
 
             if (response.status === 201) { // Éxito: 201 Created
-                alert("¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.");
+                alert(t('validation.accountCreated'));
                 window.location.href = "/index.html"; // Redirige a la página de login
 
             } else { // Fallo: Códigos 4xx o 5xx
                 // Muestra el mensaje exacto que devuelve la API (ej: "Este correo ya está registrado.")
-                errorEmail.textContent = responseBodyText || "Error desconocido al registrar.";
+                errorEmail.textContent = responseBodyText || t('validation.unknownError');
             }
 
         } catch (error) {
             console.error("Error de red/servidor:", error);
-            errorEmail.textContent = "Error de conexión con el servidor. Verifique que la API esté corriendo.";
+            errorEmail.textContent = t('validation.serverError');
         } finally {
             submitBtn.disabled = false;
         }

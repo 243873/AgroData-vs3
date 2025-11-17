@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroData - Inicio Cliente</title>
+    <title data-i18n="clientDashboard.title">AgroData - Inicio Cliente</title>
     <link rel="stylesheet" href="inicioCliente.css">
+    <link rel="stylesheet" href="../../css/language-selector.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -42,10 +43,10 @@
 
         <nav class="navbar">
             <ul>
-                <li class="active" id="nav-link-inicio"><a href="#"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
-                <li><a href="/paginas/perfilCliente/perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
-                <li><a href="/paginas/proyectoCliente/proyectoCliente.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
-                <li><a href="/paginas/talleresCliente/talleres-historial.html" ><img src="/Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+                <li class="active" id="nav-link-inicio"><a href="#"><img src="/Imagenes/home.png" class="nav-icon"> <span data-i18n="nav.home">Inicio</span></a></li>
+                <li><a href="/paginas/perfilCliente/perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> <span data-i18n="nav.profile">Perfil</span></a></li>
+                <li><a href="/paginas/proyectoCliente/proyectoCliente.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> <span data-i18n="nav.projects">Proyectos</span></a></li>
+                <li><a href="/paginas/talleresCliente/talleres-historial.html" ><img src="/Imagenes/wrench-alt.png" class="nav-icon"> <span data-i18n="nav.workshops">Talleres</span></a></li>
             </ul>
         </nav>
 
@@ -54,8 +55,8 @@
             <div id="initial-view">
                 <div class="content-container">
                     <div class="container-header">
-                        <h4>Notificaciones:</h4>
-                        <p>Tareas requieren tu atención</p>
+                        <h4 data-i18n="notifications.title">Notificaciones:</h4>
+                        <p data-i18n="notifications.attention">Tareas requieren tu atención</p>
                     </div>
                     <!-- LA LISTA DE NOTIFICACIONES AHORA ESTÁ VACÍA Y TIENE UN ID -->
                     <div class="notifications-list" id="notificationsList">
@@ -67,7 +68,7 @@
                     <h4>Seleccione el servicio que desea contratar:</h4>
                     <div class="service-options">
                         <div id="show-asesoria-form" class="service-card">
-                            <div class="service-button">Asesorías</div>
+                            <div class="service-button" data-i18n="requests.advisory">Asesorías</div>
                             <div class="service-content">
                                 <h5>Soluciones a la medida de tu cultivos.</h5>
                                 <p>Obtén la guía de un agrónomo experto...</p>
@@ -75,7 +76,7 @@
                             </div>
                         </div>
                         <div id="show-talleres-flow" class="service-card">
-                            <div class="service-button">Talleres/Capacitaciones</div>
+                            <div class="service-button" data-i18n="nav.workshops">Talleres/Capacitaciones</div>
                             <div class="service-content">
                                 <h5>Invierte en conocimiento, maximiza tu cosecha</h5>
                                 <p>Capacítate en temas clave como Manejo del Suelo...</p>
@@ -179,6 +180,7 @@
             </div>
         </main>
     </div>
+    <script src="../../js/i18n.js"></script>
     <script src="../../api-url.js"></script>
     <script src="inicioCliente.js"></script>
 </body>

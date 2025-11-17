@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroData - Mis Proyectos</title>
+    <title data-i18n="clientDashboard.myProjects">AgroData - Mis Proyectos</title>
     <link rel="stylesheet" href="proyectos-lista.css">
+    <link rel="stylesheet" href="../../css/language-selector.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -15,21 +16,22 @@
         </header>
         <nav class="navbar">
             <ul>
-                <li><a href="/paginas/inicioCliente/inicioCliente.html"><img src="/Imagenes/home.png" class="nav-icon"> Inicio</a></li>
-                <li><a href="/paginas/perfilCliente/perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> Perfil</a></li>
-                <li class="active"><a href="proyectos-lista.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> Proyectos</a></li>
-                <li><a href="/paginas/talleresCliente/talleres-historial.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> Talleres</a></li>
+                <li><a href="/paginas/inicioCliente/inicioCliente.html"><img src="/Imagenes/home.png" class="nav-icon"> <span data-i18n="nav.home">Inicio</span></a></li>
+                <li><a href="/paginas/perfilCliente/perfilCliente.html"><img src="/Imagenes/user.png" class="nav-icon"> <span data-i18n="nav.profile">Perfil</span></a></li>
+                <li class="active"><a href="proyectos-lista.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> <span data-i18n="nav.projects">Proyectos</span></a></li>
+                <li><a href="/paginas/talleresCliente/talleres-historial.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> <span data-i18n="nav.workshops">Talleres</span></a></li>
             </ul>
         </nav>
         <main class="main-content">
             <div class="list-container">
-                <h3>Mis Proyectos de Cultivo</h3>
+                <h3 data-i18n="clientDashboard.myProjects">Mis Proyectos de Cultivo</h3>
                 <div id="projects-list-container">
                     <!-- Las nuevas tarjetas de proyecto se generarán aquí -->
                 </div>
             </div>
         </main>
     </div>
+    <script src="../../js/i18n.js"></script>
     <script src="../../api-url.js"></script>
     <script src="proyectos-lista.js"></script>
 </body>
