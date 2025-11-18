@@ -110,7 +110,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentPlan = allPlans.find(p => p.idPlan === idPlan);
             if (!currentPlan) throw new Error("Plan no encontrado.");
 
-            currentSolicitud = await fetchWithAuth(`${API_BASE_URL}/solicitudasesoria/${idSolicitud}`);
+            try {
+                currentSolicitud = await fetchWithAuth(`${API_BASE_URL}/solicitudasesoria/${idSolicitud}`);
+            } catch (e) {
+                console.error(e)
+            }
 
             try {
                 projectEvidenceList = await fetchWithAuth(`${API_BASE_URL}/registroactividades/`);
