@@ -71,11 +71,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         tramites.forEach(s => {
             const nombreTaller = getTallerName(s.idTaller);
             let badgeClass = 'bg-pendiente'; 
-            let badgeText = 'Pendiente';
+            let badgeText = t('workshop.pending');
 
-            if(s.idEstado === ESTADOS.CONFIRMADO_ESPERA) { badgeClass = 'bg-espera'; badgeText = 'Sube Comprobante'; }
-            else if(s.idEstado === ESTADOS.EN_REVISION) { badgeClass = 'bg-revision'; badgeText = 'En Revisión'; }
-            else if(s.idEstado === ESTADOS.RECHAZADA) { badgeClass = 'bg-rechazada'; badgeText = 'Rechazada'; }
+            if(s.idEstado === ESTADOS.CONFIRMADO_ESPERA) { badgeClass = 'bg-espera'; badgeText = t('workshop.uploadReceipt'); }
+            else if(s.idEstado === ESTADOS.EN_REVISION) { badgeClass = 'bg-revision'; badgeText = t('workshop.inReview'); }
+            else if(s.idEstado === ESTADOS.RECHAZADA) { badgeClass = 'bg-rechazada'; badgeText = t('workshop.rejected'); }
 
             const fechaStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
 
@@ -88,11 +88,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div class="tramite-detail-item"><img src="/Imagenes/marker.png" class="icon"> <span>${s.direccion}</span></div>
                             <div class="tramite-detail-item"><img src="/Imagenes/calendar.png" class="icon"> <span>${fechaStr}</span></div>
                         </div>
-                        <span class="tramite-label">Talleres Solicitados:</span>
+                        <span class="tramite-label">${t('workshop.requestedWorkshops')}</span>
                         <span class="taller-pill">${nombreTaller}</span>
                     </div>
                     <div class="tramite-actions">
-                        <button class="btn-ver-detalles" data-id="${s.idSolicitudTaller}">Ver Detalles</button>
+                        <button class="btn-ver-detalles" data-id="${s.idSolicitudTaller}">${t('workshop.viewDetails')}</button>
                         <div class="status-badge-tramite ${badgeClass}">${badgeText}</div>
                     </div>
                 </div>`;
@@ -135,12 +135,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const cardHTML = `
                 <div class="workshop-card">
                     <div class="card-body">
-                        <p class="taller-label">Taller:</p>
+                        <p class="taller-label">${t('nav.workshops')}:</p>
                         <h5 class="taller-title">${nombre}</h5>
-                        <div class="info-row"><img src="/Imagenes/user.png" class="info-icon"><div><span class="info-label">Impartió:</span><p class="info-text">${impartio}</p></div></div>
-                        <div class="info-row"><img src="/Imagenes/marker.png" class="info-icon"><div><span class="info-label">Ubicación:</span><p class="info-text">${s.direccion}</p></div></div>
+                        <div class="info-row"><img src="/Imagenes/user.png" class="info-icon"><div><span class="info-label">${t('workshop.taughtBy')}</span><p class="info-text">${impartio}</p></div></div>
+                        <div class="info-row"><img src="/Imagenes/marker.png" class="info-icon"><div><span class="info-label">${t('workshop.location')}</span><p class="info-text">${s.direccion}</p></div></div>
                         <div class="expandable-content">
-                            <div class="date-info"><p class="info-text">Fecha Inicio: <br> ${fInicioStr}</p><p class="info-text" style="margin-top:5px;">Fecha Fin: <br> ${fFinStr}</p></div>
+                            <div class="date-info"><p class="info-text">${t('workshop.startDate')} <br> ${fInicioStr}</p><p class="info-text" style="margin-top:5px;">${t('workshop.endDate')} <br> ${fFinStr}</p></div>
                             ${receiptHTML}
                         </div>
                     </div>
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             toggleBtn.addEventListener('click', () => {
                 content.classList.toggle('open');
                 toggleBtn.classList.toggle('open');
-                btnText.textContent = content.classList.contains('open') ? 'Ver menos' : 'Ver más';
+                btnText.textContent = content.classList.contains('open') ? t('button.viewLess') : t('button.viewMore');
             });
             
             const link = cardEl.querySelector('.view-receipt-link');
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else if (s.idEstado === ESTADOS.EN_REVISION) {
              contentHTML = `<div style="text-align:center; padding:20px;"><p><em>Comprobante enviado. Esperando validación.</em></p><button class="btn btn-secondary view-receipt" data-url="${s.estadoPagoImagen}">Ver mi comprobante</button></div>`;
         } else {
-            contentHTML = `<p>Estado actual: ${s.idEstado === ESTADOS.PENDIENTE ? 'Pendiente' : (s.idEstado === ESTADOS.RECHAZADA ? 'Rechazada' : 'Inscrito')}</p>`;
+            contentHTML = `<p>${t('status.currentStatus')} ${s.idEstado === ESTADOS.PENDIENTE ? t('workshop.pending') : (s.idEstado === ESTADOS.RECHAZADA ? t('workshop.rejected') : t('status.enrolled'))}</p>`;
         }
 
         detailView.innerHTML = `<button class="btn" id="backToListBtn" style="margin-bottom:20px;">${t('button.back')}</button><div class="detail-card"><h3>${getTallerName(s.idTaller)}</h3><p>${t('label.location')} ${s.direccion}</p><p>${t('label.date')} ${s.fechaAplicarTaller}</p><hr style="margin:20px 0; border:0; border-top:1px solid #eee;">${contentHTML}</div>`;

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadProfileAndGreeting() {
         try {
             const res = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
-            if (res.ok) { const u = await res.json(); if(welcomeMessage) welcomeMessage.textContent = `Bienvenido, ${u.nombre}`; }
+            if (res.ok) { const u = await res.json(); if(welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${u.nombre}`; }
         } catch (e) {}
     }
 

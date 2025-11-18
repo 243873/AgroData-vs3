@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value.trim();
 
         if (!email) {
-            errorMessage.textContent = 'Por favor, ingresa tu correo.';
+            errorMessage.textContent = t('validation.emailRequired');
             return;
         }
 
         const jsonData = JSON.stringify({ email: email });
         console.log("JSON listo para enviar:", jsonData);
-        alert('Se ha enviado un correo de recuperación. Serás redirigido.');
+        alert(t('modal.requestReceived'));
         // Redirigir a la página de actualizar contraseña
         window.location.href = '/actualizar-contrasena/actualizar.html';
     });

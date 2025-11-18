@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithCors(`${API_BASE_URL}/perfil/${userId}`, { method: 'GET' });
             if (response.ok) {
                 const user = await response.json();
-                welcomeMessage.textContent = `${t('common.welcome')}, ${user.nombre}`;
+                welcomeMessage.textContent = `${t('greeting.welcome')}, ${user.nombre}`;
             } else {
-                welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
+                welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) {
-            welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`; 
+            welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`; 
         }
     }
 
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (notificationsList) {
         notificationsList.addEventListener('click', (event) => {
             const discardButton = event.target.closest('.btn-danger');
-            if (discardButton && discardButton.textContent.trim() === 'Descartar') {
+            if (discardButton && discardButton.textContent.trim() === t('notifications.discard')) {
                 const notificationItem = event.target.closest('.notification-item');
                 if (notificationItem) {
                     openConfirmationModal(notificationItem);

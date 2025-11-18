@@ -35,25 +35,25 @@
         <main class="main-content">
             <div class="historial-container">
                 <div class="workshops-nav" style="display: flex; border-bottom: 1px solid #CCC; margin-bottom: 25px;">
-                    <button class="nav-button active" data-view="solicitudes">Solicitud de talleres</button>
-                    <button class="nav-button" data-view="historial">Historial de talleres</button>
+                    <button class="nav-button active" data-view="solicitudes" data-i18n="client.requestsInProcess">Solicitud de talleres</button>
+                    <button class="nav-button" data-view="historial" data-i18n="client.workshopRegistry">Historial de talleres</button>
                 </div>
 
                 <div id="view-solicitudes">
                     <div class="container-header">
-                        <h4>Mis Solicitudes en Trámite</h4>
+                        <h4 data-i18n="client.requestsInProcess">Mis Solicitudes en Trámite</h4>
                     </div>
                     <div id="solicitudes-list-view"></div>
                 </div>
 
                 <div id="view-historial" class="hidden">
                     <div class="container-header">
-                        <h4>Registro de talleres:</h4>
+                        <h4 data-i18n="client.workshopRegistry">Registro de talleres:</h4>
                         <div class="filter-buttons">
                             <button class="btn filter-btn active" data-filter="todos" data-i18n="projects.all">Todos</button>
                             <button class="btn filter-btn" data-filter="completado" data-i18n="projects.completed">Completado</button>
-                            <button class="btn filter-btn" data-filter="en-curso">En curso</button>
-                            <button class="btn filter-btn" data-filter="proximo">Próximo</button>
+                            <button class="btn filter-btn" data-filter="en-curso" data-i18n="workshop.inProgress">En curso</button>
+                            <button class="btn filter-btn" data-filter="proximo" data-i18n="workshop.next">Próximo</button>
                         </div>
                     </div>
                     <div id="talleres-list-view"></div>

@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const mapStatusIdToDisplay = (id) => {
         switch (id) {
-            case STATUS_IDS.PENDIENTE: return { text: 'Pendiente', class: 'status-pendiente' };
-            case STATUS_IDS.ACEPTADA: return { text: 'Esperando Pago', class: 'status-aceptada' };
-            case STATUS_IDS.RECHAZADA: return { text: 'Rechazada', class: 'status-rechazada' };
-            case STATUS_IDS.COMPLETADO: return { text: 'Completado', class: 'status-completado' };
+            case STATUS_IDS.PENDIENTE: return { text: t('requests.pending'), class: 'status-pendiente' };
+            case STATUS_IDS.ACEPTADA: return { text: t('requests.approved'), class: 'status-aceptada' };
+            case STATUS_IDS.RECHAZADA: return { text: t('requests.rejected'), class: 'status-rechazada' };
+            case STATUS_IDS.COMPLETADO: return { text: t('common.completed'), class: 'status-completado' };
             case STATUS_IDS.REVISION: return { text: 'En Revisión', class: 'status-revision' };
             default: return { text: 'Desconocido', class: 'status-revision' };
         }
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
             if (response.ok) {
                 const user = await response.json();
-                if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, ${user.nombre}`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${user.nombre}`;
             }
         } catch (error) {}
     }
@@ -113,28 +113,28 @@ document.addEventListener('DOMContentLoaded', async () => {
                 tagsHTML = `<div class="summary-tags"><span>Cultivos:</span><span class="request-tag">${cultivos}</span></div>`;
                 detailsHTML = `
                     <div class="details-grid">
-                        <div class="info-group"><label>Tipo de Riego:</label><p>${solicitud.nombreRiego}</p></div>
-                        <div class="info-group"><label>Superficie (Ha):</label><p>${solicitud.superficieTotal}</p></div>
-                        <div class="info-group"><label>Usa Maquinaria:</label><p>${solicitud.usoMaquinaria ? `Sí (${solicitud.nombreMaquinaria})` : 'No'}</p></div>
-                        <div class="info-group"><label>Tiene Plaga:</label><p>${solicitud.tienePlaga ? `Sí (${solicitud.descripcionPlaga})` : 'No'}</p></div>
-                        <div class="info-group motivo-box"><label>Motivo:</label><p>${solicitud.motivoAsesoria}</p></div>
+                        <div class="info-group"><label>${t('label.irrigationType')}</label><p>${solicitud.nombreRiego}</p></div>
+                        <div class="info-group"><label>${t('label.surface')}</label><p>${solicitud.superficieTotal}</p></div>
+                        <div class="info-group"><label>${t('label.usesMachinery')}</label><p>${solicitud.usoMaquinaria ? `${t('form.yes')} (${solicitud.nombreMaquinaria})` : t('form.no')}</p></div>
+                        <div class="info-group"><label>${t('label.hasPlague')}</label><p>${solicitud.tienePlaga ? `${t('form.yes')} (${solicitud.descripcionPlaga})` : t('form.no')}</p></div>
+                        <div class="info-group motivo-box"><label>${t('label.reason')}</label><p>${solicitud.motivoAsesoria}</p></div>
                     </div>`;
             } else { 
                 // --- VISTA DETALLE TALLER ---
-                tagsHTML = `<div class="summary-tags"><span>Taller ID:</span><span class="request-tag">${solicitud.idTaller}</span></div>`;
+                tagsHTML = `<div class="summary-tags"><span>${t('label.workshopId')}</span><span class="request-tag">${solicitud.idTaller}</span></div>`;
                 detailsHTML = `
                     <div class="details-grid">
-                        <div class="info-group"><label>Fecha Aplicación:</label><p>${solicitud.fechaAplicarTaller}</p></div>
-                        <div class="info-group"><label>Comentario:</label><p>${solicitud.comentario}</p></div>
-                        <div class="info-group"><label>Estado:</label><p>${estadoDisplay.text}</p></div>
+                        <div class="info-group"><label>${t('label.applicationDate')}</label><p>${solicitud.fechaAplicarTaller}</p></div>
+                        <div class="info-group"><label>${t('label.comment')}</label><p>${solicitud.comentario}</p></div>
+                        <div class="info-group"><label>${t('label.state')}</label><p>${estadoDisplay.text}</p></div>
                     </div>`;
                 
                 // Si está en revisión, añadir botón también aquí (redundancia útil)
                 if (solicitud.idEstado === STATUS_IDS.REVISION && solicitud.estadoPagoImagen) {
-                    detailsHTML += `<div class="taller-flow-box"><p>Comprobante recibido.</p><button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}">Ver Comprobante</button></div>`;
+                    detailsHTML += `<div class="taller-flow-box"><p>${t('status.receiptReceived')}</p><button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}">${t('status.viewReceipt')}</button></div>`;
                 }
                 if(solicitud.idEstado === STATUS_IDS.ACEPTADA) {
-                    detailsHTML += `<div class="taller-flow-box"><p style="color:#17A2B8;">Esperando comprobante de pago del cliente...</p></div>`;
+                    detailsHTML += `<div class="taller-flow-box"><p style="color:#17A2B8;">${t('status.waitingPayment')}</p></div>`;
                 }
             }
             
@@ -143,23 +143,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             // CASO 1: PENDIENTE
             if (solicitud.idEstado === STATUS_IDS.PENDIENTE) {
                 actionsHTML = `
-                    <button class="btn btn-details">Ver más</button>
-                    <button class="btn btn-accept" data-id="${solicitud.id}" data-type="${solicitud.type}">Confirmar</button>
-                    <button class="btn btn-reject" data-id="${solicitud.id}" data-type="${solicitud.type}">Rechazar</button>
+                    <button class="btn btn-details">${t('button.viewMore')}</button>
+                    <button class="btn btn-accept" data-id="${solicitud.id}" data-type="${solicitud.type}">${t('button.confirm')}</button>
+                    <button class="btn btn-reject" data-id="${solicitud.id}" data-type="${solicitud.type}">${t('button.reject')}</button>
                 `;
             } 
             // CASO 2: EN REVISIÓN (Ver Pago)
             else if (solicitud.idEstado === STATUS_IDS.REVISION && solicitud.type === 'taller') {
                 actionsHTML = `
-                    <button class="btn btn-details">Ver más</button>
-                    <button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}" style="width:100%; margin-bottom:5px;">Ver Pago</button>
-                    <button class="btn btn-accept btn-validate-payment" data-id="${solicitud.id}" data-type="${solicitud.type}" style="background-color:#28a745;">Validar Inscripción</button>
-                    <button class="btn btn-reject" data-id="${solicitud.id}" data-type="${solicitud.type}">Rechazar Pago</button>
+                    <button class="btn btn-details">${t('button.viewMore')}</button>
+                    <button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}" style="width:100%; margin-bottom:5px;">${t('button.viewPayment')}</button>
+                    <button class="btn btn-accept btn-validate-payment" data-id="${solicitud.id}" data-type="${solicitud.type}" style="background-color:#28a745;">${t('button.validateInscription')}</button>
+                    <button class="btn btn-reject" data-id="${solicitud.id}" data-type="${solicitud.type}">${t('button.rejectPayment')}</button>
                 `;
             }
             // CASO 3: OTROS
             else {
-                actionsHTML = `<button class="btn btn-details">Ver más</button><button class="btn btn-status-badge ${estadoDisplay.class}" disabled>${estadoDisplay.text}</button>`;
+                actionsHTML = `<button class="btn btn-details">${t('button.viewMore')}</button><button class="btn btn-status-badge ${estadoDisplay.class}" disabled>${estadoDisplay.text}</button>`;
             }
 
             const tituloTarjeta = `Solicitud de ${solicitud.type.charAt(0).toUpperCase() + solicitud.type.slice(1)} #${solicitud.id}`;
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.target.matches('.btn-details')) {
             e.preventDefault();
             const isExpanded = card.classList.toggle('expanded');
-            e.target.textContent = isExpanded ? 'Ver menos' : 'Ver más';
+            e.target.textContent = isExpanded ? t('button.viewLess') : t('button.viewMore');
         }
 
         // Aceptar
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Validar Pago
         if (e.target.matches('.btn-validate-payment')) {
-             if(confirm("¿Confirmar recepción del pago e inscribir al usuario?")) {
+             if(confirm(t('confirm.paymentReception'))) {
                  handleStatusUpdate(solicitudId, solicitudType, STATUS_IDS.COMPLETADO);
              }
         }
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.getElementById('receiptImage').src = imgSrc; 
                 openModal(receiptModal); 
             } else {
-                alert("No se pudo cargar la imagen del comprobante.");
+                alert(t('error.loadReceiptImage'));
             }
         }
     });

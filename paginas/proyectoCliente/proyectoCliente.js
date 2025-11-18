@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function fetchUserProfile() {
         try {
             const userProfile = await fetchWithToken(`/perfil/${currentUser.id}`);
-            welcomeMessage.textContent = `${t('common.welcome')}, ${userProfile.nombre}`;
+            welcomeMessage.textContent = `${t('greeting.welcome')}, ${userProfile.nombre}`;
         } catch (error) {
-            welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.user')} (ID: ${currentUser.id})`;
+            welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.user')} (ID: ${currentUser.id})`;
         }
     }
 

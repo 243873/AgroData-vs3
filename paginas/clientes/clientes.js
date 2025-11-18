@@ -34,18 +34,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const user = await response.json();
                 if (welcomeMessage) {
                     // ✅ CORRECCIÓN 1: Saludo dinámico exitoso
-                    welcomeMessage.textContent = `Bienvenido, ${user.nombre}`;
+                    welcomeMessage.textContent = `${t('greeting.welcome')}, ${user.nombre}`;
                     authInfo.nombre = user.nombre;
                     localStorage.setItem('usuarioActual', JSON.stringify(authInfo));
                 }
             } else {
                 // ✅ CORRECCIÓN 2: Saludo por defecto si el fetch falla (status != 200)
-                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) {
             console.error('Error al cargar datos de perfil para el saludo:', error);
             // ✅ CORRECCIÓN 3: Saludo por defecto si el fetch falla (excepción)
-            if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
+            if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
         }
     }
 
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!response.ok) {
                 // Si falla, muestra un mensaje amigable, no el error crudo.
-                clientGrid.innerHTML = `<p class="error-message">${t('error.loadClientData')}</p>`;
-                clientCountElement.textContent = t('error.loadError');
+                clientGrid.innerHTML = `<p class="error-message">${t('client.loadError')}</p>`;
+                clientCountElement.textContent = t('client.loadingError');
                 return;
             }
 
@@ -120,8 +120,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             
         } catch (error) {
             console.error('Error al obtener la lista de clientes:', error);
-            clientGrid.innerHTML = `<p class="error-message">${t('error.serverConnection')}</p>`;
-            clientCountElement.textContent = t('error.loadError');
+            clientGrid.innerHTML = `<p class="error-message">${t('client.connectionError')}</p>`;
+            clientCountElement.textContent = t('client.loadingError');
         }
     }
 

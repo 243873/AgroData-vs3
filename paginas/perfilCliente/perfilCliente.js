@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA PRINCIPAL ---
 
     if (!authInfo || !authInfo.id || !authInfo.token) {
-        alert("No se ha iniciado sesión o la sesión es inválida. Redirigiendo...");
+        alert(t('validation.connectionError'));
         window.location.href = '../../index.html';
         return;
     }
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Función SÍNCRONA para poblar el DOM con un objeto de datos.
      */
     const populateDOM = (data) => {
-        welcomeMessage.textContent = `${t('common.welcome')}, ${data.nombre}`;
+        welcomeMessage.textContent = `${t('greeting.welcome')}, ${data.nombre}`;
         
         const fullName = `${data.nombre} ${data.apellidoPaterno || ''} ${data.apellidoMaterno || ''}`.trim();
         userTitleView.textContent = fullName;

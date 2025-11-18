@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="info-grid">
                 <div class="info-card"><h4 data-i18n="project.clientDetails">Detalles del Cliente</h4><p><strong data-i18n="project.name">Nombre:</strong> ${currentPlan.nombre} ${currentPlan.apellidoPaterno}</p><p><strong data-i18n="project.location">Ubicación:</strong> ${currentPlan.direccionTerreno}</p></div>
                 <div class="info-card"><h4 data-i18n="project.advisoryData">Datos de la Asesoría</h4><p><strong data-i18n="project.objective">Objetivo:</strong> ${currentPlan.motivoAsesoria}</p><p><strong data-i18n="project.agronomistObservations">Observaciones Agrónomo:</strong> ${currentPlan.observaciones || t('project.noObservations')}</p><p><strong data-i18n="project.surface">Superficie:</strong> ${currentPlan.superficieTotal} ${t('common.hectares')}</p><p><strong data-i18n="project.crops">Cultivos:</strong> ${cultivosHtml}</p><button id="edit-info-btn" class="btn btn-secondary" data-i18n="project.editObservations">Editar Observaciones</button></div>
-                <div class="info-card full-width"><h4>Información Original</h4><div class="solicitud-grid"><p><strong>Riego:</strong> ${solicitud.nombreRiego || 'N/A'}</p><p><strong>Maquinaria:</strong> ${solicitud.usoMaquinaria ? `Sí (${solicitud.nombreMaquinaria})` : 'No'}</p><p><strong>Plaga:</strong> ${solicitud.tienePlaga ? `Sí (${solicitud.descripcionPlaga})` : 'No'}</p></div></div>
+                <div class="info-card full-width"><h4>${t('project.originalInfo')}</h4><div class="solicitud-grid"><p><strong>${t('project.irrigation')}</strong> ${solicitud.nombreRiego || 'N/A'}</p><p><strong>${t('project.machinery')}</strong> ${solicitud.usoMaquinaria ? `${t('form.yes')} (${solicitud.nombreMaquinaria})` : t('form.no')}</p><p><strong>${t('project.plague')}</strong> ${solicitud.tienePlaga ? `${t('form.yes')} (${solicitud.descripcionPlaga})` : t('form.no')}</p></div></div>
             </div>`;
         document.getElementById('edit-info-btn').addEventListener('click', () => {
             document.getElementById('info-objetivo').value = currentPlan.motivoAsesoria;
@@ -170,15 +170,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderActivitiesTab() {
-        let html = `<div class="container-header"><h4>Actividades del Plan</h4><button id="add-activity-btn" class="btn btn-primary">Añadir Actividad</button></div>`;
+        let html = `<div class="container-header"><h4>${t('project.planActivities')}</h4><button id="add-activity-btn" class="btn btn-primary">${t('project.addActivity')}</button></div>`;
         if (currentPlanActivities.length === 0) html += '<p>No hay actividades generales asignadas.</p>';
         else html += currentPlanActivities.map(task => renderTaskItem(task)).join('');
         
-        html += `<div class="container-header" style="margin-top:30px;"><h4>Actividades de Reporte de Plaga</h4></div>`;
+        html += `<div class="container-header" style="margin-top:30px;"><h4>${t('project.plagueActivities')}</h4></div>`;
         if (currentPestActivities.length === 0) html += '<p>No hay actividades de plaga asignadas.</p>';
         else html += currentPestActivities.map(task => renderTaskItem(task)).join('');
 
-        html += `<div class="container-header" style="margin-top:30px;"><h4>Reportes de Plaga Recibidos</h4></div><div id="plagas-list">`;
+        html += `<div class="container-header" style="margin-top:30px;"><h4>${t('project.receivedPlagueReports')}</h4></div><div id="plagas-list">`;
         if (currentPlan.reportePlagas.length === 0) html += '<p>No hay reportes.</p>';
         else {
             html += currentPlan.reportePlagas.map(p => `
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const evidencia = projectEvidenceList.find(e => e.idTarea === task.idTarea);
         let link = evidencia && evidencia.imagen ? `<a href="#" class="view-evidence-link" data-img="${evidencia.imagen}" data-desc="${evidencia.descripcion||''}" style="display:block; font-size:12px; margin-top:5px; color:#1C6E3E; text-decoration:underline;">Ver imagen</a>` : '';
         
-        return `<div class="activity-item"><div class="activity-info"><strong>${task.nombreTarea}</strong><p>Inicia: ${task.fechaInicio||'N/A'}</p><p>Estado: <span class="${estadoClass}">${estadoNombre}</span></p>${link}<p>Vence: ${task.fechaVencimiento}</p></div><div class="activity-actions"><button class="btn btn-secondary btn-edit-task" data-task-json='${taskJson}'>Editar</button><button class="btn btn-danger btn-delete-task" data-task-id="${task.idTarea}">Eliminar</button></div></div>`;
+        return `<div class="activity-item"><div class="activity-info"><strong>${task.nombreTarea}</strong><p>${t('activity.starts')} ${task.fechaInicio||'N/A'}</p><p>${t('project.status')} <span class="${estadoClass}">${estadoNombre}</span></p>${link}<p>${t('activity.expires')} ${task.fechaVencimiento}</p></div><div class="activity-actions"><button class="btn btn-secondary btn-edit-task" data-task-json='${taskJson}'>${t('activity.edit')}</button><button class="btn btn-danger btn-delete-task" data-task-id="${task.idTarea}">${t('activity.delete')}</button></div></div>`;
     }
 
     async function loadReport() {
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     textarea.value = textVal;
                 });
             } else {
-                alert("La librería PDF se está cargando. Intente de nuevo.");
+                alert(t('alert.pdfLoading'));
             }
         });
     }
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const today = getTodayString();
 
         if (!nombreTarea || !fechaInicio || !fechaVencimiento) { alert("Todos los campos obligatorios."); return; }
-        if (fechaInicio < today || fechaVencimiento < today) { alert("Fechas no válidas."); return; }
+        if (fechaInicio < today || fechaVencimiento < today) { alert(t('alert.invalidDates')); return; }
         if (fechaVencimiento < fechaInicio) { alert("Vencimiento menor a inicio."); return; }
 
         const mode = activityModal.dataset.mode;
@@ -455,10 +455,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (btnCompleteProject) {
         btnCompleteProject.addEventListener('click', async () => {
             const nuevoEstado = currentPlan.idEstado === 5 ? 2 : 5;
-            if (confirm(`¿Confirmar acción?`)) {
+            if (confirm(t('alert.confirmAction'))) {
                 try {
                     await fetchWithAuth(`${API_BASE_URL}/planes/${idPlan}/estado/${nuevoEstado}`, { method: 'PATCH' });
-                    alert("Estado actualizado.");
+                    alert(t('alert.statusUpdated'));
                     location.reload();
                 } catch (error) { alert(`Error: ${error.message}`); }
             }
@@ -479,7 +479,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         if (e.target.matches('.btn-edit-task')) {
              const t = JSON.parse(e.target.dataset.taskJson.replace(/&apos;/g, '"'));
-             document.getElementById('activity-modal-title').textContent = "Editar actividad";
+             document.getElementById('activity-modal-title').textContent = t('activity.editActivity');
              document.getElementById('activity-name').value = t.nombreTarea;
              document.getElementById('activity-start').value = t.fechaInicio;
              document.getElementById('activity-end').value = t.fechaVencimiento;
@@ -497,11 +497,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             const btn = e.target.closest('.btn-create-task-from-report');
             reportIdToLink = parseInt(btn.dataset.reportId); 
             const plaga = currentPlan.reportePlagas.find(p => p.idReportePlaga === reportIdToLink);
-            document.getElementById('activity-modal-title').textContent = "Crear Tarea para Plaga";
+            document.getElementById('activity-modal-title').textContent = t('project.createTaskForPlague');
             document.getElementById('activity-form').reset();
             document.getElementById('activity-start').min = today;
             document.getElementById('activity-end').min = today;
-            if (plaga) document.getElementById('activity-name').value = `Revisar reporte: ${plaga.tipoPlaga}`;
+            if (plaga) document.getElementById('activity-name').value = `${t('project.reviewReport')} ${plaga.tipoPlaga}`;
             activityModal.dataset.mode = 'add';
             activityModal.dataset.editingId = '';
             activityModal.classList.remove('hidden');

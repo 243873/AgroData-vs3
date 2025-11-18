@@ -35,13 +35,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
             if (response.ok) {
                 const user = await response.json();
-                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${user.nombre}`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${user.nombre}`;
             } else {
-                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) { 
             console.error('Error al cargar saludo:', error);
-            if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
+            if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
         }
     }
 

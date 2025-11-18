@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let notificationToDiscard = null; 
 
     if (welcomeMessage && currentUser) {
-        welcomeMessage.textContent = `${t('common.welcome')}, ${currentUser.nombre || t('common.user')}`;
+        welcomeMessage.textContent = `${t('greeting.welcome')}, ${currentUser.nombre || t('common.user')}`;
     }
 
     function showView(viewToShow) {
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const riegoOptions = catalogoRiego.map(riego => `<option value="${riego.idRiego}">${riego.nombreRiego}</option>`).join('');
         const cultivosNombres = selectedCultivos.map(c => c.nombre).join(', ');
         const headerP = asesoriaFormDetailsView.querySelector('.form-header p');
-        if(headerP) headerP.innerHTML = `Paso 2 de 2: Completa los detalles de tu solicitud para: <strong>${cultivosNombres}</strong>`;
+        if(headerP) headerP.innerHTML = `${t('form.step2Details')} <strong>${cultivosNombres}</strong>`;
 
         formContentContainer.innerHTML = createSingleAsesoriaFormFields(riegoOptions);
         singleAsesoriaFormData = {
@@ -329,45 +329,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="superficie">Superficie Total (Hectáreas):</label>
-                    <input type="number" step="0.01" min="0.01" id="superficie" placeholder="Ej: 5.5" required>
+                    <label for="superficie">${t('form.surfaceTotal')}</label>
+                    <input type="number" step="0.01" min="0.01" id="superficie" placeholder="${t('form.surfaceExample')}" required>
                 </div>
                 <div class="form-group">
-                    <label for="ubicacion">Ubicación del Terreno:</label>
-                    <input type="text" id="ubicacion" placeholder="Ej: San Cristóbal, Chiapas" required>
+                    <label for="ubicacion">${t('form.terrainLocation')}</label>
+                    <input type="text" id="ubicacion" placeholder="${t('form.locationExample')}" required>
                 </div>
                 <div class="form-group">
-                    <label for="tipoRiego">Tipo de Riego:</label>
+                    <label for="tipoRiego">${t('form.irrigationType')}</label>
                     <select id="tipoRiego" required>
-                        <option value="">Seleccione...</option>
+                        <option value="">${t('form.selectOption')}</option>
                         ${riegoOptions}
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label>¿Utiliza maquinaria?</label>
+                <label>${t('form.usesMachinery')}</label>
                 <div class="options-group">
-                    <label class="option-control"><input type="radio" name="maquinaria" value="Si" required><span class="visual"></span> Sí</label>
-                    <label class="option-control"><input type="radio" name="maquinaria" value="No" checked><span class="visual"></span> No</label>
+                    <label class="option-control"><input type="radio" name="maquinaria" value="Si" required><span class="visual"></span> ${t('form.yes')}</label>
+                    <label class="option-control"><input type="radio" name="maquinaria" value="No" checked><span class="visual"></span> ${t('form.no')}</label>
                 </div>
             </div>
             <div id="maquinariaInfo" class="form-group hidden">
-                <label for="maquinariaNombre">Nombre de la maquinaria:</label>
+                <label for="maquinariaNombre">${t('form.machineryName')}</label>
                 <textarea id="maquinariaNombre"></textarea>
             </div>
             <div class="form-group">
-                <label>¿Tiene alguna plaga registrada?</label>
+                <label>${t('form.hasPlague')}</label>
                 <div class="options-group">
-                    <label class="option-control"><input type="radio" name="plaga" value="Si" required><span class="visual"></span> Sí</label>
-                    <label class="option-control"><input type="radio" name="plaga" value="No" checked><span class="visual"></span> No</label>
+                    <label class="option-control"><input type="radio" name="plaga" value="Si" required><span class="visual"></span> ${t('form.yes')}</label>
+                    <label class="option-control"><input type="radio" name="plaga" value="No" checked><span class="visual"></span> ${t('form.no')}</label>
                 </div>
             </div>
             <div id="plagaInfo" class="form-group hidden">
-                <label for="plagaDescripcion">Descripción de la plaga:</label>
+                <label for="plagaDescripcion">${t('form.plagueDescription')}</label>
                 <textarea id="plagaDescripcion"></textarea>
             </div>
             <div class="form-group full-width">
-                <label for="motivo">Motivo de la asesoría (General):</label>
+                <label for="motivo">${t('form.advisoryReason')}</label>
                 <textarea id="motivo" required></textarea>
             </div>
         `;
@@ -466,7 +466,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else {
                     const errorText = await response.text();
                     modalTitle.textContent = t('clientDash.sendRequestError');
-                    modalMessage.textContent = `Hubo un error en la API: ${errorText || response.statusText}.`;
+                    modalMessage.textContent = `${t('error.apiError')} ${errorText || response.statusText}.`;
                 }
             } catch (error) {
                 console.error('Error de red:', error);
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="taller-info">
                     <h4>${taller.nombreTaller}</h4> 
                     <p>${taller.descripcion}</p>
-                    <span>Costo: $${taller.costo ? taller.costo.toLocaleString() : 'N/A'}</span>
+                    <span>${t('form.cost')} $${taller.costo ? taller.costo.toLocaleString() : 'N/A'}</span>
                 </div>
             `;
             talleresListContainer.appendChild(wrapper);

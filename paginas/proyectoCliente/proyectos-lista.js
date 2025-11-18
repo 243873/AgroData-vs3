@@ -45,10 +45,10 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
     async function fetchUserProfile() {
         try {
             const userProfile = await fetchWithToken(`${API_BASE_URL}/perfil/${currentUser.id}`);
-            welcomeMessage.textContent = `${t('common.welcome')}, ${userProfile.nombre}`;
+            welcomeMessage.textContent = `${t('greeting.welcome')}, ${userProfile.nombre}`;
         } catch (error) {
             console.error("Error al cargar perfil:", error);
-            welcomeMessage.textContent = `${t('common.welcome')}, Usuario (ID: ${currentUser.id})`;
+            welcomeMessage.textContent = `${t('greeting.welcome')}, Usuario (ID: ${currentUser.id})`;
         }
     }
 

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA PRINCIPAL ---
 
     if (!authInfo || !authInfo.id || !authInfo.token) {
-        alert("No se ha iniciado sesión o la sesión es inválida. Redirigiendo...");
+        alert(t('validation.connectionError'));
         window.location.href = '../../index.html';
         return;
     }
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const populateDOM = (data) => {
         // ✅ CORRECCIÓN: Saludo dinámico para todas las vistas
-        welcomeMessage.textContent = `${t('common.welcome')}, ${data.nombre}`;
+        welcomeMessage.textContent = `${t('greeting.welcome')}, ${data.nombre}`;
         
         const fullName = `${data.nombre} ${data.apellidoPaterno || ''} ${data.apellidoMaterno || ''}`.trim();
         
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error en loadUserData:', error);
             // El error net::ERR_FAILED aparece aquí, indicando un fallo en el servidor.
-            alert("Error al cargar el perfil. Por favor, intente de nuevo o contacte al soporte.");
+            alert(t('validation.serverError'));
             localStorage.removeItem('usuarioActual');
             window.location.href = '../../index.html';
         }
