@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentPlanActivities = tasksForThisPlan.filter(t => !t.nombreTarea.toLowerCase().includes('plaga'));
             currentPestActivities = tasksForThisPlan.filter(t => t.nombreTarea.toLowerCase().includes('plaga'));
             renderActivitiesTab();
-        } catch (error) { actividadesView.innerHTML = `<p class="error-message">Error al cargar actividades.</p>`; }
+        } catch (error) { actividadesView.innerHTML = `<p class="error-message">${t('error.loadActivities')}</p>`; }
     }
 
     function renderActivitiesTab() {
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderReportTab(reporte) {
-        if (!reporte) { reporteView.innerHTML = '<p>No hay datos.</p>'; return; }
+        if (!reporte) { reporteView.innerHTML = `<p>${t('error.noData')}</p>`; return; }
         
         const total = reporte.totalTareas;
         // Calcular alturas de barras

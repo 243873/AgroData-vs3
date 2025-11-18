@@ -293,5 +293,83 @@
     
     "button.back": "← Back",
     "label.location": "Location:",
-    "label.date": "Date:"
+    "label.date": "Date:",
+    
+    "loading.info": "Loading information...",
+    "loading.activities": "Loading activities...",
+    "loading.report": "Loading report...",
+    "loading.general": "Loading...",
+    "loading.requests": "Loading requests...",
+    
+    "modal.requestReceived": "We have received your request. Our team will contact you soon.",
+    "modal.discardNotification": "Are you sure you want to discard this notification?",
+    
+    "step.selectCrops": "Step 1 of 2: Select the crops you need help with.",
+    "step.completeDetails": "Step 2 of 2: Complete your land and request details.",
+    "step.selectWorkshops": "Step 1 of 2: Select the workshops of your interest.",
+    "step.confirmDetails": "Step 2 of 2: Confirm your request details.",
+    
+    "service.advisoryDescription": "Get guidance from an expert agronomist...",
+    "service.workshopDescription": "Train in key topics like Soil Management...",
+    "service.costDisclaimer": "The total cost will be sent by email with more details.",
+    
+    "form.selectCrops": "Select the crop(s) (maximum 3):",
+    "form.workshopLocation": "Location where you want it to be taught:",
+    "form.objective": "Objective (Advisory Reason):",
+    "form.observations": "Observations (Agronomist):",
+    "form.images": "Images:",
+    "form.description": "Description:",
+    "form.workshopDescription": "Workshop description:",
+    
+    "button.backToSelection": "Back to Selection",
+    "button.continue": "Continue",
+    "button.saveReport": "Save Report",
+    "button.addNewWorkshop": "+ Add new workshop",
+    
+    "tab.information": "Information",
+    "tab.projectInfo": "Project information",
+    
+    "filter.next": "Next",
+    
+    "placeholder.activityComment": "Add a comment about the activity...",
+    "placeholder.plagueDescription": "Describe the plague and its location...",
+    "placeholder.locationState": "City, State",
+    "placeholder.optional": "Optional",
+    
+    "crop.potato": "Potato",
+    "crop.chayote": "Chayote",
+    "crop.pumpkin": "Pumpkin",
+    
+    "error.loadNotifications": "Error loading notifications.",
+    "error.loadProjects": "Error loading projects.",
+    "error.loadActivities": "Error loading activities.",
+    "error.noData": "No data available.",
+    "error.noPendingRequests": "No pending requests.",
+    
+    "label.evidence": "Evidence (Image):",
+    "label.comment": "Comment:",
+    "label.reportDate": "Report date:",
+    "label.plagueType": "Plague type:",
+    "label.desiredDate": "Desired date for workshop:",
+    "label.additionalComments": "Additional comments:",
+    
+    "button.saveActivity": "Save",
+    "button.continueToForm": "Continue",
+    "button.cancelFlow": "Cancel",
+    "button.backToTallerSelection": "Back",
+    "button.continueToTaller": "Continue",
+    "button.cancelTaller": "Cancel",
+    "button.cancelDelete": "Cancel",
+    "button.deleteWorkshop": "Delete",
+    "button.saveWorkshop": "Save",
+    "button.cancelWorkshop": "Cancel",
+    "button.cancelEdit": "Cancel",
+    "button.cancelPlague": "Cancel",
+    "button.cancelDiscard": "Cancel",
+    
+    "h2.loadingProject": "Loading project...",
+    "h2.deleteElement": "Are you sure you want to delete this element?",
+    "h2.deleteActivity": "Are you sure you want to delete this activity?",
+    
+    "placeholder.plagueExample": "Ex: Potato Moth"
 }

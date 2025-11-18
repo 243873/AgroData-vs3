@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error('Error al obtener la lista de proyectos:', error);
-            projectsListContainer.innerHTML = `<p class="error-message">Error al cargar proyectos.</p>`;
+            projectsListContainer.innerHTML = `<p class="error-message">${t('error.loadProjects')}</p>`;
         }
     }
 

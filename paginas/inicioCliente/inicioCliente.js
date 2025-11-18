@@ -96,9 +96,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             let textoTipo = 'Notificación';
 
             switch (tipo) {
-                case 'asesoria': textoTipo = 'Asesoría'; break;
-                case 'taller': textoTipo = 'Taller'; break;
-                case 'tarea': textoTipo = 'Tarea'; break;
+                case 'asesoria': textoTipo = t('service.advisory'); break;
+                case 'taller': textoTipo = t('service.workshop'); break;
+                case 'tarea': textoTipo = t('service.task'); break;
+                default: textoTipo = t('common.notification'); break;
             }
 
             const item = document.createElement('div');
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             item.innerHTML = `
                 <div class="notification-text">
-                    ¡Tu <strong>${textoTipo}</strong> ${t('clientDash.notificationChanged')} <strong>${estado}</strong>!
+                    ${t('clientDash.notificationPrefix')} <strong>${textoTipo}</strong> ${t('clientDash.notificationChanged')} <strong>${estado}</strong>!
                 </div>
                 <div class="notification-actions">
                     <button class="btn btn-primary btn-goto" data-type="${tipo}" data-id="${id}">${t('clientDash.goToRequests')}</button>
@@ -198,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let notificationToDiscard = null; 
 
     if (welcomeMessage && currentUser) {
-        welcomeMessage.textContent = `Bienvenido, ${currentUser.nombre || 'Usuario'}`;
+        welcomeMessage.textContent = `${t('common.welcome')}, ${currentUser.nombre || t('common.user')}`;
     }
 
     function showView(viewToShow) {

@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- FETCH DATOS ---
     async function fetchSolicitudes() {
-        requestListContainer.innerHTML = '<p class="loading-message">Cargando solicitudes...</p>';
+        requestListContainer.innerHTML = `<p class="loading-message">${t('loading.requests')}</p>`;
         try {
             const response = await fetch(`${API_BASE_URL}/solicitudesTallerAsesoria`, { method: 'GET', headers: { 'Authorization': `Bearer ${authToken}` } });
             if (!response.ok) throw new Error(`Error ${response.status}`);
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             allSolicitudes = [...asesorias, ...talleres];
             renderSolicitudes();
         } catch (error) {
-            requestListContainer.innerHTML = `<p class="error-message">Error: ${error.message}</p>`;
+            requestListContainer.innerHTML = `<p class="error-message">${t('common.error')}: ${error.message}</p>`;
         }
     }
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (filterType !== 'all') filtered = allSolicitudes.filter(s => s.type === filterType);
 
         if (filtered.length === 0) {
-            requestListContainer.innerHTML = `<p>No hay solicitudes pendientes.</p>`;
+            requestListContainer.innerHTML = `<p>${t('error.noPendingRequests')}</p>`;
             return;
         }
 

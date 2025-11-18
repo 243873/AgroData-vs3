@@ -293,5 +293,83 @@
     
     "button.back": "← Volver",
     "label.location": "Ubicación:",
-    "label.date": "Fecha:"
+    "label.date": "Fecha:",
+    
+    "loading.info": "Cargando información...",
+    "loading.activities": "Cargando actividades...",
+    "loading.report": "Cargando reporte...",
+    "loading.general": "Cargando...",
+    "loading.requests": "Cargando solicitudes...",
+    
+    "modal.requestReceived": "Hemos recibido tu solicitud. Nuestro equipo se pondrá en contacto contigo pronto.",
+    "modal.discardNotification": "¿Estás seguro de que deseas descartar esta notificación?",
+    
+    "step.selectCrops": "Paso 1 de 2: Selecciona los cultivos para los que necesitas ayuda.",
+    "step.completeDetails": "Paso 2 de 2: Completa los detalles de tu terreno y solicitud.",
+    "step.selectWorkshops": "Paso 1 de 2: Selecciona los talleres de tu interés.",
+    "step.confirmDetails": "Paso 2 de 2: Confirma los detalles de tu solicitud.",
+    
+    "service.advisoryDescription": "Obtén la guía de un agrónomo experto...",
+    "service.workshopDescription": "Capacítate en temas clave como Manejo del Suelo...",
+    "service.costDisclaimer": "El costo total se enviará por correo con más detalles.",
+    
+    "form.selectCrops": "Seleccione el/los cultivo(s) (máximo 3):",
+    "form.workshopLocation": "Ubicación donde se desea impartir:",
+    "form.objective": "Objetivo (Motivo Asesoría):",
+    "form.observations": "Observaciones (Agrónomo):",
+    "form.images": "Imágenes:",
+    "form.description": "Descripción:",
+    "form.workshopDescription": "Descripción del taller:",
+    
+    "button.backToSelection": "Regresar a Selección",
+    "button.continue": "Continuar",
+    "button.saveReport": "Guardar Reporte",
+    "button.addNewWorkshop": "+ Agregar nuevo taller",
+    
+    "tab.information": "Información",
+    "tab.projectInfo": "Información del proyecto",
+    
+    "filter.next": "Próximo",
+    
+    "placeholder.activityComment": "Añade un comentario sobre la actividad...",
+    "placeholder.plagueDescription": "Describe la plaga y su ubicación...",
+    "placeholder.locationState": "Localidad, Estado",
+    "placeholder.optional": "Opcional",
+    
+    "crop.potato": "Papa",
+    "crop.chayote": "Chayote",
+    "crop.pumpkin": "Calabaza",
+    
+    "error.loadNotifications": "Error al cargar las notificaciones.",
+    "error.loadProjects": "Error al cargar proyectos.",
+    "error.loadActivities": "Error al cargar actividades.",
+    "error.noData": "No hay datos.",
+    "error.noPendingRequests": "No hay solicitudes pendientes.",
+    
+    "label.evidence": "Evidencia (Imagen):",
+    "label.comment": "Comentario:",
+    "label.reportDate": "Fecha de reporte:",
+    "label.plagueType": "Tipo de plaga:",
+    "label.desiredDate": "Fecha deseada para el taller:",
+    "label.additionalComments": "Comentarios adicionales:",
+    
+    "button.saveActivity": "Guardar",
+    "button.continueToForm": "Continuar",
+    "button.cancelFlow": "Cancelar",
+    "button.backToTallerSelection": "Regresar",
+    "button.continueToTaller": "Continuar",
+    "button.cancelTaller": "Cancelar",
+    "button.cancelDelete": "Cancelar",
+    "button.deleteWorkshop": "Eliminar",
+    "button.saveWorkshop": "Guardar",
+    "button.cancelWorkshop": "Cancelar",
+    "button.cancelEdit": "Cancelar",
+    "button.cancelPlague": "Cancelar",
+    "button.cancelDiscard": "Cancelar",
+    
+    "h2.loadingProject": "Cargando proyecto...",
+    "h2.deleteElement": "¿Seguro que desea eliminar este elemento?",
+    "h2.deleteActivity": "¿Seguro que desea eliminar esta actividad?",
+    
+    "placeholder.plagueExample": "Ej: Polilla de la Papa"
 }

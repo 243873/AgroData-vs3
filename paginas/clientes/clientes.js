@@ -40,12 +40,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             } else {
                 // ✅ CORRECCIÓN 2: Saludo por defecto si el fetch falla (status != 200)
-                if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, Agrónomo`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) {
             console.error('Error al cargar datos de perfil para el saludo:', error);
             // ✅ CORRECCIÓN 3: Saludo por defecto si el fetch falla (excepción)
-            if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, Agrónomo`;
+            if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
         }
     }
 
@@ -84,10 +84,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p><img src="/Imagenes/phone-flip.png" class="info-icon"> ${cliente.telefono}</p>
                 </div>
                 <div class="more-details">
-                    <p><strong>Cultivos registrados:</strong></p>
+                    <p><strong data-i18n="clients.registeredCrops">Cultivos registrados:</strong></p>
                     <div class="cultivos-list">${cultivosHtml}</div>
-                    <p><strong>Total de áreas:</strong> ${areaDisplay} Hectáreas</p>
-                    ${cliente.direcciones && cliente.direcciones.includes('\n') ? `<p class="direccion-completa hidden"><strong>Direcciones completas:</strong><br>${cliente.direcciones.replace(/\n/g, '<br>')}</p>` : ''}
+                    <p><strong data-i18n="clients.totalAreas">Total de áreas:</strong> ${areaDisplay} ${t('common.hectares')}</p>
+                    ${cliente.direcciones && cliente.direcciones.includes('\n') ? `<p class="direccion-completa hidden"><strong data-i18n="clients.completeAddresses">Direcciones completas:</strong><br>${cliente.direcciones.replace(/\n/g, '<br>')}</p>` : ''}
                 </div>
                 <div class="toggle-details">
                     <img src="/Imagenes/angle-small-down.png" class="toggle-icon">
@@ -102,16 +102,16 @@ document.addEventListener('DOMContentLoaded', async () => {
      * Llama a la API para obtener la lista de clientes.
      */
     async function fetchClientes() {
-        clientGrid.innerHTML = '<p class="loading-message">Cargando datos de clientes...</p>';
-        clientCountElement.textContent = 'Cargando...';
+        clientGrid.innerHTML = `<p class="loading-message">${t('clients.loading')}</p>`;
+        clientCountElement.textContent = t('common.loading');
 
         try {
             const response = await fetchWithAuth(`${API_BASE_URL}/informacionGeneral`, { method: 'GET' });
 
             if (!response.ok) {
                 // Si falla, muestra un mensaje amigable, no el error crudo.
-                clientGrid.innerHTML = `<p class="error-message">No se pudieron cargar los datos de clientes.</p>`;
-                clientCountElement.textContent = 'Error de carga';
+                clientGrid.innerHTML = `<p class="error-message">${t('error.loadClientData')}</p>`;
+                clientCountElement.textContent = t('error.loadError');
                 return;
             }
 
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {
             console.error('Error al obtener la lista de clientes:', error);
             clientGrid.innerHTML = `<p class="error-message">${t('error.serverConnection')}</p>`;
-            clientCountElement.textContent = 'Error de carga';
+            clientCountElement.textContent = t('error.loadError');
         }
     }
 
@@ -138,10 +138,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             card.classList.toggle('open');
             if (card.classList.contains('open')) {
-                toggleText.textContent = 'Ver menos';
+                toggleText.textContent = t('common.showLess');
                 if(direccionCompleta) direccionCompleta.classList.remove('hidden');
             } else {
-                toggleText.textContent = 'Ver más';
+                toggleText.textContent = t('common.showMore');
                 if(direccionCompleta) direccionCompleta.classList.add('hidden');
             }
         }

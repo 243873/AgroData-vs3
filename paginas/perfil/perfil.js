@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const populateDOM = (data) => {
         // ✅ CORRECCIÓN: Saludo dinámico para todas las vistas
-        welcomeMessage.textContent = `Bienvenido, ${data.nombre}`;
+        welcomeMessage.textContent = `${t('common.welcome')}, ${data.nombre}`;
         
         const fullName = `${data.nombre} ${data.apellidoPaterno || ''} ${data.apellidoMaterno || ''}`.trim();
         

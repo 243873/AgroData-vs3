@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Función SÍNCRONA para poblar el DOM con un objeto de datos.
      */
     const populateDOM = (data) => {
-        welcomeMessage.textContent = `Bienvenido, ${data.nombre}`;
+        welcomeMessage.textContent = `${t('common.welcome')}, ${data.nombre}`;
         
         const fullName = `${data.nombre} ${data.apellidoPaterno || ''} ${data.apellidoMaterno || ''}`.trim();
         userTitleView.textContent = fullName;

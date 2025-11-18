@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function fetchUserProfile() {
         try {
             const userProfile = await fetchWithToken(`/perfil/${currentUser.id}`);
-            welcomeMessage.textContent = `Bienvenido, ${userProfile.nombre}`;
+            welcomeMessage.textContent = `${t('common.welcome')}, ${userProfile.nombre}`;
         } catch (error) {
-            welcomeMessage.textContent = `Bienvenido, Usuario (ID: ${currentUser.id})`;
+            welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.user')} (ID: ${currentUser.id})`;
         }
     }
 
@@ -131,14 +131,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const cultivosHtml = currentProject.cultivoPorSolicitud.map(c => `<span class="tag">${c.nombreCultivo}</span>`).join('');
         infoView.innerHTML = `
             <div class="info-grid">
-                <div class="info-card"><h4>Detalles</h4><p><strong>Nombre:</strong> ${currentProject.nombre}</p><p><strong>Ubicación:</strong> ${currentProject.direccionTerreno}</p></div>
-                <div class="info-card"><h4>Datos Asesoría</h4><p><strong>Objetivo:</strong> ${currentProject.motivoAsesoria}</p><p><strong>Observaciones:</strong> ${currentProject.observaciones || 'Ninguna'}</p><p><strong>Cultivos:</strong> ${cultivosHtml}</p></div>
-                <div class="info-card full-width" id="report-plaga-card"><h4>Reportar Problema</h4><p>¿Detectaste una plaga?</p><button id="add-plaga-btn-info" class="btn btn-danger" style="width:100%;">Registrar Reporte de Plaga</button></div>
+                <div class="info-card"><h4 data-i18n="project.details">Detalles</h4><p><strong data-i18n="project.name">Nombre:</strong> ${currentProject.nombre}</p><p><strong data-i18n="project.location">Ubicación:</strong> ${currentProject.direccionTerreno}</p></div>
+                <div class="info-card"><h4 data-i18n="project.advisoryData">Datos Asesoría</h4><p><strong data-i18n="project.objective">Objetivo:</strong> ${currentProject.motivoAsesoria}</p><p><strong data-i18n="project.observations">Observaciones:</strong> ${currentProject.observaciones || t('common.none')}</p><p><strong data-i18n="project.crops">Cultivos:</strong> ${cultivosHtml}</p></div>
+                <div class="info-card full-width" id="report-plaga-card"><h4 data-i18n="project.reportProblem">Reportar Problema</h4><p data-i18n="project.detectPlague">¿Detectaste una plaga?</p><button id="add-plaga-btn-info" class="btn btn-danger" style="width:100%;" data-i18n="project.registerPlagueReport">Registrar Reporte de Plaga</button></div>
             </div>`;
     }
 
     function renderActividadesPane() {
-        let actividadesHTML = `<div class="container-header"><h4>Actividades del Plan</h4></div>`;
+        let actividadesHTML = `<div class="container-header"><h4 data-i18n="project.planActivities">Actividades del Plan</h4></div>`;
         
         if (projectTasks && projectTasks.length > 0) {
             actividadesHTML += projectTasks.map(act => {
@@ -151,13 +151,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let evidenceLink = '';
 
                 if (act.idEstado === 1) { 
-                    buttonHtml = `<button class="btn btn-primary btn-edit" data-id="${act.idTarea}">Registrar Evidencia</button>`;
+                    buttonHtml = `<button class="btn btn-primary btn-edit" data-id="${act.idTarea}" data-i18n="project.registerEvidence">Registrar Evidencia</button>`;
                 } else if (act.idEstado === 2) { 
-                    buttonHtml = `<button class="btn btn-primary" style="background-color: #28a745; border-color: #28a745;" disabled>Completada</button>`;
+                    buttonHtml = `<button class="btn btn-primary" style="background-color: #28a745; border-color: #28a745;" disabled data-i18n="project.completed">Completada</button>`;
                     
                     // ★ NUEVO: Si está completada y tiene evidencia, mostrar enlace ★
                     if (evidencia && evidencia.imagen) {
-                        evidenceLink = `<br><a href="#" class="view-plaga-image" style="display:inline-block; margin-top:5px; color:#1C6E3E; font-weight:600;" data-url="${evidencia.imagen}">Ver imagen</a>`;
+                        evidenceLink = `<br><a href="#" class="view-plaga-image" style="display:inline-block; margin-top:5px; color:#1C6E3E; font-weight:600;" data-url="${evidencia.imagen}" data-i18n="project.viewImage">Ver imagen</a>`;
                     }
                 }
 
@@ -165,9 +165,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="activity-item"> 
                         <div class="activity-info">
                             <strong>${act.nombreTarea}</strong>
-                            <p>Inicia: ${act.fechaInicio || 'N/A'}</p>
-                            <p>Estado: <span class="${estadoClass}">${estadoNombre}</span></p>
-                            <p>Vence: ${act.fechaVencimiento}</p>
+                            <p><span data-i18n="project.starts">Inicia:</span> ${act.fechaInicio || 'N/A'}</p>
+                            <p><span data-i18n="project.status">Estado:</span> <span class="${estadoClass}">${estadoNombre}</span></p>
+                            <p><span data-i18n="project.expires">Vence:</span> ${act.fechaVencimiento}</p>
                         </div>
                         <div class="activity-actions" style="flex-direction:column; align-items:flex-end;">
                             ${buttonHtml}
@@ -176,18 +176,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
             }).join('');
         } else {
-            actividadesHTML += '<p>Aún no hay actividades.</p>';
+            actividadesHTML += `<p data-i18n="project.noActivities">Aún no hay actividades.</p>`;
         }
 
         actividadesHTML += `
-            <div class="container-header" style="margin-top: 30px;"><h4>Historial de Reportes de Plaga</h4></div>
+            <div class="container-header" style="margin-top: 30px;"><h4 data-i18n="project.plagueReportsHistory">Historial de Reportes de Plaga</h4></div>
             <div id="plagas-list">
-                ${currentProject.reportePlagas.length === 0 ? '<p>No hay reportes.</p>' : 
+                ${currentProject.reportePlagas.length === 0 ? `<p data-i18n="project.noReports">No hay reportes.</p>` : 
                     currentProject.reportePlagas.map(plaga => `
                         <div class="plaga-item">
                             <p><strong>${plaga.tipoPlaga}</strong>: ${plaga.descripcion}</p>
-                            <p>Fecha: ${new Date(plaga.fechaReporte).toLocaleDateString()}</p>
-                            ${plaga.imagen ? `<button class="btn btn-secondary btn-sm view-plaga-image" data-url="${plaga.imagen}">Ver Imagen</button>` : ''}
+                            <p><span data-i18n="project.date">Fecha:</span> ${new Date(plaga.fechaReporte).toLocaleDateString()}</p>
+                            ${plaga.imagen ? `<button class="btn btn-secondary btn-sm view-plaga-image" data-url="${plaga.imagen}" data-i18n="project.viewImage">Ver Imagen</button>` : ''}
                         </div>
                     `).join('')
                 }

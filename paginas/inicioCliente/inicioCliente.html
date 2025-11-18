@@ -13,7 +13,7 @@
     <div id="successModal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 id="modalTitle" data-i18n="modal.requestSent">¡Solicitud enviada!</h3>
-            <p id="modalMessage">Hemos recibido tu solicitud. Nuestro equipo se pondrá en contacto contigo pronto.</p>
+            <p id="modalMessage" data-i18n="modal.requestReceived">Hemos recibido tu solicitud. Nuestro equipo se pondrá en contacto contigo pronto.</p>
             <button id="modalAceptar" class="btn btn-primary" data-i18n="modal.accept">Aceptar</button>
         </div>
     </div>
@@ -22,10 +22,10 @@
     <div id="confirmationModal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 data-i18n="modal.confirmAction">Confirmar Acción</h3>
-            <p>¿Estás seguro de que deseas descartar esta notificación?</p>
+            <p data-i18n="modal.discardNotification">¿Estás seguro de que deseas descartar esta notificación?</p>
             <div class="modal-actions">
-                <button id="cancelDiscard" class="btn btn-secondary">Cancelar</button>
-                <button id="confirmDiscard" class="btn btn-danger">Descartar</button>
+                <button id="cancelDiscard" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button>
+                <button id="confirmDiscard" class="btn btn-danger" data-i18n="notifications.discard">Descartar</button>
             </div>
         </div>
     </div>
@@ -70,16 +70,16 @@
                         <div id="show-asesoria-form" class="service-card">
                             <div class="service-button" data-i18n="requests.advisory">Asesorías</div>
                             <div class="service-content">
-                                <h5>Soluciones a la medida de tu cultivos.</h5>
-                                <p>Obtén la guía de un agrónomo experto...</p>
+                                <h5 data-i18n="service.customSolutions">Soluciones a la medida de tu cultivos.</h5>
+                                <p data-i18n="service.advisoryDescription">Obtén la guía de un agrónomo experto...</p>
                                 <img src="/Imagenes/agro.jpg" alt="Asesorías">
                             </div>
                         </div>
                         <div id="show-talleres-flow" class="service-card">
                             <div class="service-button" data-i18n="nav.workshops">Talleres/Capacitaciones</div>
                             <div class="service-content">
-                                <h5>Invierte en conocimiento, maximiza tu cosecha</h5>
-                                <p>Capacítate en temas clave como Manejo del Suelo...</p>
+                                <h5 data-i18n="service.investKnowledge">Invierte en conocimiento, maximiza tu cosecha</h5>
+                                <p data-i18n="service.workshopDescription">Capacítate en temas clave como Manejo del Suelo...</p>
                                 <img src="/Imagenes/AgroTaller.jpg" alt="Talleres">
                             </div>
                         </div>
@@ -92,10 +92,10 @@
                 <div class="asesoria-selection-view">
                     <div class="form-header">
                         <h4 data-i18n="service.advisoryRequest">Solicitud de Asesoría</h4>
-                        <p>Paso 1 de 2: Selecciona los cultivos para los que necesitas ayuda.</p>
+                        <p data-i18n="step.selectCrops">Paso 1 de 2: Selecciona los cultivos para los que necesitas ayuda.</p>
                     </div>
                     <div class="form-group">
-                        <label>Seleccione el/los cultivo(s) (máximo 3):</label>
+                        <label data-i18n="service.selectCrops">Seleccione el/los cultivo(s) (máximo 3):</label>
                         <div class="options-group">
                             <label class="option-control"><input type="checkbox" name="cultivo-select" value="Papa"><span class="visual"></span> Papa</label>
                             <label class="option-control"><input type="checkbox" name="cultivo-select" value="Chayote"><span class="visual"></span> Chayote</label>
@@ -103,15 +103,15 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="button" class="btn btn-secondary cancel-flow">Cancelar</button>
-                        <button type="button" class="btn btn-submit continue-to-form">Continuar</button>
+                        <button type="button" class="btn btn-secondary cancel-flow" data-i18n="common.cancel">Cancelar</button>
+                        <button type="button" class="btn btn-submit continue-to-form" data-i18n="common.continue">Continuar</button>
                     </div>
                 </div>
 
                 <div class="asesoria-form-details-view hidden">
                     <div class="form-header">
                         <h4 data-i18n="service.advisoryRequest">Solicitud de Asesoría</h4>
-                        <p>Paso 2 de 2: Completa los detalles de tu terreno y solicitud.</p>
+                        <p data-i18n="step.completeDetails">Paso 2 de 2: Completa los detalles de tu terreno y solicitud.</p>
                     </div>
                     
                     <form class="asesoriaForm" novalidate>
@@ -119,7 +119,7 @@
                             </div>
                         
                         <div class="form-actions">
-                            <button type="button" class="btn btn-secondary back-to-selection">Regresar a Selección</button>
+                            <button type="button" class="btn btn-secondary back-to-selection" data-i18n="common.backToSelection">Regresar a Selección</button>
                             <button type="submit" class="btn btn-submit">Enviar Solicitud</button>
                         </div>
                     </form>
@@ -133,14 +133,14 @@
                 <div id="taller-selection-view">
                     <div class="form-header">
                         <h4 data-i18n="service.workshopRequest">Solicitud de Taller</h4>
-                        <p>Paso 1 de 2: Selecciona los talleres de tu interés.</p>
+                        <p data-i18n="step.selectWorkshops">Paso 1 de 2: Selecciona los talleres de tu interés.</p>
                     </div>
                     <div id="talleres-list-container">
                         <!-- Generado con JS -->
                     </div>
                     <div class="form-actions">
-                        <button type="button" id="btnCancelTaller" class="btn btn-secondary">Cancelar</button>
-                        <button type="button" id="continueToTallerFormBtn" class="btn btn-submit">Continuar</button>
+                        <button type="button" id="btnCancelTaller" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button>
+                        <button type="button" id="continueToTallerFormBtn" class="btn btn-submit" data-i18n="common.continue">Continuar</button>
                     </div>
                 </div>
 
@@ -148,31 +148,31 @@
                 <div id="taller-form-view" class="hidden">
                     <div class="form-header">
                         <h4 data-i18n="service.workshopRequest">Solicitud de Taller</h4>
-                        <p>Paso 2 de 2: Confirma los detalles de tu solicitud.</p>
+                        <p data-i18n="step.confirmDetails">Paso 2 de 2: Confirma los detalles de tu solicitud.</p>
                     </div>
                     <form id="tallerSolicitudForm" novalidate>
                         <div id="seleccion-resumen">
-                            <p><strong>Has seleccionado los talleres:</strong></p>
+                            <p><strong data-i18n="service.selectedWorkshops">Has seleccionado los talleres:</strong></p>
                             <div id="talleres-seleccionados-lista"></div>
-                            <p class="disclaimer">El costo total se enviará por correo con más detalles.</p>
+                            <p class="disclaimer" data-i18n="service.costDisclaimer">El costo total se enviará por correo con más detalles.</p>
                             <h4 id="montoTotal" data-i18n="service.totalAmount">Monto Total: $0</h4>
                         </div>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="fecha">Fecha deseada para el taller:</label>
+                                <label for="fecha" data-i18n="service.desiredDate">Fecha deseada para el taller:</label>
                                 <input type="date" id="fecha" required>
                             </div>
                             <div class="form-group">
-                                <label for="ubicacion">Ubicación donde se desea impartir:</label>
-                                <input type="text" id="ubicacion" placeholder="Localidad, Estado" required>
+                                <label for="ubicacion" data-i18n="service.location">Ubicación donde se desea impartir:</label>
+                                <input type="text" id="ubicacion" data-i18n="placeholder.locationState" placeholder="Localidad, Estado" required>
                             </div>
                             <div class="form-group full-width">
-                                <label for="comentarios">Comentarios adicionales:</label>
-                                <textarea id="comentarios" placeholder="Opcional"></textarea>
+                                <label for="comentarios" data-i18n="service.additionalComments">Comentarios adicionales:</label>
+                                <textarea id="comentarios" data-i18n="placeholder.optional" placeholder="Opcional"></textarea>
                             </div>
                         </div>
                         <div class="form-actions">
-                            <button type="button" id="btnBackToTallerSelection" class="btn btn-secondary">Regresar</button>
+                            <button type="button" id="btnBackToTallerSelection" class="btn btn-secondary" data-i18n="common.back">Regresar</button>
                             <button type="submit" class="btn btn-submit">Enviar Solicitud</button>
                         </div>
                     </form>

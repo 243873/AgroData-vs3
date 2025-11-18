@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const user = await response.json();
                 welcomeMessage.textContent = `${t('common.welcome')}, ${user.nombre}`;
             } else {
-                welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`;
+                welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) {
-            welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`; 
+            welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`; 
         }
     }
 
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error('Error al cargar notificaciones:', error);
-            notificationsList.innerHTML = `<p style="text-align: center; color: red;">Error al cargar las notificaciones.</p>`;
+            notificationsList.innerHTML = `<p style="text-align: center; color: red;">${t('error.loadNotifications')}</p>`;
             emptyView.style.display = 'none';
         }
     }
@@ -144,20 +144,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     break;
                 case 'tarea':
                     // Cambio 2: Usamos el ID del Plan en lugar del ID de la tarea
-                    const planText = infoExtra ? `del Plan de Cultivo #${infoExtra}` : `(ID: ${id})`;
+                    const planText = infoExtra ? `${t('notifications.cultivationPlan')} #${infoExtra}` : `(ID: ${id})`;
                     
                     if (estado.toLowerCase() === 'completada') {
-                        texto = `Una Tarea ${planText} fue marcada como 'Completada' y requiere tu revisión.`;
+                        texto = `${t('notifications.taskCompleted')} ${planText} ${t('notifications.requiresReview')}.`;
                     } else if (estado.toLowerCase() === 'pendiente') {
-                        texto = `Una Tarea ${planText} está 'Pendiente' de ser completada.`;
+                        texto = `${t('notifications.taskPending')} ${planText} ${t('notifications.pendingCompletion')}.`;
                     } else {
-                        texto = `Una Tarea ${planText} tiene un nuevo estado: '${estado}'.`;
+                        texto = `${t('notifications.taskNewStatus')} ${planText} ${t('notifications.hasNewStatus')}: '${estado}'.`;
                     }
                     link = '/paginas/proyectos/proyectos.html'; 
                     linkText = t('notifications.goToProjects');
                     break;
                 default:
-                    texto = `Notificación con estado: ${estado}.`;
+                    texto = `${t('common.notification')} ${t('notifications.withStatus')}: ${estado}.`;
             }
 
             const item = document.createElement('div');

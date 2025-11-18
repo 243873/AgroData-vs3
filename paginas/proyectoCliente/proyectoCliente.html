@@ -13,7 +13,7 @@
         <div class="modal-content">
             <h3 id="modal-activity-title"></h3>
             <div class="form-group">
-                <label>Evidencia (Imagen):</label>
+                <label data-i18n="label.evidence">Evidencia (Imagen):</label>
                 <div id="image-preview-container" class="hidden">
                     <img id="image-preview" src="" alt="Vista previa">
                 </div>
@@ -21,12 +21,12 @@
                 <button id="upload-image-button" class="btn btn-upload">Subir / Cambiar Imagen</button>
             </div>
             <div class="form-group">
-                <label for="activity-comment">Comentario:</label>
+                <label for="activity-comment" data-i18n="label.comment">Comentario:</label>
                 <textarea id="activity-comment" placeholder="Añade un comentario sobre la actividad..."></textarea>
             </div>
             <div class="modal-actions">
-                <button id="cancel-edit-btn" class="btn btn-danger">Cancelar</button>
-                <button id="save-activity-btn" class="btn btn-primary">Guardar</button>
+                <button id="cancel-edit-btn" class="btn btn-danger" data-i18n="button.cancelEdit">Cancelar</button>
+                <button id="save-activity-btn" class="btn btn-primary" data-i18n="button.saveActivity">Guardar</button>
             </div>
         </div>
     </div>
@@ -42,8 +42,8 @@
     <div id="plaga-report-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3>Reporte de Plaga</h3>
-            <div class="form-group"><label for="plaga-fecha">Fecha de reporte:</label><input type="date" id="plaga-fecha"></div>
-            <div class="form-group"><label for="plaga-tipo">Tipo de plaga:</label><input type="text" id="plaga-tipo" placeholder="Ej: Polilla de la Papa"></div>
+            <div class="form-group"><label for="plaga-fecha" data-i18n="label.reportDate">Fecha de reporte:</label><input type="date" id="plaga-fecha"></div>
+            <div class="form-group"><label for="plaga-tipo" data-i18n="label.plagueType">Tipo de plaga:</label><input type="text" id="plaga-tipo" data-i18n="placeholder.plagueExample" placeholder="Ej: Polilla de la Papa"></div>
             <div class="form-group"><label for="plaga-descripcion">Descripción:</label><textarea id="plaga-descripcion" placeholder="Describe la plaga y su ubicación..."></textarea></div>
             <div class="form-group">
                 <label>Imágenes:</label>
@@ -52,7 +52,7 @@
                 <div id="plaga-preview-container" class="hidden" style="margin-top:10px;"><img id="plaga-preview" src="" alt="Vista previa" style="max-width: 100px;"></div>
             </div>
             <div class="modal-actions">
-                <button id="cancel-plaga-btn" class="btn btn-danger">Cancelar</button>
+                <button id="cancel-plaga-btn" class="btn btn-danger" data-i18n="button.cancelPlague">Cancelar</button>
                 <button id="save-plaga-btn" class="btn btn-primary">Guardar Reporte</button>
             </div>
         </div>
@@ -81,20 +81,20 @@
             <div id="project-container" class="project-container content-hidden">
                 <div class="project-header">
                     <a href="proyectos-lista.html" class="btn btn-secondary" id="btn-regresar">← Regresar</a>
-                    <h2 id="project-title">Cargando proyecto...</h2>
+                    <h2 id="project-title" data-i18n="h2.loadingProject">Cargando proyecto...</h2>
                 </div>
                 
                 <div class="tab-navigation">
-                    <button class="tab-btn active" data-tab="info">Información</button>
+                    <button class="tab-btn active" data-tab="info" data-i18n="tab.information">Información</button>
                     <button class="tab-btn" data-tab="actividades">Actividades</button>
                 </div>
                 
                 <div id="info-view" class="tab-content">
-                    <p>Cargando información...</p>
+                    <p data-i18n="loading.info">Cargando información...</p>
                 </div>
                 
                 <div id="actividades-view" class="tab-content hidden">
-                    <p>Cargando actividades...</p>
+                    <p data-i18n="loading.activities">Cargando actividades...</p>
                 </div>
 
                 </div>
