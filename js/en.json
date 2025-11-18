@@ -225,5 +225,73 @@
     "clientDash.totalAmount": "Total Amount:",
     
     "language.spanish": "Español",
-    "language.english": "English"
+    "language.english": "English",
+    
+    "modal.passwordUpdated": "Your password has been updated",
+    "modal.loginAgain": "Please log in again",
+    "modal.accept": "Accept",
+    "modal.deleteWorkshop": "Are you sure you want to delete this workshop?",
+    "modal.cannotUndo": "This action cannot be undone.",
+    "modal.acceptDelete": "Accept and Delete",
+    "modal.acceptDeleteProject": "Accept",
+    
+    "placeholder.newPassword": "New password",
+    "placeholder.confirmPassword": "Confirm password",
+    
+    "welcome.agronomist": "Welcome, Agronomist",
+    "welcome.user": "Welcome, User",
+    
+    "app.name": "AgroData",
+    "modal.requestSent": "Request sent!",
+    "modal.confirmAction": "Confirm Action",
+    "modal.deleteElement": "Are you sure you want to delete this element?",
+    "modal.deleteActivity": "Are you sure you want to delete this activity?",
+    "modal.rejectRequest": "Are you sure you want to reject the request?",
+    "modal.cannotUndoAction": "This action cannot be undone.",
+    "modal.reject": "Reject",
+    "modal.receiptPayment": "Payment Receipt",
+    "modal.changesSaved": "Changes saved",
+    "modal.editProjectInfo": "Edit Project Information",
+    "modal.addNewActivity": "Add new activity",
+    "modal.activityEvidence": "Activity Evidence",
+    
+    "service.selectService": "Select the service you want to hire:",
+    "service.advisoryRequest": "Advisory Request",
+    "service.workshopRequest": "Workshop Request",
+    "service.totalAmount": "Total Amount:",
+    
+    "workshop.manage": "Manage the workshops you teach",
+    "workshop.registryImparted": "Registry of workshops taught",
+    "workshop.addNewWorkshop": "Add new workshop",
+    "workshop.workshopName": "Workshop Name:",
+    "workshop.workshopDescription": "Workshop description:",
+    "workshop.workshopCost": "Cost:",
+    "workshop.costExample": "Ex: 25000",
+    
+    "client.requestsInProcess": "My Requests in Process",
+    "client.workshopRegistry": "Workshop registry:",
+    
+    "project.loadingProject": "Loading project...",
+    "project.loading": "Loading...",
+    "project.plagueReport": "Plague Report",
+    
+    "password.example": "Example:",
+    "password.exampleText": "MyPassword@2023",
+    
+    "passwordValidation.mismatch": "Passwords do not match.",
+    "passwordValidation.invalidPrefix": "Invalid password:",
+    "passwordValidation.minLength": "Must have at least 8 characters.",
+    "passwordValidation.uppercase": "Must include an uppercase letter.",
+    "passwordValidation.lowercase": "Must include a lowercase letter.",
+    "passwordValidation.number": "Must include a number.",
+    
+    "error.noProjects": "You don't have any assigned projects yet.",
+    "error.missingParams": "Error: Missing parameters in URL.",
+    "error.noRequests": "You have no requests in process.",
+    "error.noWorkshops": "No workshops in this category.",
+    "error.serverConnection": "Server connection error.",
+    
+    "button.back": "← Back",
+    "label.location": "Location:",
+    "label.date": "Date:"
 }

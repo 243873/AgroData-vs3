@@ -51,10 +51,10 @@ function updatePageLanguage() {
 function addLanguageSelector() {
     if (document.querySelector('.language-selector')) return;
     
-    const header = document.querySelector('.top-header, header');
-    if (!header) return;
+    const navbar = document.querySelector('.navbar ul, nav ul');
+    if (!navbar) return;
     
-    const selector = document.createElement('div');
+    const selector = document.createElement('li');
     selector.className = 'language-selector';
     selector.innerHTML = `
         <select id="languageSelect">
@@ -63,7 +63,7 @@ function addLanguageSelector() {
         </select>
     `;
     
-    header.appendChild(selector);
+    navbar.appendChild(selector);
     
     const select = selector.querySelector('#languageSelect');
     select.value = currentLanguage;

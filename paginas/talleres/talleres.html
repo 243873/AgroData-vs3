@@ -11,13 +11,13 @@
 <body>
     <div id="workshopModal" class="modal-overlay hidden"><div class="modal-content"><h3 id="modalTitle">Agregar nuevo taller</h3><form id="workshopForm"><div class="form-group"><label for="workshopName">Nombre del Taller:</label><input type="text" id="workshopName" required></div><div class="form-group"><label for="workshopDescription">Descripción del taller:</label><textarea id="workshopDescription" rows="4" required></textarea></div><div class="form-group"><label for="workshopCost">Costo:</label><input type="number" id="workshopCost" placeholder="Ej: 25000" required></div></form><div class="modal-actions"><button id="deleteWorkshopBtn" class="btn btn-delete hidden">Eliminar</button><div class="main-actions"><button id="cancelWorkshop" class="btn btn-secondary">Cancelar</button><button id="saveWorkshop" class="btn btn-primary">Guardar</button></div></div></div></div>
     <div id="receiptModal" class="modal-overlay hidden"><div class="modal-content receipt-modal-content"><h3>Comprobante de Pago</h3><img id="receiptImage" src="" alt="Comprobante de pago"><button id="closeReceipt" class="btn btn-primary">Cerrar</button></div></div>
-    <div id="deleteConfirmationModal" class="modal-overlay hidden"><div class="modal-content"><h2>¿Seguro que desea eliminar este taller?</h2><p>Esta acción no se puede deshacer.</p><div class="modal-actions-center"><button id="cancelDelete" class="btn btn-secondary">Cancelar</button><button id="acceptDelete" class="btn btn-danger">Aceptar y Eliminar</button></div></div></div>
+    <div id="deleteConfirmationModal" class="modal-overlay hidden"><div class="modal-content"><h2 data-i18n="modal.deleteWorkshop">¿Seguro que desea eliminar este taller?</h2><p data-i18n="modal.cannotUndo">Esta acción no se puede deshacer.</p><div class="modal-actions-center"><button id="cancelDelete" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button><button id="acceptDelete" class="btn btn-danger" data-i18n="modal.acceptDelete">Aceptar y Eliminar</button></div></div></div>
     <div id="successModal" class="modal-overlay hidden"><div class="modal-content"><img src="/Imagenes/check-circle.png" alt="Éxito" class="success-icon"><h2>Cambios guardados</h2></div></div>
 
     <div class="page-wrapper">
         <header class="top-header">
             <div class="logo-container"><img src="/Imagenes/log2.png" alt="Logo AgroData" class="logo"><h1>AgroData</h1></div>
-            <div class="welcome-message"><h2 id="welcomeMessage">Bienvenido, Agrónomo</h2></div>
+            <div class="welcome-message"><h2 id="welcomeMessage" data-i18n="welcome.agronomist">Bienvenido, Agrónomo</h2></div>
         </header>
 
         <nav class="navbar">

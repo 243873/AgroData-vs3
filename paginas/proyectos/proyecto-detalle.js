@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const idSolicitud = parseInt(urlParams.get('idSolicitud'));
 
     if (!idPlan || !idSolicitud) {
-        document.getElementById('project-container').innerHTML = '<h2>Error: Faltan parámetros en la URL.</h2>';
+        document.getElementById('project-container').innerHTML = `<h2>${t('error.missingParams')}</h2>`;
         return;
     }
 

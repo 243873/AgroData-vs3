@@ -14,9 +14,9 @@
   <!-- Modal de confirmación -->
   <div id="confirmationModal" class="modal-overlay">
     <div class="modal-content">
-      <h2>Se ha actualizado tu contraseña</h2>
-      <p>Ingresa nuevamente</p>
-      <button id="acceptButton" class="modal-button">Aceptar</button>
+      <h2 data-i18n="modal.passwordUpdated">Se ha actualizado tu contraseña</h2>
+      <p data-i18n="modal.loginAgain">Ingresa nuevamente</p>
+      <button id="acceptButton" class="modal-button" data-i18n="modal.accept">Aceptar</button>
     </div>
   </div>
 
@@ -28,7 +28,7 @@
       <div class="info-panel">
         <div class="logo-container">
           <img src="/Imagenes/Log.png" alt="Logo AgroData" class="logo">
-          <h1>AgroData</h1>
+          <h1 data-i18n="app.name">AgroData</h1>
         </div>
         <h2 data-i18n="login.subtitle">Tu plataforma digital para el seguimiento de tu cultivo.</h2>
         <div class="image-container">
@@ -47,11 +47,11 @@
             </div>
 
             <div class="input-group">
-              <input type="password" id="password" name="password" placeholder="Nueva contraseña" required>
+              <input type="password" id="password" name="password" data-i18n="placeholder.newPassword" placeholder="Nueva contraseña" required>
             </div>
 
             <div class="input-group">
-              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" required>
+              <input type="password" id="confirmPassword" name="confirmPassword" data-i18n="placeholder.confirmPassword" placeholder="Confirmar contraseña" required>
             </div>
 
             <p id="errorMessage" class="error-message"></p>

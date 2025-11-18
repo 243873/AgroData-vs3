@@ -1,8 +1,9 @@
 .language-selector {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    z-index: 1000;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
 }
 
 .language-selector select {
@@ -10,11 +11,12 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 5px 10px;
-    font-size: 14px;
+    font-size: 13px;
     color: #333;
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease;
+    min-width: 80px;
 }
 
 .language-selector select:hover {
@@ -25,4 +27,11 @@
 .language-selector select:focus {
     border-color: #4CAF50;
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.navbar ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }

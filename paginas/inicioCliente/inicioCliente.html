@@ -12,16 +12,16 @@
     <!-- MODAL DE ÉXITO (Reutilizable para ambos flujos) -->
     <div id="successModal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3 id="modalTitle">¡Solicitud enviada!</h3>
+            <h3 id="modalTitle" data-i18n="modal.requestSent">¡Solicitud enviada!</h3>
             <p id="modalMessage">Hemos recibido tu solicitud. Nuestro equipo se pondrá en contacto contigo pronto.</p>
-            <button id="modalAceptar" class="btn btn-primary">Aceptar</button>
+            <button id="modalAceptar" class="btn btn-primary" data-i18n="modal.accept">Aceptar</button>
         </div>
     </div>
 
     <!-- MODAL DE CONFIRMACIÓN PARA DESCARTAR NOTIFICACIÓN -->
     <div id="confirmationModal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3>Confirmar Acción</h3>
+            <h3 data-i18n="modal.confirmAction">Confirmar Acción</h3>
             <p>¿Estás seguro de que deseas descartar esta notificación?</p>
             <div class="modal-actions">
                 <button id="cancelDiscard" class="btn btn-secondary">Cancelar</button>
@@ -34,10 +34,10 @@
         <header class="top-header">
             <div class="logo-container">
                 <img src="/Imagenes/log2.png" alt="Logo AgroData" class="logo">
-                <h1>AgroData</h1>
+                <h1 data-i18n="app.name">AgroData</h1>
             </div>
             <div class="welcome-message">
-                <h2 id="welcomeMessage">Bienvenido, Usuario</h2>
+                <h2 id="welcomeMessage" data-i18n="welcome.user">Bienvenido, Usuario</h2>
             </div>
         </header>
 
@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="content-container">
-                    <h4>Seleccione el servicio que desea contratar:</h4>
+                    <h4 data-i18n="service.selectService">Seleccione el servicio que desea contratar:</h4>
                     <div class="service-options">
                         <div id="show-asesoria-form" class="service-card">
                             <div class="service-button" data-i18n="requests.advisory">Asesorías</div>
@@ -91,7 +91,7 @@
             <div id="asesoria-form-view" class="content-container hidden">
                 <div class="asesoria-selection-view">
                     <div class="form-header">
-                        <h4>Solicitud de Asesoría</h4>
+                        <h4 data-i18n="service.advisoryRequest">Solicitud de Asesoría</h4>
                         <p>Paso 1 de 2: Selecciona los cultivos para los que necesitas ayuda.</p>
                     </div>
                     <div class="form-group">
@@ -110,7 +110,7 @@
 
                 <div class="asesoria-form-details-view hidden">
                     <div class="form-header">
-                        <h4>Solicitud de Asesoría</h4>
+                        <h4 data-i18n="service.advisoryRequest">Solicitud de Asesoría</h4>
                         <p>Paso 2 de 2: Completa los detalles de tu terreno y solicitud.</p>
                     </div>
                     
@@ -132,7 +132,7 @@
                 <!-- VISTA 1: SELECCIÓN DE TALLERES -->
                 <div id="taller-selection-view">
                     <div class="form-header">
-                        <h4>Solicitud de Taller</h4>
+                        <h4 data-i18n="service.workshopRequest">Solicitud de Taller</h4>
                         <p>Paso 1 de 2: Selecciona los talleres de tu interés.</p>
                     </div>
                     <div id="talleres-list-container">
@@ -147,7 +147,7 @@
                 <!-- VISTA 2: FORMULARIO DE DETALLES DEL TALLER -->
                 <div id="taller-form-view" class="hidden">
                     <div class="form-header">
-                        <h4>Solicitud de Taller</h4>
+                        <h4 data-i18n="service.workshopRequest">Solicitud de Taller</h4>
                         <p>Paso 2 de 2: Confirma los detalles de tu solicitud.</p>
                     </div>
                     <form id="tallerSolicitudForm" novalidate>
@@ -155,7 +155,7 @@
                             <p><strong>Has seleccionado los talleres:</strong></p>
                             <div id="talleres-seleccionados-lista"></div>
                             <p class="disclaimer">El costo total se enviará por correo con más detalles.</p>
-                            <h4 id="montoTotal">Monto Total: $0</h4>
+                            <h4 id="montoTotal" data-i18n="service.totalAmount">Monto Total: $0</h4>
                         </div>
                         <div class="form-grid">
                             <div class="form-group">

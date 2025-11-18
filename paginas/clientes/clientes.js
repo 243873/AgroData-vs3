@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
         } catch (error) {
             console.error('Error al obtener la lista de clientes:', error);
-            clientGrid.innerHTML = `<p class="error-message">Error de conexión con el servidor.</p>`;
+            clientGrid.innerHTML = `<p class="error-message">${t('error.serverConnection')}</p>`;
             clientCountElement.textContent = 'Error de carga';
         }
     }

@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         solicitudesList.innerHTML = '';
 
         if (tramites.length === 0) {
-            solicitudesList.innerHTML = '<p>No tienes solicitudes en trámite.</p>';
+            solicitudesList.innerHTML = `<p>${t('error.noRequests')}</p>`;
             return;
         }
 
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         if (filtradas.length === 0) {
-            historialList.innerHTML = '<p>No hay talleres en esta categoría.</p>';
+            historialList.innerHTML = `<p>${t('error.noWorkshops')}</p>`;
             return;
         }
 
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             contentHTML = `<p>Estado actual: ${s.idEstado === ESTADOS.PENDIENTE ? 'Pendiente' : (s.idEstado === ESTADOS.RECHAZADA ? 'Rechazada' : 'Inscrito')}</p>`;
         }
 
-        detailView.innerHTML = `<button class="btn" id="backToListBtn" style="margin-bottom:20px;">← Volver</button><div class="detail-card"><h3>${getTallerName(s.idTaller)}</h3><p>Ubicación: ${s.direccion}</p><p>Fecha: ${s.fechaAplicarTaller}</p><hr style="margin:20px 0; border:0; border-top:1px solid #eee;">${contentHTML}</div>`;
+        detailView.innerHTML = `<button class="btn" id="backToListBtn" style="margin-bottom:20px;">${t('button.back')}</button><div class="detail-card"><h3>${getTallerName(s.idTaller)}</h3><p>${t('label.location')} ${s.direccion}</p><p>${t('label.date')} ${s.fechaAplicarTaller}</p><hr style="margin:20px 0; border:0; border-top:1px solid #eee;">${contentHTML}</div>`;
     }
 
     document.querySelector('.main-content').addEventListener('click', async (e) => {

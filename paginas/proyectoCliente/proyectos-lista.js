@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         const myProjects = await getAllProjectsFromAPI();
         
         if (myProjects.length === 0) {
-            projectsListContainer.innerHTML = '<div class="empty-state-message"><p>Aún no tienes proyectos asignados.</p></div>';
+            projectsListContainer.innerHTML = `<div class="empty-state-message"><p>${t('error.noProjects')}</p></div>`;
             return;
         }
 

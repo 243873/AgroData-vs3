@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const acceptButton = document.getElementById('acceptButton');
 
     const validatePassword = (password) => {
-        if (password.length < 8) return "Debe tener al menos 8 caracteres.";
-        if (!/[A-Z]/.test(password)) return "Debe incluir una mayúscula.";
-        if (!/[a-z]/.test(password)) return "Debe incluir una minúscula.";
-        if (!/[0-9]/.test(password)) return "Debe incluir un número.";
+        if (password.length < 8) return t('passwordValidation.minLength');
+        if (!/[A-Z]/.test(password)) return t('passwordValidation.uppercase');
+        if (!/[a-z]/.test(password)) return t('passwordValidation.lowercase');
+        if (!/[0-9]/.test(password)) return t('passwordValidation.number');
         return null;
     };
 
@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const confirmPassword = document.getElementById('confirmPassword').value;
 
         if (password !== confirmPassword) {
-            errorMessage.textContent = 'Las contraseñas no coinciden.';
+            errorMessage.textContent = t('passwordValidation.mismatch');
             return;
         }
 
         const passwordError = validatePassword(password);
         if (passwordError) {
-            errorMessage.textContent = `Contraseña no válida: ${passwordError}`;
+            errorMessage.textContent = `${t('passwordValidation.invalidPrefix')} ${passwordError}`;
             return;
         }
 

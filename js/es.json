@@ -225,5 +225,73 @@
     "clientDash.totalAmount": "Monto Total:",
     
     "language.spanish": "Español",
-    "language.english": "English"
+    "language.english": "English",
+    
+    "modal.passwordUpdated": "Se ha actualizado tu contraseña",
+    "modal.loginAgain": "Ingresa nuevamente",
+    "modal.accept": "Aceptar",
+    "modal.deleteWorkshop": "¿Seguro que desea eliminar este taller?",
+    "modal.cannotUndo": "Esta acción no se puede deshacer.",
+    "modal.acceptDelete": "Aceptar y Eliminar",
+    "modal.acceptDeleteProject": "Aceptar",
+    
+    "placeholder.newPassword": "Nueva contraseña",
+    "placeholder.confirmPassword": "Confirmar contraseña",
+    
+    "welcome.agronomist": "Bienvenido, Agrónomo",
+    "welcome.user": "Bienvenido, Usuario",
+    
+    "app.name": "AgroData",
+    "modal.requestSent": "¡Solicitud enviada!",
+    "modal.confirmAction": "Confirmar Acción",
+    "modal.deleteElement": "¿Seguro que desea eliminar este elemento?",
+    "modal.deleteActivity": "¿Seguro que desea eliminar esta actividad?",
+    "modal.rejectRequest": "¿Seguro que desea rechazar la solicitud?",
+    "modal.cannotUndoAction": "Esta acción no se puede deshacer.",
+    "modal.reject": "Rechazar",
+    "modal.receiptPayment": "Comprobante de Pago",
+    "modal.changesSaved": "Cambios guardados",
+    "modal.editProjectInfo": "Editar Información del Proyecto",
+    "modal.addNewActivity": "Agregar nueva actividad",
+    "modal.activityEvidence": "Evidencia de la Actividad",
+    
+    "service.selectService": "Seleccione el servicio que desea contratar:",
+    "service.advisoryRequest": "Solicitud de Asesoría",
+    "service.workshopRequest": "Solicitud de Taller",
+    "service.totalAmount": "Monto Total:",
+    
+    "workshop.manage": "Gestiona los talleres que impartes",
+    "workshop.registryImparted": "Registro de talleres impartidos",
+    "workshop.addNewWorkshop": "Agregar nuevo taller",
+    "workshop.workshopName": "Nombre del Taller:",
+    "workshop.workshopDescription": "Descripción del taller:",
+    "workshop.workshopCost": "Costo:",
+    "workshop.costExample": "Ej: 25000",
+    
+    "client.requestsInProcess": "Mis Solicitudes en Trámite",
+    "client.workshopRegistry": "Registro de talleres:",
+    
+    "project.loadingProject": "Cargando proyecto...",
+    "project.loading": "Cargando...",
+    "project.plagueReport": "Reporte de Plaga",
+    
+    "password.example": "Ejemplo:",
+    "password.exampleText": "MiContraseña@2023",
+    
+    "passwordValidation.mismatch": "Las contraseñas no coinciden.",
+    "passwordValidation.invalidPrefix": "Contraseña no válida:",
+    "passwordValidation.minLength": "Debe tener al menos 8 caracteres.",
+    "passwordValidation.uppercase": "Debe incluir una mayúscula.",
+    "passwordValidation.lowercase": "Debe incluir una minúscula.",
+    "passwordValidation.number": "Debe incluir un número.",
+    
+    "error.noProjects": "Aún no tienes proyectos asignados.",
+    "error.missingParams": "Error: Faltan parámetros en la URL.",
+    "error.noRequests": "No tienes solicitudes en trámite.",
+    "error.noWorkshops": "No hay talleres en esta categoría.",
+    "error.serverConnection": "Error de conexión con el servidor.",
+    
+    "button.back": "← Volver",
+    "label.location": "Ubicación:",
+    "label.date": "Fecha:"
 }
