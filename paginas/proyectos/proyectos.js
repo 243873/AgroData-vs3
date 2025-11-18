@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const user = await response.json();
                 if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${user.nombre}`;
             } else {
-                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`;
+                if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) { 
             console.error('Error al cargar saludo:', error);
-            if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, Agrónomo`;
+            if (welcomeMessage) welcomeMessage.textContent = `${t('common.welcome')}, ${t('common.agronomist')}`;
         }
     }
 

@@ -32,6 +32,22 @@
     "common.close": "Close",
     "common.yes": "Yes",
     "common.no": "No",
+    "common.all": "All",
+    "common.completed": "Completed",
+    "common.inProgress": "In Progress",
+    "common.upcoming": "Upcoming",
+    "common.user": "User",
+    "common.agronomist": "Agronomist",
+    "common.notification": "Notification",
+    "common.hectares": "Hectares",
+    "common.none": "None",
+    "common.showMore": "Show more",
+    "common.showLess": "Show less",
+    "common.back": "Back",
+    "common.continue": "Continue",
+    "common.sendRequest": "Send Request",
+    "common.backToSelection": "Back to Selection",
+    "common.changesSaved": "Changes saved",
     
     "register.title": "AgroData - Register",
     "register.subtitle": "Join and discover the benefits of AgroData",
@@ -99,7 +115,7 @@
     "workshops.edit": "Edit Workshop",
     "workshops.delete": "Delete Workshop",
     "workshops.name": "Workshop Name:",
-    "workshops.description": "Description:",
+    "workshops.description": "Workshop description:",
     "workshops.date": "Date:",
     "workshops.time": "Time:",
     "workshops.capacity": "Capacity:",
@@ -107,6 +123,12 @@
     "workshops.status": "Status:",
     "workshops.participants": "Participants",
     "workshops.history": "Workshop History",
+    "workshops.addNew": "Add new workshop",
+    "workshops.addNewButton": "+ Add new workshop",
+    "workshops.manage": "Manage the workshops you teach",
+    "workshops.historyRecord": "Registry of workshops taught",
+    "workshops.cost": "Cost:",
+    "workshops.paymentReceipt": "Payment Receipt",
     
     "requests.title": "Pending Requests",
     "requests.advisory": "Advisory Requests",
@@ -371,5 +393,6 @@
     "h2.deleteElement": "Are you sure you want to delete this element?",
     "h2.deleteActivity": "Are you sure you want to delete this activity?",
     
-    "placeholder.plagueExample": "Ex: Potato Moth"
+    "placeholder.plagueExample": "Ex: Potato Moth",
+    "placeholder.cost": "Ex: 25000"
 }

@@ -32,6 +32,22 @@
     "common.close": "Cerrar",
     "common.yes": "Sí",
     "common.no": "No",
+    "common.all": "Todos",
+    "common.completed": "Completados",
+    "common.inProgress": "En Curso",
+    "common.upcoming": "Próximo",
+    "common.user": "Usuario",
+    "common.agronomist": "Agrónomo",
+    "common.notification": "Notificación",
+    "common.hectares": "Hectáreas",
+    "common.none": "Ninguna",
+    "common.showMore": "Ver más",
+    "common.showLess": "Ver menos",
+    "common.back": "Regresar",
+    "common.continue": "Continuar",
+    "common.sendRequest": "Enviar Solicitud",
+    "common.backToSelection": "Regresar a Selección",
+    "common.changesSaved": "Cambios guardados",
     
     "register.title": "AgroData - Registro",
     "register.subtitle": "Únete y descubre los beneficios de AgroData",
@@ -99,7 +115,7 @@
     "workshops.edit": "Editar Taller",
     "workshops.delete": "Eliminar Taller",
     "workshops.name": "Nombre del Taller:",
-    "workshops.description": "Descripción:",
+    "workshops.description": "Descripción del taller:",
     "workshops.date": "Fecha:",
     "workshops.time": "Hora:",
     "workshops.capacity": "Capacidad:",
@@ -107,6 +123,12 @@
     "workshops.status": "Estado:",
     "workshops.participants": "Participantes",
     "workshops.history": "Historial de Talleres",
+    "workshops.addNew": "Agregar nuevo taller",
+    "workshops.addNewButton": "+ Agregar nuevo taller",
+    "workshops.manage": "Gestiona los talleres que impartes",
+    "workshops.historyRecord": "Registro de talleres impartidos",
+    "workshops.cost": "Costo:",
+    "workshops.paymentReceipt": "Comprobante de Pago",
     
     "requests.title": "Solicitudes Pendientes",
     "requests.advisory": "Solicitudes de Asesoría",
@@ -371,5 +393,6 @@
     "h2.deleteElement": "¿Seguro que desea eliminar este elemento?",
     "h2.deleteActivity": "¿Seguro que desea eliminar esta actividad?",
     
-    "placeholder.plagueExample": "Ej: Polilla de la Papa"
+    "placeholder.plagueExample": "Ej: Polilla de la Papa",
+    "placeholder.cost": "Ej: 25000"
 }

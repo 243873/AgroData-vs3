@@ -12,20 +12,20 @@
     <div id="successModal" class="modal-overlay hidden">
         <div class="modal-content success">
             <img src="/Imagenes/check-circle.png" alt="Éxito" class="success-icon">
-            <h2 id="successMessage">Cambios guardados</h2>
+            <h2 id="successMessage" data-i18n="common.changesSaved">Cambios guardados</h2>
         </div>
     </div>
     
     <div id="info-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3>Editar Información del Proyecto</h3>
+            <h3 data-i18n="project.editProjectInfo">Editar Información del Proyecto</h3>
             <form id="info-form">
                 <div class="form-group">
-                    <label for="info-objetivo">Objetivo (Motivo Asesoría):</label>
+                    <label for="info-objetivo" data-i18n="project.objective">Objetivo (Motivo Asesoría):</label>
                     <textarea id="info-objetivo"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="info-observaciones">Observaciones (Agrónomo):</label>
+                    <label for="info-observaciones" data-i18n="project.observations">Observaciones (Agrónomo):</label>
                     <textarea id="info-observaciones"></textarea>
                 </div>
             </form>
@@ -38,11 +38,11 @@
 
    <div id="activity-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3 id="activity-modal-title">Agregar nueva actividad</h3>
+            <h3 id="activity-modal-title" data-i18n="project.addNewActivity">Agregar nueva actividad</h3>
             <form id="activity-form">
-                <div class="form-group"><label for="activity-name">Nombre de la actividad:</label><input type="text" id="activity-name" required></div>
-                <div class="form-group"><label for="activity-start">Fecha de Inicio:</label><input type="date" id="activity-start" required></div>
-                <div class="form-group"><label for="activity-end">Fecha de Vencimiento:</label><input type="date" id="activity-end" required></div>
+                <div class="form-group"><label for="activity-name" data-i18n="project.activityName">Nombre de la actividad:</label><input type="text" id="activity-name" required></div>
+                <div class="form-group"><label for="activity-start" data-i18n="project.startDate">Fecha de Inicio:</label><input type="date" id="activity-start" required></div>
+                <div class="form-group"><label for="activity-end" data-i18n="project.dueDate">Fecha de Vencimiento:</label><input type="date" id="activity-end" required></div>
             </form>
             <div class="modal-actions">
                 <button id="cancel-activity-btn" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button>
@@ -53,7 +53,7 @@
 
     <div id="delete-activity-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h2>¿Seguro que desea eliminar esta actividad?</h2>
+            <h2 data-i18n="project.confirmDeleteActivity">¿Seguro que desea eliminar esta actividad?</h2>
             <p data-i18n="modal.cannotUndoAction">Esta acción no se puede deshacer.</p>
             <div class="modal-actions-center">
                 <button id="cancel-delete-btn" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button>
@@ -64,7 +64,7 @@
 
     <div id="evidence-modal" class="modal-overlay hidden">
         <div class="modal-content large">
-            <h3>Evidencia de la Actividad</h3>
+            <h3 data-i18n="project.activityEvidence">Evidencia de la Actividad</h3>
             <div style="text-align: center; margin: 20px 0;">
                 <img id="evidence-image-full" src="" alt="Evidencia" style="max-width: 100%; max-height: 70vh; border-radius: 8px; border: 1px solid #ddd;">
             </div>
@@ -78,7 +78,7 @@
     <div class="page-wrapper">
         <header class="top-header">
             <div class="logo-container"><img src="/Imagenes/log2.png" alt="Logo" class="logo"><h1>AgroData</h1></div>
-            <div class="welcome-message"><h2 id="welcomeMessage">Cargando...</h2></div>
+            <div class="welcome-message"><h2 id="welcomeMessage" data-i18n="welcome.user">Bienvenido, Usuario</h2></div>
         </header>
 
         <nav class="navbar">
@@ -97,15 +97,15 @@
                 
                 <div class="project-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <div style="display: flex; align-items: center; gap: 20px;">
-                        <a href="proyectos.html" class="btn btn-secondary">← Regresar</a>
-                        <h2 id="project-title" style="margin: 0;">Cargando...</h2>
+                        <a href="proyectos.html" class="btn btn-secondary" data-i18n="common.back">← Regresar</a>
+                        <h2 id="project-title" style="margin: 0;" data-i18n="common.loading">Cargando...</h2>
                     </div>
-                    <button id="btn-complete-project" class="btn btn-primary hidden">Finalizar Proyecto</button>
+                    <button id="btn-complete-project" class="btn btn-primary hidden" data-i18n="project.finishProject">Finalizar Proyecto</button>
                 </div>
                 <div class="tab-navigation">
-                    <button class="tab-btn active" data-tab="info">Información del proyecto</button>
-                    <button class="tab-btn" data-tab="actividades">Actividades</button>
-                    <button class="tab-btn" data-tab="reporte">Reporte</button>
+                    <button class="tab-btn active" data-tab="info" data-i18n="project.projectInfo">Información del proyecto</button>
+                    <button class="tab-btn" data-tab="actividades" data-i18n="project.activities">Actividades</button>
+                    <button class="tab-btn" data-tab="reporte" data-i18n="project.report">Reporte</button>
                 </div>
                 
                 <div id="info-view" class="tab-content">

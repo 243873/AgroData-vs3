@@ -108,13 +108,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const allPlans = await fetchWithAuth(`${API_BASE_URL}/obtenerPlanCultivos`);
             currentPlan = allPlans.find(p => p.idPlan === idPlan);
-            if (!currentPlan) throw new Error("Plan no encontrado.");
+            if (!currentPlan) throw new Error(t('error.planNotFound'));
 
-            try {
-                currentSolicitud = await fetchWithAuth(`${API_BASE_URL}/solicitudasesoria/${idSolicitud}`);
-            } catch (e) {
-                console.error(e)
-            }
+            currentSolicitud = await fetchWithAuth(`${API_BASE_URL}/solicitudasesoria/${idSolicitud}`);
 
             try {
                 projectEvidenceList = await fetchWithAuth(`${API_BASE_URL}/registroactividades/`);
@@ -140,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             loadReport();
 
         } catch (error) {
-            projectTitle.textContent = "Error al cargar";
+            projectTitle.textContent = t('error.loadError');
             infoView.innerHTML = `<p class="error-message">${error.message}</p>`;
         }
     }
@@ -152,8 +148,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         infoView.innerHTML = `
             <div class="info-grid">
-                <div class="info-card"><h4>Detalles del Cliente</h4><p><strong>Nombre:</strong> ${currentPlan.nombre} ${currentPlan.apellidoPaterno}</p><p><strong>Ubicación:</strong> ${currentPlan.direccionTerreno}</p></div>
-                <div class="info-card"><h4>Datos de la Asesoría</h4><p><strong>Objetivo:</strong> ${currentPlan.motivoAsesoria}</p><p><strong>Observaciones Agrónomo:</strong> ${currentPlan.observaciones || 'Sin observaciones'}</p><p><strong>Superficie:</strong> ${currentPlan.superficieTotal} hectáreas</p><p><strong>Cultivos:</strong> ${cultivosHtml}</p><button id="edit-info-btn" class="btn btn-secondary">Editar Observaciones</button></div>
+                <div class="info-card"><h4 data-i18n="project.clientDetails">Detalles del Cliente</h4><p><strong data-i18n="project.name">Nombre:</strong> ${currentPlan.nombre} ${currentPlan.apellidoPaterno}</p><p><strong data-i18n="project.location">Ubicación:</strong> ${currentPlan.direccionTerreno}</p></div>
+                <div class="info-card"><h4 data-i18n="project.advisoryData">Datos de la Asesoría</h4><p><strong data-i18n="project.objective">Objetivo:</strong> ${currentPlan.motivoAsesoria}</p><p><strong data-i18n="project.agronomistObservations">Observaciones Agrónomo:</strong> ${currentPlan.observaciones || t('project.noObservations')}</p><p><strong data-i18n="project.surface">Superficie:</strong> ${currentPlan.superficieTotal} ${t('common.hectares')}</p><p><strong data-i18n="project.crops">Cultivos:</strong> ${cultivosHtml}</p><button id="edit-info-btn" class="btn btn-secondary" data-i18n="project.editObservations">Editar Observaciones</button></div>
                 <div class="info-card full-width"><h4>Información Original</h4><div class="solicitud-grid"><p><strong>Riego:</strong> ${solicitud.nombreRiego || 'N/A'}</p><p><strong>Maquinaria:</strong> ${solicitud.usoMaquinaria ? `Sí (${solicitud.nombreMaquinaria})` : 'No'}</p><p><strong>Plaga:</strong> ${solicitud.tienePlaga ? `Sí (${solicitud.descripcionPlaga})` : 'No'}</p></div></div>
             </div>`;
         document.getElementById('edit-info-btn').addEventListener('click', () => {

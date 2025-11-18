@@ -9,10 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="workshopModal" class="modal-overlay hidden"><div class="modal-content"><h3 id="modalTitle">Agregar nuevo taller</h3><form id="workshopForm"><div class="form-group"><label for="workshopName">Nombre del Taller:</label><input type="text" id="workshopName" required></div><div class="form-group"><label for="workshopDescription">Descripción del taller:</label><textarea id="workshopDescription" rows="4" required></textarea></div><div class="form-group"><label for="workshopCost">Costo:</label><input type="number" id="workshopCost" placeholder="Ej: 25000" required></div></form><div class="modal-actions"><button id="deleteWorkshopBtn" class="btn btn-delete hidden">Eliminar</button><div class="main-actions"><button id="cancelWorkshop" class="btn btn-secondary">Cancelar</button><button id="saveWorkshop" class="btn btn-primary">Guardar</button></div></div></div></div>
-    <div id="receiptModal" class="modal-overlay hidden"><div class="modal-content receipt-modal-content"><h3>Comprobante de Pago</h3><img id="receiptImage" src="" alt="Comprobante de pago"><button id="closeReceipt" class="btn btn-primary">Cerrar</button></div></div>
+    <div id="workshopModal" class="modal-overlay hidden"><div class="modal-content"><h3 id="modalTitle" data-i18n="workshops.addNew">Agregar nuevo taller</h3><form id="workshopForm"><div class="form-group"><label for="workshopName" data-i18n="workshops.name">Nombre del Taller:</label><input type="text" id="workshopName" required></div><div class="form-group"><label for="workshopDescription" data-i18n="workshops.description">Descripción del taller:</label><textarea id="workshopDescription" rows="4" required></textarea></div><div class="form-group"><label for="workshopCost" data-i18n="workshops.cost">Costo:</label><input type="number" id="workshopCost" data-i18n="placeholder.cost" placeholder="Ej: 25000" required></div></form><div class="modal-actions"><button id="deleteWorkshopBtn" class="btn btn-delete hidden" data-i18n="common.delete">Eliminar</button><div class="main-actions"><button id="cancelWorkshop" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button><button id="saveWorkshop" class="btn btn-primary" data-i18n="common.save">Guardar</button></div></div></div></div>
+    <div id="receiptModal" class="modal-overlay hidden"><div class="modal-content receipt-modal-content"><h3 data-i18n="workshops.paymentReceipt">Comprobante de Pago</h3><img id="receiptImage" src="" alt="Comprobante de pago"><button id="closeReceipt" class="btn btn-primary" data-i18n="common.close">Cerrar</button></div></div>
     <div id="deleteConfirmationModal" class="modal-overlay hidden"><div class="modal-content"><h2 data-i18n="modal.deleteWorkshop">¿Seguro que desea eliminar este taller?</h2><p data-i18n="modal.cannotUndo">Esta acción no se puede deshacer.</p><div class="modal-actions-center"><button id="cancelDelete" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button><button id="acceptDelete" class="btn btn-danger" data-i18n="modal.acceptDelete">Aceptar y Eliminar</button></div></div></div>
-    <div id="successModal" class="modal-overlay hidden"><div class="modal-content"><img src="/Imagenes/check-circle.png" alt="Éxito" class="success-icon"><h2>Cambios guardados</h2></div></div>
+    <div id="successModal" class="modal-overlay hidden"><div class="modal-content"><img src="/Imagenes/check-circle.png" alt="Éxito" class="success-icon"><h2 data-i18n="common.changesSaved">Cambios guardados</h2></div></div>
 
     <div class="page-wrapper">
         <header class="top-header">
@@ -39,18 +39,18 @@
                 </div>
                 
                 <div id="view-capacitaciones" class="workshops-content">
-                    <div class="container-header"><h4>Gestiona los talleres que impartes</h4><button id="addNewWorkshopBtn" class="btn btn-primary">+ Agregar nuevo taller</button></div>
+                    <div class="container-header"><h4 data-i18n="workshops.manage">Gestiona los talleres que impartes</h4><button id="addNewWorkshopBtn" class="btn btn-primary" data-i18n="workshops.addNewButton">+ Agregar nuevo taller</button></div>
                     <div id="workshop-list" class="workshop-list"></div>
                 </div>
 
                 <div id="view-historial" class="workshops-content hidden">
                     <div class="container-header">
-                        <h4>Registro de talleres impartidos</h4>
+                        <h4 data-i18n="workshops.historyRecord">Registro de talleres impartidos</h4>
                         <div class="filter-buttons">
-                            <button class="btn filter-btn active" data-filter="todos">Todos</button>
-                            <button class="btn filter-btn" data-filter="completados">Completados</button>
-                            <button class="btn filter-btn" data-filter="en-curso">En Curso</button>
-                            <button class="btn filter-btn" data-filter="proximo">Próximo</button>
+                            <button class="btn filter-btn active" data-filter="todos" data-i18n="common.all">Todos</button>
+                            <button class="btn filter-btn" data-filter="completados" data-i18n="common.completed">Completados</button>
+                            <button class="btn filter-btn" data-filter="en-curso" data-i18n="common.inProgress">En Curso</button>
+                            <button class="btn filter-btn" data-filter="proximo" data-i18n="common.upcoming">Próximo</button>
                         </div>
                     </div>
                     <div id="workshop-history-grid" class="workshop-history-grid"></div>
