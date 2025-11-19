@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const comprobanteImage = document.getElementById('comprobanteImage');
     const closeComprobanteModal = document.getElementById('closeComprobanteModal');
 
-    const ESTADOS = { PENDIENTE: 1, CONFIRMADO_ESPERA: 2, RECHAZADA: 3, EN_REVISION: 4, INSCRITO_COMPLETADO: 5 };
+    const ESTADOS = { PENDIENTE: 1, COMPLETADA: 2, ACEPTADA: 3, RECHAZADA: 4 };
 
     const addDays = (date, days) => { const r = new Date(date); r.setDate(r.getDate() + days); return r; };
     
@@ -59,22 +59,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 1. RENDERIZAR SOLICITUDES (EN TRÁMITE) ---
     function renderSolicitudesEnTramite() {
-        // Mostrar todo lo que NO sea completado (incluye estado 4 En Revisión)
-        const tramites = allRequests.filter(s => s.idEstado !== ESTADOS.INSCRITO_COMPLETADO);
+        // Mostrar todo lo que NO sea completado
+        const tramites = allRequests.filter(s => s.idEstado !== ESTADOS.COMPLETADA);
         solicitudesList.innerHTML = '';
 
         if (tramites.length === 0) {
-            solicitudesList.innerHTML = `<p>${t('error.noRequests')}</p>`;
+            solicitudesList.innerHTML = `<p>No hay solicitudes en trámite (Total: ${allRequests.length})</p>`;
             return;
         }
 
-        tramites.forEach(s => {
+        tramites.forEach((s, index) => {
             const nombreTaller = getTallerName(s.idTaller);
             let badgeClass = 'bg-pendiente'; 
             let badgeText = t('workshop.pending');
 
-            if(s.idEstado === ESTADOS.CONFIRMADO_ESPERA) { badgeClass = 'bg-espera'; badgeText = t('workshop.uploadReceipt'); }
-            else if(s.idEstado === ESTADOS.EN_REVISION) { badgeClass = 'bg-revision'; badgeText = t('workshop.inReview'); }
+            if(s.idEstado === ESTADOS.ACEPTADA) { badgeClass = 'bg-espera'; badgeText = t('workshop.uploadReceipt'); }
             else if(s.idEstado === ESTADOS.RECHAZADA) { badgeClass = 'bg-rechazada'; badgeText = t('workshop.rejected'); }
 
             const fechaStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
@@ -106,13 +105,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 2. RENDERIZAR HISTORIAL (COMPLETADOS) ---
     function renderHistorial(filtro = 'todos') {
-        const historial = allRequests.filter(s => s.idEstado === ESTADOS.INSCRITO_COMPLETADO);
+        const historial = allRequests.filter(s => s.idEstado === ESTADOS.COMPLETADA);
         historialList.innerHTML = '';
 
         const filtradas = historial.filter(s => {
             const visual = getVisualState(s);
             if (filtro === 'todos') return true;
-            return visual.status === filtro; 
+            let idEstado= null;
+            switch (filtro){
+                case "completados":
+                    idEstado=2;
+                    break;
+                case "en-curso":
+                    idEstado=3
+                    break;
+                case "proximo":
+                    idEstado=1;
+                    break;
+            }
+            console.log(idEstado=== s.idEstado)
+            return visual.status === filtro || idEstado=== s.idEstado;
         });
 
         if (filtradas.length === 0) {
@@ -172,10 +184,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadAllData() {
         try {
             allRequests = await fetchWithToken(`/solicitudtaller/misolicitudes`);
-            const activeView = document.querySelector('.nav-button.active').dataset.view;
+            const activeView = document.querySelector('.nav-button.active')?.dataset.view || 'solicitudes';
             if(activeView === 'solicitudes') renderSolicitudesEnTramite();
             else {
-                const filter = document.querySelector('.filter-btn.active').dataset.filter;
+                const filter = document.querySelector('.filter-btn.active')?.dataset.filter || 'todos';
                 renderHistorial(filter);
             }
         } catch (e) { console.error(e); }
@@ -214,10 +226,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         detailView.classList.remove('hidden');
 
         let contentHTML = '';
-        if (s.idEstado === ESTADOS.CONFIRMADO_ESPERA) {
+        if (s.idEstado === ESTADOS.ACEPTADA) {
             contentHTML = `<div class="alert-box" style="background:#fff3cd; padding:15px; border-radius:8px; margin-bottom:20px;"><p><strong>¡Solicitud Aceptada!</strong></p><p>Por favor realiza el pago y sube el comprobante.</p></div><input type="file" id="file-input-${s.idSolicitudTaller}" class="hidden" accept="image/*"><button class="btn-action-box" data-for-input="file-input-${s.idSolicitudTaller}" style="width:100%; margin-bottom:10px;">📷 Seleccionar Comprobante</button><div class="image-preview-container hidden" style="text-align:center; margin-bottom:10px;"><img class="image-preview" src="" style="max-width:100%; max-height:200px; border-radius:8px;"></div><button class="btn btn-update hidden" data-id="${s.idSolicitudTaller}" style="width:100%; background-color:#1C6E3E; color:white;">Enviar Comprobante</button>`;
-        } else if (s.idEstado === ESTADOS.EN_REVISION) {
-             contentHTML = `<div style="text-align:center; padding:20px;"><p><em>Comprobante enviado. Esperando validación.</em></p><button class="btn btn-secondary view-receipt" data-url="${s.estadoPagoImagen}">Ver mi comprobante</button></div>`;
         } else {
             contentHTML = `<p>${t('status.currentStatus')} ${s.idEstado === ESTADOS.PENDIENTE ? t('workshop.pending') : (s.idEstado === ESTADOS.RECHAZADA ? t('workshop.rejected') : t('status.enrolled'))}</p>`;
         }
@@ -249,7 +259,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                  // Recargar datos
                  await loadAllData();
                  
-                 // IMPORTANTE: Volver a la vista de SOLICITUDES, donde aparecerá como "En Revisión"
+                 // IMPORTANTE: Volver a la vista de HISTORIAL, donde aparecerá como "Completada"
                  viewSolicitudes.classList.remove('hidden');
                  
              } catch (error) { alert("Error al subir."); }
@@ -278,5 +288,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await fetchUserProfile(); 
     await fetchCatalogos();   
-    await loadAllData();      
+    await loadAllData();
 });
