@@ -48,13 +48,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getTallerName(id) { const taller = catalogoTalleres.find(x => x.idTaller === id); return taller ? taller.nombreTaller : `Taller ${id}`; }
 
     function getVisualState(solicitud) {
-        const today = new Date();
-        today.setHours(0,0,0,0);
-        const fInicio = new Date(solicitud.fechaAplicarTaller);
-        const fFin = solicitud.fechaFin ? new Date(solicitud.fechaFin) : addDays(fInicio, 7);
-        if (today < fInicio) return { status: 'proximo', label: 'Próximo' };
-        else if (today >= fInicio && today <= fFin) return { status: 'en-curso', label: 'En curso' };
-        else return { status: 'completado', label: 'Completado' };
+        switch (solicitud.idEstado){
+            case 2:
+                return { status: 'completados', label: 'Completado' };
+                break;
+            case 1:
+                return { status: 'proximo', label: 'Próximo' };
+                break;
+            case 3:
+                return { status: 'en-curso', label: 'En curso' };
+                break;
+            default:
+                return { status: '', label: '' };
+        }
     }
 
     // --- 1. RENDERIZAR SOLICITUDES (EN TRÁMITE) ---
@@ -105,26 +111,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 2. RENDERIZAR HISTORIAL (COMPLETADOS) ---
     function renderHistorial(filtro = 'todos') {
-        const historial = allRequests.filter(s => s.idEstado === ESTADOS.COMPLETADA);
+        const historial = allRequests || [];
         historialList.innerHTML = '';
 
+
         const filtradas = historial.filter(s => {
-            const visual = getVisualState(s);
             if (filtro === 'todos') return true;
-            let idEstado= null;
-            switch (filtro){
-                case "completados":
-                    idEstado=2;
-                    break;
-                case "en-curso":
-                    idEstado=3
-                    break;
-                case "proximo":
-                    idEstado=1;
-                    break;
-            }
-            console.log(idEstado=== s.idEstado)
-            return visual.status === filtro || idEstado=== s.idEstado;
+            const visual = getVisualState(s);
+
+            return visual.status === filtro;
         });
 
         if (filtradas.length === 0) {
@@ -157,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </div>
                     <div class="toggle-btn-container"><button class="toggle-btn"><span class="btn-text">Ver más</span><span class="toggle-icon">▼</span></button></div>
-                    <div class="card-footer footer-${visual.status}">${visual.status === 'completado' ? '✔' : (visual.status === 'en-curso' ? '▶' : '⏱')} ${visual.label}</div>
+                    <div class="card-footer footer-${visual.status}">${visual.status === 'completados' ? '✔' : (visual.status === 'en-curso' ? '▶' : '⏱')} ${visual.label}</div>
                 </div>`;
             
             const div = document.createElement('div');
