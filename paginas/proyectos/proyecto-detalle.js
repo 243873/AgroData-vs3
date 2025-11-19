@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             projectTitle.textContent = `${typeof t === 'function' ? t('project.cultivationPlan') : 'Plan de Cultivo'}: ${currentPlan.cultivoPorSolicitud.map(c=>c.nombreCultivo).join(', ')}`;
             
             if (btnCompleteProject) {
-                if (currentPlan.idEstado === 5) {
+                if (currentPlan.idEstado === 2) {
                     btnCompleteProject.textContent = typeof t === 'function' ? t('project.reactivateProject') : 'Reactivar Proyecto';
                     btnCompleteProject.classList.remove('btn-primary');
                     btnCompleteProject.classList.add('btn-secondary');
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (btnCompleteProject) {
         btnCompleteProject.addEventListener('click', async () => {
-            const nuevoEstado = currentPlan.idEstado === 5 ? 2 : 5;
+            const nuevoEstado = currentPlan.idEstado === 2 ? 3 : 2;
             if (confirm(t('alert.confirmAction'))) {
                 try {
                     await fetchWithAuth(`${API_BASE_URL}/planes/${idPlan}/estado/${nuevoEstado}`, { method: 'PATCH' });

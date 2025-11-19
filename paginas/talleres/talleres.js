@@ -79,13 +79,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function fetchHistorialTalleres(filtro = 'todos') {
         historyGridContainer.innerHTML = `<p>${t('workshop.loadingHistory')}</p>`;
         try {
-            const url = `${API_BASE_URL}/solicitudtaller`;
+            let url=null;
+            switch (filtro){
+                case "todos":
+                    url = `${API_BASE_URL}/solicitudtaller`;
+                    break;
+                case "completados":
+                    url = `${API_BASE_URL}/getTallerForStatus/2`;
+                break;
+                case "en-curso":
+                    url = `${API_BASE_URL}/getTallerForStatus/3`;
+                break;
+                case "proximo":
+                    url = `${API_BASE_URL}/getTallerForStatus/1`;
+                    break;
+            }
+
             const response = await fetchWithAuth(url, { method: 'GET' });
             if (!response.ok) throw new Error("Error");
             const allData = await response.json();
 
-            const inscritos = allData.filter(solicitud => solicitud.idEstado === 5);
-            const filtradas = inscritos.filter(solicitud => {
+            const filtradas = allData.filter(solicitud => {
                 const visual = getVisualState(solicitud);
                 if (filtro === 'todos') return true;
                 return visual.status === filtro; 
