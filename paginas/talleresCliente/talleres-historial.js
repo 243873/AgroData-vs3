@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function fetchCatalogos() { try { catalogoTalleres = await fetchWithToken(`/talleres`); } catch (e) {} }
-    function getTallerName(id) { const t = catalogoTalleres.find(x => x.idTaller === id); return t ? t.nombreTaller : `Taller ${id}`; }
+    function getTallerName(id) { const taller = catalogoTalleres.find(x => x.idTaller === id); return taller ? taller.nombreTaller : `Taller ${id}`; }
 
     function getVisualState(solicitud) {
         const today = new Date();

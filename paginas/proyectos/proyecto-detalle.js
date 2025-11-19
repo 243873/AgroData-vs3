@@ -482,20 +482,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             deleteActivityModal.classList.remove('hidden');
         }
         if (e.target.matches('.btn-edit-task')) {
-             const t = JSON.parse(e.target.dataset.taskJson.replace(/&apos;/g, '"'));
-             document.getElementById('activity-modal-title').textContent = typeof t === 'function' ? t('activity.editActivity') : 'Editar actividad';
-             document.getElementById('activity-name').value = t.nombreTarea;
-             document.getElementById('activity-start').value = t.fechaInicio;
-             document.getElementById('activity-end').value = t.fechaVencimiento;
-             
-             const start = document.getElementById('activity-start');
-             start.min = (t.fechaInicio < today) ? t.fechaInicio : today;
-             document.getElementById('activity-end').min = today;
+            const task = JSON.parse(e.target.dataset.taskJson.replace(/&apos;/g, '"'));
+            document.getElementById('activity-modal-title').textContent = typeof t === 'function' ? t('activity.editActivity') : 'Editar actividad';
+            document.getElementById('activity-name').value = task.nombreTarea;
+            document.getElementById('activity-start').value = task.fechaInicio;
+            document.getElementById('activity-end').value = task.fechaVencimiento;
 
-             reportIdToLink = null; 
-             activityModal.dataset.mode = 'edit';
-             activityModal.dataset.editingId = t.idTarea;
-             activityModal.classList.remove('hidden');
+            const start = document.getElementById('activity-start');
+            start.min = (task.fechaInicio < today) ? task.fechaInicio : today;
+            document.getElementById('activity-end').min = today;
+
+            reportIdToLink = null;
+            activityModal.dataset.mode = 'edit';
+            activityModal.dataset.editingId = task.idTarea;
+            activityModal.classList.remove('hidden');
         }
         if (e.target.closest('.btn-create-task-from-report')) {
             const btn = e.target.closest('.btn-create-task-from-report');
