@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const taskJson = JSON.stringify(task).replace(/'/g, "&apos;");
         let estadoKey = estadoMap[task.idEstado] || 'project.pending';
         let estadoNombre = t(estadoKey);
-        let estadoClass = task.idEstado === 1 ? 'status-pendiente' : 'status-completados';
+        let estadoClass = task.idEstado === 1 ? 'status-pendiente' : 'status-completado';
         const evidencia = projectEvidenceList.find(e => e.idTarea === task.idTarea);
         let link = evidencia && evidencia.imagen ? `<a href="#" class="view-evidence-link" data-img="${evidencia.imagen}" data-desc="${evidencia.descripcion||''}" style="display:block; font-size:12px; margin-top:5px; color:#1C6E3E; text-decoration:underline;">Ver imagen</a>` : '';
         

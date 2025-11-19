@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 case "todos":
                     url = `${API_BASE_URL}/solicitudtaller`;
                     break;
-                case "completados":
+                case "completado":
                     url = `${API_BASE_URL}/getTallerForStatus/2`;
                 break;
                 case "en-curso":

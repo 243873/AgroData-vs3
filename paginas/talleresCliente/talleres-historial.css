@@ -127,7 +127,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 }
 .status-pendiente { background-color: #FFC107; color: #333; }
 .status-confirmado-en-espera { background-color: #17A2B8; color: white; }
-.status-completados { background-color: #1C6E3E; color: white; }
+.status-completado { background-color: #1C6E3E; color: white; }
 .status-rechazada { background-color: #DC3545; color: white; }
 
 /* --- TARJETA DE HISTORIAL (COMPLEJA) --- */
@@ -162,7 +162,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .card-footer { padding: 12px; text-align: center; color: white; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .footer-proximo { background-color: #1C6E3E; }
 .footer-en-curso { background-color: #008000; }
-.footer-completados { background-color: #14532d; }
+.footer-completado { background-color: #14532d; }
 
 /* --- MODAL --- */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }

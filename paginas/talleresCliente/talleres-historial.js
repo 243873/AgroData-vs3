@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getVisualState(solicitud) {
         switch (solicitud.idEstado){
             case 2:
-                return { status: 'completados', label: 'Completado' };
+                return { status: 'completado', label: 'Completado' };
                 break;
             case 1:
                 return { status: 'proximo', label: 'Próximo' };
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </div>
                     <div class="toggle-btn-container"><button class="toggle-btn"><span class="btn-text">Ver más</span><span class="toggle-icon">▼</span></button></div>
-                    <div class="card-footer footer-${visual.status}">${visual.status === 'completados' ? '✔' : (visual.status === 'en-curso' ? '▶' : '⏱')} ${visual.label}</div>
+                    <div class="card-footer footer-${visual.status}">${visual.status === 'completado' ? '✔' : (visual.status === 'en-curso' ? '▶' : '⏱')} ${visual.label}</div>
                 </div>`;
             
             const div = document.createElement('div');
