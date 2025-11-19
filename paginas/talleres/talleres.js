@@ -66,14 +66,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 2. HISTORIAL ---
     function getVisualState(taller) {
-        const today = new Date();
-        today.setHours(0,0,0,0);
-        const fInicio = new Date(taller.fechaAplicarTaller);
-        const fFin = taller.fechaFin ? new Date(taller.fechaFin) : addDays(fInicio, 7);
-
-        if (today < fInicio) return { status: 'proximo', label: 'Próximo' };
-        if (today >= fInicio && today <= fFin) return { status: 'en-curso', label: 'En curso' };
-        return { status: 'completado', label: 'Completado' };
+        switch (taller.idEstado){
+            case 2:
+                return { status: 'completado', label: 'Completado' };
+                break;
+            case 1:
+                return { status: 'proximo', label: 'Próximo' };
+                break;
+            case 3:
+                return { status: 'en-curso', label: 'En curso' };
+                break;
+            default:
+                return { status: '', label: '' };
+        }
     }
 
     async function fetchHistorialTalleres(filtro = 'todos') {

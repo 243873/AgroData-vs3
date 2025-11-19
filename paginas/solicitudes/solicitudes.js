@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
             } else { 
                 // --- VISTA DETALLE TALLER ---
-                tagsHTML = `<div class="summary-tags"><span>${t('label.workshopId')}</span><span class="request-tag">${solicitud.idTaller}</span></div>`;
+                tagsHTML = `<div class="summary-tags"><span>${t('label.workshopId')}</span><span class="request-tag">${solicitud.nombreTaller}</span></div>`;
                 detailsHTML = `
                     <div class="details-grid">
                         <div class="info-group"><label>${t('label.applicationDate')}</label><p>${solicitud.fechaAplicarTaller}</p></div>

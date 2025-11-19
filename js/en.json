@@ -354,7 +354,7 @@
     "label.state": "State:",
     "label.surface": "Surface (Ha):",
     "label.usesMachinery": "Uses Machinery:",
-    "label.workshopId": "Workshop ID:",
+    "label.workshopId": "Workshop:",
     "loading.requests": "Loading requests...",
     "notifications.cultivationPlan": "Cultivation Plan",
     "notifications.hasNewStatus": "has new status",
