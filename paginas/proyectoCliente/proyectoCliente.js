@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     let newActivityImageBase64 = null;
     let newPlagaImageBase64 = null;
 
-    const estadoMap = { 1: 'Pendiente', 2: 'Completada' };
+    const estadoMap = { 
+        1: 'project.pending', 
+        2: 'project.completed' 
+    };
     const HOY = new Date(); 
     HOY.setHours(0, 0, 0, 0); 
 
@@ -142,8 +145,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (projectTasks && projectTasks.length > 0) {
             actividadesHTML += projectTasks.map(act => {
-                let estadoNombre = estadoMap[act.idEstado] || 'Desconocido';
-                let estadoClass = `status-${estadoNombre.toLowerCase().replace(/[\s()]/g, '-')}`;
+                let estadoKey = estadoMap[act.idEstado] || 'project.pending';
+                let estadoNombre = t(estadoKey);
+                let estadoClass = act.idEstado === 1 ? 'status-pendiente' : 'status-completado';
                 let buttonHtml = '';
                 
                 // Buscar evidencia para esta tarea

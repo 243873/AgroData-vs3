@@ -18,11 +18,11 @@
                     <img id="image-preview" src="" alt="Vista previa">
                 </div>
                 <input type="file" id="activity-image-input" class="hidden" accept="image/*">
-                <button id="upload-image-button" class="btn btn-upload">Subir / Cambiar Imagen</button>
+                <button id="upload-image-button" class="btn btn-upload" data-i18n="button.uploadChangeImage">Subir / Cambiar Imagen</button>
             </div>
             <div class="form-group">
                 <label for="activity-comment" data-i18n="label.comment">Comentario:</label>
-                <textarea id="activity-comment" placeholder="Añade un comentario sobre la actividad..."></textarea>
+                <textarea id="activity-comment" data-i18n-placeholder="placeholder.activityComment" placeholder="Añade un comentario sobre la actividad..."></textarea>
             </div>
             <div class="modal-actions">
                 <button id="cancel-edit-btn" class="btn btn-danger" data-i18n="button.cancelEdit">Cancelar</button>
@@ -35,37 +35,37 @@
             <h3 id="viewer-modal-title"></h3>
             <img id="modal-report-image" src="" alt="Imagen en grande">
             <div class="modal-actions">
-                <button id="close-image-viewer-btn" class="btn btn-primary">Cerrar</button>
+                <button id="close-image-viewer-btn" class="btn btn-primary" data-i18n="common.close">Cerrar</button>
             </div>
         </div>
     </div>
     <div id="plaga-report-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3>Reporte de Plaga</h3>
+            <h3 data-i18n="project.plagueReport">Reporte de Plaga</h3>
             <div class="form-group"><label for="plaga-fecha" data-i18n="label.reportDate">Fecha de reporte:</label><input type="date" id="plaga-fecha"></div>
             <div class="form-group"><label for="plaga-tipo" data-i18n="label.plagueType">Tipo de plaga:</label><input type="text" id="plaga-tipo" data-i18n="placeholder.plagueExample" placeholder="Ej: Polilla de la Papa"></div>
-            <div class="form-group"><label for="plaga-descripcion">Descripción:</label><textarea id="plaga-descripcion" placeholder="Describe la plaga y su ubicación..."></textarea></div>
+            <div class="form-group"><label for="plaga-descripcion" data-i18n="label.description">Descripción:</label><textarea id="plaga-descripcion" data-i18n-placeholder="placeholder.plagueDescription" placeholder="Describe la plaga y su ubicación..."></textarea></div>
             <div class="form-group">
-                <label>Imágenes:</label>
+                <label data-i18n="label.images">Imágenes:</label>
                 <input type="file" id="plaga-image-input" class="hidden" accept="image/*">
-                <button class="btn btn-upload" id="btn-upload-plaga">Subir Imagen</button>
+                <button class="btn btn-upload" id="btn-upload-plaga" data-i18n="button.uploadImage">Subir Imagen</button>
                 <div id="plaga-preview-container" class="hidden" style="margin-top:10px;"><img id="plaga-preview" src="" alt="Vista previa" style="max-width: 100px;"></div>
             </div>
             <div class="modal-actions">
                 <button id="cancel-plaga-btn" class="btn btn-danger" data-i18n="button.cancelPlague">Cancelar</button>
-                <button id="save-plaga-btn" class="btn btn-primary">Guardar Reporte</button>
+                <button id="save-plaga-btn" class="btn btn-primary" data-i18n="button.saveReport">Guardar Reporte</button>
             </div>
         </div>
     </div>
     <div id="success-modal" class="modal-overlay hidden">
         <div class="modal-content success">
             <div class="success-icon">✔</div>
-            <h3>Se han guardado los cambios</h3>
+            <h3 data-i18n="common.changesSaved">Se han guardado los cambios</h3>
         </div>
     </div>
     <div class="page-wrapper">
         <header class="top-header">
-            <div class="logo-container"><img src="/Imagenes/log2.png" alt="Logo" class="logo"><h1>AgroData</h1></div>
+            <div class="logo-container"><img src="/Imagenes/log2.png" alt="Logo" class="logo"><h1 data-i18n="app.name">AgroData</h1></div>
             <div class="welcome-message"><h2 id="welcomeMessage"></h2></div>
         </header>
         <nav class="navbar">
@@ -86,7 +86,7 @@
                 
                 <div class="tab-navigation">
                     <button class="tab-btn active" data-tab="info" data-i18n="tab.information">Información</button>
-                    <button class="tab-btn" data-tab="actividades">Actividades</button>
+                    <button class="tab-btn" data-tab="actividades" data-i18n="project.activities">Actividades</button>
                 </div>
                 
                 <div id="info-view" class="tab-content">

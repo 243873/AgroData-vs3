@@ -49,7 +49,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     let taskToDeleteId = null;
     let reportIdToLink = null; 
 
-    const estadoMap = { 1: 'Pendiente', 2: 'Completada' };
+    const estadoMap = { 
+        1: 'project.pending', 
+        2: 'project.completed' 
+    };
     const HOY = new Date(); 
     HOY.setHours(0, 0, 0, 0); 
 
@@ -116,15 +119,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 projectEvidenceList = await fetchWithAuth(`${API_BASE_URL}/registroactividades/`);
             } catch (e) { projectEvidenceList = []; }
 
-            projectTitle.textContent = `Plan de Cultivo: ${currentPlan.cultivoPorSolicitud.map(c=>c.nombreCultivo).join(', ')}`;
+            projectTitle.textContent = `${typeof t === 'function' ? t('project.cultivationPlan') : 'Plan de Cultivo'}: ${currentPlan.cultivoPorSolicitud.map(c=>c.nombreCultivo).join(', ')}`;
             
             if (btnCompleteProject) {
                 if (currentPlan.idEstado === 5) {
-                    btnCompleteProject.textContent = "Reactivar Proyecto";
+                    btnCompleteProject.textContent = typeof t === 'function' ? t('project.reactivateProject') : 'Reactivar Proyecto';
                     btnCompleteProject.classList.remove('btn-primary');
                     btnCompleteProject.classList.add('btn-secondary');
                 } else {
-                    btnCompleteProject.textContent = "Finalizar Proyecto";
+                    btnCompleteProject.textContent = typeof t === 'function' ? t('project.finishProject') : 'Finalizar Proyecto';
                     btnCompleteProject.classList.add('btn-primary');
                     btnCompleteProject.classList.remove('btn-secondary');
                 }
@@ -171,27 +174,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderActivitiesTab() {
         let html = `<div class="container-header"><h4>${t('project.planActivities')}</h4><button id="add-activity-btn" class="btn btn-primary">${t('project.addActivity')}</button></div>`;
-        if (currentPlanActivities.length === 0) html += '<p>No hay actividades generales asignadas.</p>';
+        if (currentPlanActivities.length === 0) html += `<p>${typeof t === 'function' ? t('project.noGeneralActivities') : 'No hay actividades generales asignadas.'}</p>`;
         else html += currentPlanActivities.map(task => renderTaskItem(task)).join('');
         
         html += `<div class="container-header" style="margin-top:30px;"><h4>${t('project.plagueActivities')}</h4></div>`;
-        if (currentPestActivities.length === 0) html += '<p>No hay actividades de plaga asignadas.</p>';
+        if (currentPestActivities.length === 0) html += `<p>${typeof t === 'function' ? t('project.noPlagueActivities') : 'No hay actividades de plaga asignadas.'}</p>`;
         else html += currentPestActivities.map(task => renderTaskItem(task)).join('');
 
         html += `<div class="container-header" style="margin-top:30px;"><h4>${t('project.receivedPlagueReports')}</h4></div><div id="plagas-list">`;
-        if (currentPlan.reportePlagas.length === 0) html += '<p>No hay reportes.</p>';
+        if (currentPlan.reportePlagas.length === 0) html += `<p>${typeof t === 'function' ? t('project.noReports') : 'No hay reportes.'}</p>`;
         else {
             html += currentPlan.reportePlagas.map(p => `
                 <div class="plaga-item" style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:white; border:1px solid #E9ECEF; border-radius:8px; margin-bottom:10px;">
                     <div class="plaga-info"><p style="margin:0; font-weight:600;">ID ${p.idReportePlaga}: ${p.tipoPlaga}</p><p style="margin:5px 0; font-size:14px; color:#555;">${p.descripcion}</p><p style="margin:0; font-size:12px; color:#888;">${new Date(p.fechaReporte).toLocaleDateString()}</p></div>
-                    <div class="plaga-actions"><button class="btn btn-primary btn-create-task-from-report" data-report-id="${p.idReportePlaga}">Crear Tarea</button></div>
+                    <div class="plaga-actions"><button class="btn btn-primary btn-create-task-from-report" data-report-id="${p.idReportePlaga}">${typeof t === 'function' ? t('button.createTask') : 'Crear Tarea'}</button></div>
                 </div>`).join('');
         }
         html += `</div>`;
         actividadesView.innerHTML = html;
 
         document.getElementById('add-activity-btn').addEventListener('click', () => {
-            document.getElementById('activity-modal-title').textContent = "Agregar nueva actividad";
+            document.getElementById('activity-modal-title').textContent = typeof t === 'function' ? t('project.addNewActivity') : 'Agregar nueva actividad';
             document.getElementById('activity-form').reset();
             document.getElementById('activity-start').min = getTodayString();
             document.getElementById('activity-end').min = getTodayString();
@@ -204,12 +207,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderTaskItem(task) {
         const taskJson = JSON.stringify(task).replace(/'/g, "&apos;");
-        let estadoNombre = estadoMap[task.idEstado] || 'Desconocido';
-        let estadoClass = `status-${estadoNombre.toLowerCase().replace(/[\s()]/g, '-')}`;
+        let estadoKey = estadoMap[task.idEstado] || 'project.pending';
+        let estadoNombre = t(estadoKey);
+        let estadoClass = task.idEstado === 1 ? 'status-pendiente' : 'status-completado';
         const evidencia = projectEvidenceList.find(e => e.idTarea === task.idTarea);
         let link = evidencia && evidencia.imagen ? `<a href="#" class="view-evidence-link" data-img="${evidencia.imagen}" data-desc="${evidencia.descripcion||''}" style="display:block; font-size:12px; margin-top:5px; color:#1C6E3E; text-decoration:underline;">Ver imagen</a>` : '';
         
-        return `<div class="activity-item"><div class="activity-info"><strong>${task.nombreTarea}</strong><p>${t('activity.starts')} ${task.fechaInicio||'N/A'}</p><p>${t('project.status')} <span class="${estadoClass}">${estadoNombre}</span></p>${link}<p>${t('activity.expires')} ${task.fechaVencimiento}</p></div><div class="activity-actions"><button class="btn btn-secondary btn-edit-task" data-task-json='${taskJson}'>${t('activity.edit')}</button><button class="btn btn-danger btn-delete-task" data-task-id="${task.idTarea}">${t('activity.delete')}</button></div></div>`;
+        return `<div class="activity-item"><div class="activity-info"><strong>${task.nombreTarea}</strong><p>${t('activity.starts')} ${task.fechaInicio||'N/A'}</p><p>${t('project.status')} <span class="${estadoClass}">${estadoNombre}</span></p>${link}<p>${t('activity.expires')} ${task.fechaVencimiento}</p></div><div class="activity-actions"><button class="btn btn-secondary btn-edit-task" data-task-json='${taskJson}'>${t('common.edit')}</button><button class="btn btn-danger btn-delete-task" data-task-id="${task.idTarea}">${t('common.delete')}</button></div></div>`;
     }
 
     async function loadReport() {
@@ -234,47 +238,47 @@ document.addEventListener('DOMContentLoaded', async () => {
         let html = `
             <div id="pdf-content" style="padding: 20px; background: white;"> 
                 <div style="text-align:center; margin-bottom:20px;">
-                    <h3 style="color:#1C6E3E; margin:0;">Reporte de Desempeño - AgroData</h3>
-                    <p style="color:#666; margin:5px 0;">Plan de Cultivo #${idPlan}</p>
+                    <h3 style="color:#1C6E3E; margin:0;">${typeof t === 'function' ? t('report.performanceReport') : 'Reporte de Desempeño'} - ${typeof t === 'function' ? t('app.name') : 'AgroData'}</h3>
+                    <p style="color:#666; margin:5px 0;">${typeof t === 'function' ? t('project.cultivationPlan') : 'Plan de Cultivo'} #${idPlan}</p>
                 </div>
 
                 <div class="report-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px; text-align: center;">
-                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>Planificadas</h4><p class="report-value" style="font-size:24px; font-weight:bold;">${total}</p></div>
-                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>Cumplidas</h4><p class="report-value success" style="font-size:24px; font-weight:bold; color:#28A745;">${reporte.tareasCompletadas}</p></div>
-                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>Atrasadas</h4><p class="report-value danger" style="font-size:24px; font-weight:bold; color:#DC3545;">${reporte.tareasAtrasadas}</p></div>
-                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>Pendientes</h4><p class="report-value warning" style="font-size:24px; font-weight:bold; color:#FFC107;">${reporte.tareasPendientes}</p></div>
+                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>${typeof t === 'function' ? t('report.planned') : 'Planificadas'}</h4><p class="report-value" style="font-size:24px; font-weight:bold;">${total}</p></div>
+                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>${typeof t === 'function' ? t('report.completed') : 'Cumplidas'}</h4><p class="report-value success" style="font-size:24px; font-weight:bold; color:#28A745;">${reporte.tareasCompletadas}</p></div>
+                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>${typeof t === 'function' ? t('report.overdue') : 'Atrasadas'}</h4><p class="report-value danger" style="font-size:24px; font-weight:bold; color:#DC3545;">${reporte.tareasAtrasadas}</p></div>
+                    <div class="report-card" style="background:#F8F9FA; padding:15px; border-radius:8px;"><h4>${typeof t === 'function' ? t('report.pending') : 'Pendientes'}</h4><p class="report-value warning" style="font-size:24px; font-weight:bold; color:#FFC107;">${reporte.tareasPendientes}</p></div>
                 </div>
 
                 <div class="stats-summary" style="margin-bottom:30px; text-align:center; font-weight:600; color:#333; font-size:16px; border-top:1px solid #eee; border-bottom:1px solid #eee; padding:15px 0;">
-                    Progreso General: ${reporte.porcentageCompletadas.toFixed(0)}% &nbsp;|&nbsp;
-                    Evidencias recopiladas: ${projectEvidenceList.length}
+                    ${typeof t === 'function' ? t('report.generalProgress') : 'Progreso General'}: ${reporte.porcentageCompletadas.toFixed(0)}% &nbsp;|&nbsp;
+                    ${typeof t === 'function' ? t('report.evidenceCollected') : 'Evidencias recopiladas'}: ${projectEvidenceList.length}
                 </div>
 
-                <h4 style="margin-bottom: 20px;">Estadísticas actuales:</h4>
+                <h4 style="margin-bottom: 20px;">${typeof t === 'function' ? t('report.currentStats') : 'Estadísticas actuales:'}</h4>
                 <div class="chart-container" style="height: 300px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; align-items: flex-end; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 40px;">
                     <div class="bar-wrapper" style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:flex-end;">
                         <span style="margin-bottom:5px; font-weight:bold;">${total}</span>
                         <div class="bar" style="height: ${hPlanificadas}%; width: 100%; background-color: #1C6E3E; border-radius:5px 5px 0 0;"></div>
-                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">Planificadas</span>
+                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">${typeof t === 'function' ? t('report.planned') : 'Planificadas'}</span>
                     </div>
                     <div class="bar-wrapper" style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:flex-end;">
                         <span style="margin-bottom:5px; font-weight:bold;">${reporte.tareasCompletadas}</span>
                         <div class="bar" style="height: ${hCumplidas}%; width: 100%; background-color: #6AA84F; border-radius:5px 5px 0 0;"></div>
-                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">Cumplidas</span>
+                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">${typeof t === 'function' ? t('report.completed') : 'Cumplidas'}</span>
                     </div>
                     <div class="bar-wrapper" style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:flex-end;">
                         <span style="margin-bottom:5px; font-weight:bold;">${reporte.tareasAtrasadas}</span>
                         <div class="bar" style="height: ${hAtrasadas}%; width: 100%; background-color: #DC3545; border-radius:5px 5px 0 0;"></div>
-                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">Atrasadas</span>
+                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">${typeof t === 'function' ? t('report.overdue') : 'Atrasadas'}</span>
                     </div>
                     <div class="bar-wrapper" style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:flex-end;">
                         <span style="margin-bottom:5px; font-weight:bold;">${reporte.tareasPendientes}</span>
                         <div class="bar" style="height: ${hPendientes}%; width: 100%; background-color: #FFC107; border-radius:5px 5px 0 0;"></div>
-                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">Pendientes</span>
+                        <span class="bar-label" style="margin-top:10px; font-size:12px; font-weight:600;">${typeof t === 'function' ? t('report.pending') : 'Pendientes'}</span>
                     </div>
                 </div>
 
-                <h4 style="margin-top: 40px; margin-bottom: 20px;">Evidencias y Observaciones:</h4>
+                <h4 style="margin-top: 40px; margin-bottom: 20px;">${typeof t === 'function' ? t('report.evidenceAndObservations') : 'Evidencias y Observaciones:'}</h4>
                 <div class="evidence-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         `;
 
@@ -299,8 +303,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div style="width: 100%; height: 200px; background-color: #eee; border-radius: 8px; overflow: hidden; margin-bottom: 15px;">
                             <img src="${evidencia.imagen}" alt="Evidencia" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <p style="margin: 5px 0; font-size: 13px; color: #333;"><strong>Duración:</strong> ${duration} días</p>
-                        <p style="margin: 5px 0; font-size: 13px; color: #333;"><strong>Observaciones:</strong></p>
+                        <p style="margin: 5px 0; font-size: 13px; color: #333;"><strong>${typeof t === 'function' ? t('report.duration') : 'Duración'}:</strong> ${duration} ${typeof t === 'function' ? t('common.days') : 'días'}</p>
+                        <p style="margin: 5px 0; font-size: 13px; color: #333;"><strong>${typeof t === 'function' ? t('report.observations') : 'Observaciones'}:</strong></p>
                         <p style="margin: 0; font-size: 13px; color: #666; font-style: italic;">"${evidencia.descripcion || 'Sin comentarios.'}"</p>
                     </div>
                 `;
@@ -311,13 +315,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // data-html2canvas-ignore se usa para que el botón no salga en el PDF
         html += `
-                <h4 style="margin-top: 40px; margin-bottom: 10px; color:#1C6E3E;">Rendimiento Final:</h4>
-                <textarea id="rendimiento-final-input" style="width: 100%; padding: 15px; border: 1px solid #CCC; border-radius: 8px; min-height: 100px; font-family: 'Montserrat', sans-serif; font-size:14px; resize: vertical; background-color: #FFF;" placeholder="Escriba el rendimiento final del cultivo...">${reporte.observaciones || ''}</textarea>
+                <h4 style="margin-top: 40px; margin-bottom: 10px; color:#1C6E3E;">${typeof t === 'function' ? t('report.finalYield') : 'Rendimiento Final:'}</h4>
+                <textarea id="rendimiento-final-input" style="width: 100%; padding: 15px; border: 1px solid #CCC; border-radius: 8px; min-height: 100px; font-family: 'Montserrat', sans-serif; font-size:14px; resize: vertical; background-color: #FFF;" placeholder="${typeof t === 'function' ? t('placeholder.finalYield') : 'Escriba el rendimiento final del cultivo...'}">${reporte.observaciones || ''}</textarea>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px; padding-bottom: 30px;">
-                <button id="save-yield-btn" class="btn btn-secondary">Guardar Rendimiento</button>
-                <button id="generate-pdf-btn" class="btn btn-primary" style="background-color: #14532d; color: white;">Generar reporte PDF</button>
+                <button id="save-yield-btn" class="btn btn-secondary">${typeof t === 'function' ? t('button.saveYield') : 'Guardar Rendimiento'}</button>
+                <button id="generate-pdf-btn" class="btn btn-primary" style="background-color: #14532d; color: white;">${typeof t === 'function' ? t('button.generatePDF') : 'Generar reporte PDF'}</button>
             </div>
         `;
 
@@ -479,7 +483,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         if (e.target.matches('.btn-edit-task')) {
              const t = JSON.parse(e.target.dataset.taskJson.replace(/&apos;/g, '"'));
-             document.getElementById('activity-modal-title').textContent = t('activity.editActivity');
+             document.getElementById('activity-modal-title').textContent = typeof t === 'function' ? t('activity.editActivity') : 'Editar actividad';
              document.getElementById('activity-name').value = t.nombreTarea;
              document.getElementById('activity-start').value = t.fechaInicio;
              document.getElementById('activity-end').value = t.fechaVencimiento;

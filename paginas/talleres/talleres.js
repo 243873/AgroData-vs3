@@ -49,16 +49,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const renderTalleresDisponibles = () => {
         workshopListContainer.innerHTML = '';
-        catalogoTalleres.forEach(t => {
+        catalogoTalleres.forEach(taller => {
             const div = document.createElement('div');
             div.className = 'workshop-item';
             div.innerHTML = `
                 <div class="workshop-header">
-                    <h5>${t.nombreTaller}</h5>
-                    <button class="btn btn-edit" data-id="${t.idTaller}">Editar</button>
+                    <h5>${taller.nombreTaller}</h5>
+                    <button class="btn btn-edit" data-id="${taller.idTaller}">${t('common.edit')}</button>
                 </div>
-                <p class="workshop-description">${t.descripcion}</p>
-                <p class="workshop-cost">${t('workshop.cost')} $${t.costo.toLocaleString()}</p>
+                <p class="workshop-description">${taller.descripcion}</p>
+                <p class="workshop-cost">${t('workshop.cost')} $${taller.costo.toLocaleString()}</p>
             `;
             workshopListContainer.appendChild(div);
         });
@@ -84,9 +84,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!response.ok) throw new Error("Error");
             const allData = await response.json();
 
-            const inscritos = allData.filter(t => t.idEstado === 5);
-            const filtradas = inscritos.filter(t => {
-                const visual = getVisualState(t);
+            const inscritos = allData.filter(solicitud => solicitud.idEstado === 5);
+            const filtradas = inscritos.filter(solicitud => {
+                const visual = getVisualState(solicitud);
                 if (filtro === 'todos') return true;
                 return visual.status === filtro; 
             });
@@ -205,11 +205,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btn = e.target.closest('.btn-edit');
         if (btn) {
             editingWorkshopId = parseInt(btn.dataset.id);
-            const t = catalogoTalleres.find(x => x.idTaller === editingWorkshopId);
-            if (t) {
-                workshopForm.elements['workshopName'].value = t.nombreTaller;
-                workshopForm.elements['workshopDescription'].value = t.descripcion;
-                workshopForm.elements['workshopCost'].value = t.costo;
+            const taller = catalogoTalleres.find(x => x.idTaller === editingWorkshopId);
+            if (taller) {
+                workshopForm.elements['workshopName'].value = taller.nombreTaller;
+                workshopForm.elements['workshopDescription'].value = taller.descripcion;
+                workshopForm.elements['workshopCost'].value = taller.costo;
                 document.getElementById('modalTitle').textContent = t('workshop.editTitle');
                 document.getElementById('deleteWorkshopBtn').classList.remove('hidden');
                 openModalFunc(modal);
