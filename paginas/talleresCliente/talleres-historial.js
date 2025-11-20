@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const comprobanteImage = document.getElementById('comprobanteImage');
     const closeComprobanteModal = document.getElementById('closeComprobanteModal');
 
-    const ESTADOS = { PENDIENTE: 1, COMPLETADA: 2, ACEPTADA: 3, RECHAZADA: 4 };
+    const ESTADOS = { PENDIENTE: 1, COMPLETADA: 2, ACEPTADA: 3, RECHAZADA: 4, REVISION: 5 };
 
     const addDays = (date, days) => { const r = new Date(date); r.setDate(r.getDate() + days); return r; };
     
@@ -57,6 +57,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 break;
             case 3:
                 return { status: 'en-curso', label: 'En curso' };
+                break;
+            case 4:
+                return { status: 'rechazado', label: 'Rechazado' };
+                break;
+            case 5:
+                return { status: 'revision', label: 'En revision' };
                 break;
             default:
                 return { status: '', label: '' };
@@ -152,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </div>
                     <div class="toggle-btn-container"><button class="toggle-btn"><span class="btn-text">Ver más</span><span class="toggle-icon">▼</span></button></div>
-                    <div class="card-footer footer-${visual.status}">${visual.status === 'completado' ? '✔' : (visual.status === 'en-curso' ? '▶' : '⏱')} ${visual.label}</div>
+                    <div class="card-footer footer-${visual.status}">${visual.status === 'completado' ? '✔' : (visual.status === 'en-curso' ? '▶' : visual.status === 'en-curso' ? '▶' : visual.status === 'rechazado' ? '⌧' :'⏱')} ${visual.label}</div>
                 </div>`;
             
             const div = document.createElement('div');
