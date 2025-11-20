@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             projectsToRender = allProjects.filter(p => {
                 // Si es estado 5, es 'completado'. Cualquier otro (que no sea rechazado) es 'en-progreso'
-                if (filterKey === 'completado') return p.idEstado === 2;
-                if (filterKey === 'en-progreso') return p.idEstado !== 2 && p.idEstado !== 4;
+                if (filterKey === 'completado') return p.idEstado === 5;
+                if (filterKey === 'en-progreso') return p.idEstado !== 5 && p.idEstado !== 4; 
                 return false;
             });
         }

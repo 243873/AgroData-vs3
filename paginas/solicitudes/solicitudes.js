@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const STATUS_IDS = {
         PENDIENTE: 1, 
-        ACEPTADA: 3,
-        REVISION: 5,
-        COMPLETADO: 2,
-        RECHAZADA: 4
+        ACEPTADA: 2, 
+        REVISION: 4, 
+        COMPLETADO: 5, 
+        RECHAZADA: 3 
     };
 
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {

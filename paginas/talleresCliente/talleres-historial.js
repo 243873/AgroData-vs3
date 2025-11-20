@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const comprobanteImage = document.getElementById('comprobanteImage');
     const closeComprobanteModal = document.getElementById('closeComprobanteModal');
 
-    const ESTADOS = { PENDIENTE: 1, COMPLETADA: 2, ACEPTADA: 3, RECHAZADA: 4, REVISION: 5 };
+    const ESTADOS = { PENDIENTE: 1, CONFIRMADO_ESPERA: 2, RECHAZADA: 3, EN_REVISION: 4, INSCRITO_COMPLETADO: 5 };
 
     const addDays = (date, days) => { const r = new Date(date); r.setDate(r.getDate() + days); return r; };
     
@@ -49,20 +49,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function getVisualState(solicitud) {
         switch (solicitud.idEstado){
-            case 2:
+            case 5:
                 return { status: 'completado', label: 'Completado' };
                 break;
             case 1:
                 return { status: 'proximo', label: 'Próximo' };
                 break;
-            case 3:
+            case 2:
                 return { status: 'en-curso', label: 'En curso' };
                 break;
-            case 4:
+            case 3:
                 return { status: 'rechazado', label: 'Rechazado' };
                 break;
-            case 5:
+            case 4:
                 return { status: 'revision', label: 'En revision' };
+                break;
+
+            case 6:
+                return { status: 'atrasada', label: 'Atrasada' };
                 break;
             default:
                 return { status: '', label: '' };
@@ -76,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         solicitudesList.innerHTML = '';
 
         if (tramites.length === 0) {
-            solicitudesList.innerHTML = `<p>No hay solicitudes en trámite (Total: ${allRequests.length})</p>`;
+            solicitudesList.innerHTML = `<p>${t('error.noRequests')}</p>`;
             return;
         }
 
@@ -85,7 +89,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             let badgeClass = 'bg-pendiente'; 
             let badgeText = t('workshop.pending');
 
-            if(s.idEstado === ESTADOS.ACEPTADA) { badgeClass = 'bg-espera'; badgeText = t('workshop.uploadReceipt'); }
+            if(s.idEstado === ESTADOS.CONFIRMADO_ESPERA) { badgeClass = 'bg-espera'; badgeText = t('workshop.uploadReceipt'); }
+            else if(s.idEstado === ESTADOS.EN_REVISION) { badgeClass = 'bg-revision'; badgeText = t('workshop.inReview'); }
             else if(s.idEstado === ESTADOS.RECHAZADA) { badgeClass = 'bg-rechazada'; badgeText = t('workshop.rejected'); }
 
             const fechaStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
@@ -227,8 +232,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         detailView.classList.remove('hidden');
 
         let contentHTML = '';
-        if (s.idEstado === ESTADOS.ACEPTADA) {
+        if (s.idEstado === ESTADOS.CONFIRMADO_ESPERA) {
             contentHTML = `<div class="alert-box" style="background:#fff3cd; padding:15px; border-radius:8px; margin-bottom:20px;"><p><strong>¡Solicitud Aceptada!</strong></p><p>Por favor realiza el pago y sube el comprobante.</p></div><input type="file" id="file-input-${s.idSolicitudTaller}" class="hidden" accept="image/*"><button class="btn-action-box" data-for-input="file-input-${s.idSolicitudTaller}" style="width:100%; margin-bottom:10px;">📷 Seleccionar Comprobante</button><div class="image-preview-container hidden" style="text-align:center; margin-bottom:10px;"><img class="image-preview" src="" style="max-width:100%; max-height:200px; border-radius:8px;"></div><button class="btn btn-update hidden" data-id="${s.idSolicitudTaller}" style="width:100%; background-color:#1C6E3E; color:white;">Enviar Comprobante</button>`;
+        } else if (s.idEstado === ESTADOS.EN_REVISION) {
+             contentHTML = `<div style="text-align:center; padding:20px;"><p><em>Comprobante enviado. Esperando validación.</em></p><button class="btn btn-secondary view-receipt" data-url="${s.estadoPagoImagen}">Ver mi comprobante</button></div>`;
         } else {
             contentHTML = `<p>${t('status.currentStatus')} ${s.idEstado === ESTADOS.PENDIENTE ? t('workshop.pending') : (s.idEstado === ESTADOS.RECHAZADA ? t('workshop.rejected') : t('status.enrolled'))}</p>`;
         }

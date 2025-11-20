@@ -67,20 +67,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- 2. HISTORIAL ---
     function getVisualState(taller) {
         switch (taller.idEstado){
-            case 2:
+            case 5:
                 return { status: 'completado', label: 'Completado' };
                 break;
             case 1:
                 return { status: 'proximo', label: 'Próximo' };
                 break;
-            case 3:
+            case 2:
                 return { status: 'en-curso', label: 'En curso' };
                 break;
-            case 4:
+            case 3:
                 return { status: 'rechazado', label: 'Rechazado' };
                 break;
-            case 5:
+            case 4:
                 return { status: 'revision', label: 'En revision' };
+                break;
+            case 6:
+                return { status: 'atrasada', label: 'Atrasada' };
                 break;
             default:
                 return { status: '', label: '' };
@@ -96,13 +99,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                     url = `${API_BASE_URL}/solicitudtaller`;
                     break;
                 case "completado":
-                    url = `${API_BASE_URL}/getTallerForStatus/2`;
+                    url = `${API_BASE_URL}/getTallerForStatus/5`;
                 break;
                 case "en-curso":
-                    url = `${API_BASE_URL}/getTallerForStatus/3`;
+                    url = `${API_BASE_URL}/getTallerForStatus/2`;
                 break;
                 case "proximo":
                     url = `${API_BASE_URL}/getTallerForStatus/1`;
+                    break;
+                case "rechazado":
+                    url = `${API_BASE_URL}/getTallerForStatus/3`;
+                    break;
+                case "revision":
+                    url = `${API_BASE_URL}/getTallerForStatus/4`;
+                    break;
+                case "atrasada":
+                    url = `${API_BASE_URL}/getTallerForStatus/6`;
                     break;
             }
 
