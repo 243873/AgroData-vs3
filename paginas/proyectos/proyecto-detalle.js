@@ -166,8 +166,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const allTasks = await fetchWithAuth(`${API_BASE_URL}/tarea`);
             const tasksForThisPlan = allTasks.filter(task => task.idPlan === idPlan);
-            currentPlanActivities = tasksForThisPlan.filter(t => !t.nombreTarea.toLowerCase().includes('plaga'));
-            currentPestActivities = tasksForThisPlan.filter(t => t.nombreTarea.toLowerCase().includes('plaga'));
+            currentPlanActivities = tasksForThisPlan.filter(tarea => !tarea.nombreTarea.toLowerCase().includes('plaga'));
+            currentPestActivities = tasksForThisPlan.filter(tarea => tarea.nombreTarea.toLowerCase().includes('plaga'));
             renderActivitiesTab();
         } catch (error) { actividadesView.innerHTML = `<p class="error-message">${t('error.loadActivities')}</p>`; }
     }
