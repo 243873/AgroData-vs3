@@ -79,6 +79,7 @@
     "projects.noProjects": "No projects match the filter.",
     "projects.cultivationPlan": "Cultivation Plan:",
     "projects.crops": "Crops:",
+    "administrarCliente.title": "Manager Clients",
     "clients.title": "My Clients",
     "clients.noClients": "You have no clients with advisory requests registered at the moment.",
     "clients.loading": "Loading client data...",

@@ -128,3 +128,66 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .btn-secondary { background-color: #F0F0F0; color: #333; border: 1px solid #CCC; }
 .btn-danger { background-color: #D9534F; color: #FFFFFF; }
 .btn-delete { background-color: transparent; color: #D9534F; border: 1px solid #D9534F; }
+/* Estilo general de tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+}
+
+th, td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: left;
+}
+
+th {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+/* Hover fila */
+tbody tr:hover {
+    background: #fafafa;
+}
+
+/* Columna de acciones (identificada por atributo data-actions opcional o nth-child) */
+td[data-actions] {
+    white-space: nowrap;
+}
+
+/* Botones sin clases */
+td button {
+    padding: 6px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 4px;
+    transition: 0.2s ease;
+    color: #fff;
+}
+
+/* Primer botón (ej: ver) */
+td button:nth-child(1) {
+    background: #2ecc71;
+}
+td button:nth-child(1):hover {
+    background: #27ae60;
+}
+
+/* Segundo botón (ej: editar) */
+td button:nth-child(2) {
+    background: #4c8bf5;
+}
+td button:nth-child(2):hover {
+    background: #1f6af2;
+}
+
+/* Tercer botón (ej: eliminar) */
+td button:nth-child(3) {
+    background: #e74c3c;
+}
+td button:nth-child(3):hover {
+    background: #c0392b;
+}

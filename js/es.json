@@ -79,6 +79,7 @@
     "projects.noProjects": "No hay proyectos que coincidan con el filtro.",
     "projects.cultivationPlan": "Plan de Cultivo:",
     "projects.crops": "Cultivos:",
+    "administrarCliente.title": "Administrar Clientes",
     "clients.title": "Mis Clientes",
     "clients.noClients": "No tienes clientes con solicitudes de asesoría registradas por el momento.",
     "clients.loading": "Cargando datos de clientes...",
