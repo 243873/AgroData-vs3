@@ -71,6 +71,12 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
             return [];
         }
     }
+    const STATUS_MAP = {
+        2: { text: 'En Progreso', filter: 'aceptada' },
+        5: { text: 'Completado', filter: 'completado' },
+        3: { text: 'Rechazado', filter: 'rechazada' }, // Opcional si quieres mostrar rechazados
+        // Todos los demás se consideran "En Progreso" por defecto en la función de renderizado
+    };
 
     /**
      * Renderiza las tarjetas de proyecto en el HTML
@@ -88,12 +94,13 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         
         myProjects.forEach(project => {
             // Mapeamos los datos del modelo PlanCultivo
+            const estado = STATUS_MAP[project.idEstado] || { text: 'Desconocido', filter: 'desconocido' };
             const cultivosNombres = project.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ');
 
             const card = `
                 <a href="proyectoCliente.html?id=${project.idPlan}" class="project-card">
                     <div class="card-info">
-                        <h5>${t('project.cultivationPlan')} ${cultivosNombres}</h5>
+                        <h5>ID ${project.idPlan} ${t('project.cultivationPlan')} ${cultivosNombres}</h5>
                         <div class="card-info-details">
                             <p><img src="/Imagenes/user.png" class="icon"> ${project.nombre} ${project.apellidoPaterno}</p>
                             <p><img src="/Imagenes/marker.png" class="icon"> ${project.direccionTerreno}</p>
@@ -101,6 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
                         </div>
                     </div>
                     <div class="card-actions">
+                        <span class="project-status status-${estado.filter}">${estado.text}</span>
                         <span class="btn-details">${t('projects.details')}</span>
                     </div>
                 </a>`;

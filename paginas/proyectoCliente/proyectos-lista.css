@@ -117,10 +117,10 @@ html, body {
 }
 .card-actions { 
     text-align: right; 
-    display: flex; 
-    flex-direction: column; 
+    display: flex;
+    flex-direction: row;
     gap: 10px; 
-    align-items: flex-end; 
+    align-items: center;
 }
 .btn-details { 
     background-color: #F0EFEA; 
@@ -147,3 +147,15 @@ html, body {
     color: #666; 
     border: 1px solid #E9ECEF;
 }
+
+.project-status {
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.status-completado { background-color: #1C6E3E; color: white; }
+.status-rechazada { background-color: #DC3545; color: white; }
+.status-aceptada { background-color: #4caf50; color: white; }
+

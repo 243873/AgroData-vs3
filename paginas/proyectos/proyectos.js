@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- ★ LÓGICA DE FILTROS (MODIFICADA) ★ ---
     // IDs de Estado: 1=Pendiente, 2=En Progreso, 3=En Progreso, 4=Rechazado, 5=Completado
     const STATUS_MAP = {
+        2: { text: 'En Progreso', filter: 'aceptada' },
         5: { text: 'Completado', filter: 'completado' },
-        4: { text: 'Rechazado', filter: 'rechazado' }, // Opcional si quieres mostrar rechazados
+        3: { text: 'Rechazado', filter: 'rechazada' }, // Opcional si quieres mostrar rechazados
         // Todos los demás se consideran "En Progreso" por defecto en la función de renderizado
     };
 
@@ -84,6 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         projectsToRender.forEach(project => {
+            const estado = STATUS_MAP[project.idEstado] || { text: 'Desconocido', filter: 'desconocido' };
             const fullName = `${project.nombre} ${project.apellidoPaterno || ''} ${project.apellidoMaterno || ''}`;
             const cultivosNombres = project.cultivoPorSolicitud ? project.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ') : 'N/A';
             const detailUrl = `proyecto-detalle.html?idPlan=${project.idPlan}&idSolicitud=${project.idSolicitud}`;
@@ -94,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             card.innerHTML = `
                 <div class="card-info">
-                    <h5>${t('projects.cultivationPlan')} ${cultivosNombres}</h5>
+                    <h5>ID ${project.idPlan} ${t('projects.cultivationPlan')} ${cultivosNombres} </h5> 
                     <div class="card-info-details">
                         <p><img src="/Imagenes/user.png" class="icon"> ${fullName}</p>
                         <p><img src="/Imagenes/marker.png" class="icon"> ${project.direccionTerreno}</p>
@@ -102,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 </div>
                 <div class="card-actions">
+                    <span class="project-status status-${estado.filter}">${estado.text}</span>
                     <span class="btn-details">${t('projects.details')}</span>
                 </div>`;
             

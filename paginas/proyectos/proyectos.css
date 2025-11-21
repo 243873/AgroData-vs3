@@ -74,9 +74,9 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .card-actions { 
     text-align: right; 
     display: flex; 
-    flex-direction: column; 
+    flex-direction: row;
     gap: 10px; 
-    align-items: flex-end; 
+    align-items: center;
 }
 /* Nuevo estilo 'btn-details' (span) */
 .btn-details { 
@@ -148,3 +148,17 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     margin-top: 25px;
 }
 .btn-secondary { background-color: #F0F0F0; color: #333; border: 1px solid #CCC; }
+
+.project-status {
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.status-completado { background-color: #1C6E3E; color: white; }
+.status-rechazada { background-color: #DC3545; color: white; }
+.status-aceptada { background-color: #4caf50; color: white; }
+
+
+
