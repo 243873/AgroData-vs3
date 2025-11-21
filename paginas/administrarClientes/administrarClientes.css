@@ -156,38 +156,13 @@ td[data-actions] {
     white-space: nowrap;
 }
 
-/* Botones sin clases */
-td button {
-    padding: 6px 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-right: 4px;
-    transition: 0.2s ease;
-    color: #fff;
-}
-
-/* Primer botón (ej: ver) */
-td button:nth-child(1) {
-    background: #2ecc71;
-}
-td button:nth-child(1):hover {
-    background: #27ae60;
-}
-
-/* Segundo botón (ej: editar) */
-td button:nth-child(2) {
-    background: #4c8bf5;
-}
-td button:nth-child(2):hover {
-    background: #1f6af2;
-}
-
-/* Tercer botón (ej: eliminar) */
-td button:nth-child(3) {
-    background: #e74c3c;
-}
-td button:nth-child(3):hover {
-    background: #c0392b;
-}
+/* --- MODALES --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+.modal-content { background-color: #FFFFFF; padding: 30px 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 100%; max-width: 500px; text-align: center; }
+.modal-content h3, .modal-content h2 { font-size: 22px; margin-top: 0; margin-bottom: 25px; }
+.form-group { text-align: left; margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500; }
+.form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: 'Montserrat', sans-serif; resize: vertical; }
+.modal-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; }
+.main-actions { display: flex; gap: 15px; }
+.success-icon { width: 60px; height: 60px; margin-bottom: 15px; }

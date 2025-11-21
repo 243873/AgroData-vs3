@@ -30,6 +30,40 @@
                 <li><a href="/paginas/solicitudes/solicitudes.html"><img src="/Imagenes/ballot-check.png" class="nav-icon"> <span data-i18n="nav.requests">Solicitudes</span></a></li>
             </ul>
         </nav>
+        <div id="ClienteModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <h3 id="modalTitle" data-i18n="workshops.addNew"></h3>
+                <form id="clienteForm">
+                    <input type="text" id="idCliente" readonly hidden>
+                    <div class="form-group">
+                        <label for="clienteNombre" data-i18n="Nombre:">Nombre:</label>
+                        <input type="text" id="clienteNombre" data-i18n-placeholder="Nombre" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteApellidoPaterno" data-i18n="Apellido paterno:">Apellido paterno:</label>
+                        <input type="text" id="clienteApellidoPaterno" data-i18n-placeholder="Apellido paterno" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteApellidoMaterno" data-i18n="Apellido materno:">Apellido Paterno:</label>
+                        <input type="text" id="clienteApellidoMaterno" data-i18n-placeholder="Apellido materno" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteCorreo" data-i18n="Correo:">Correo:</label>
+                        <input type="text" id="clienteCorreo" data-i18n-placeholder="Correo" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteTelefono" data-i18n="Telefono:">Telefono:</label>
+                        <input type="text" id="clienteTelefono" data-i18n-placeholder="Telefono" placeholder="" required>
+                    </div>
+                </form>
+                <div class="modal-actions">
+                    <div class="main-actions">
+                        <button id="cancelCliente" class="btn btn-secondary" data-i18n="common.cancel">Cancelar</button>
+                        <button id="saveCliente" class="btn btn-primary" onclick="saveClienteFuntion()" data-i18n="common.save">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <main class="main-content">
             <!-- Contenedor principal con el nuevo estilo de panel -->

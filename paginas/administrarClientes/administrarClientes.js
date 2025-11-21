@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
-
+    let clientesData = [];
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {
         console.error("Acceso denegado o sesión inválida. Redirigiendo a login.");
         localStorage.clear();
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const clientCountElement = document.getElementById('client-count');
     const welcomeMessage = document.getElementById('welcomeMessage');
 
-    // --- FUNCIONES HELPER (API) ---
 
     async function fetchWithAuth(url, options = {}) {
         try {
@@ -77,8 +76,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                  <td>${cliente.correo}</td>
                  <td>${cliente.telefono}</td>
                  <td data-actions>
-                     <button onclick="eliminarCliente(${cliente.idUsuario})">eliminar</button>
-                     <button>editar</button>
+                     <button class="btn btn-delete" onclick="eliminarCliente(${cliente.idUsuario})">Eliminar</button>
+                     <button class="btn btn-edit" data-id="${cliente.idUsuario}">${t('common.edit')}</button>
                  </td>
             `;
             clientGrid.appendChild(card);
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            const clientesData = await response.json();
+            clientesData = await response.json();
             renderClientes(clientesData);
 
         } catch (error) {
@@ -134,6 +133,65 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error("Error en eliminarCliente:", error);
         }
     };
+    const openModalFunc = (m) => m.classList.remove('hidden');
+    const closeModalFunc = (m) => m.classList.add('hidden');
+    const modal = document.getElementById('ClienteModal');
+    const clienteForm = document.getElementById('clienteForm');
+
+    clientGrid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-edit');
+        if (btn) {
+            let clienteId = parseInt(btn.dataset.id);
+            openModalFunc(modal);
+            const cliente = clientesData.find(value => value.idUsuario === clienteId);
+            if (cliente) {
+                clienteForm.elements['idCliente'].value = cliente.idUsuario;
+                clienteForm.elements['clienteNombre'].value = cliente.nombre;
+                clienteForm.elements['clienteApellidoPaterno'].value = cliente.apellidoMaterno;
+                clienteForm.elements['clienteApellidoMaterno'].value = cliente.apellidoPaterno;
+                clienteForm.elements['clienteCorreo'].value = cliente.correo;
+                clienteForm.elements['clienteTelefono'].value = cliente.telefono;
+
+                document.getElementById('modalTitle').textContent = t('workshop.editTitle');
+                document.getElementById('deleteWorkshopBtn').classList.remove('hidden');
+                openModalFunc(modal);
+            }
+        }
+    });
+
+    document.getElementById('cancelCliente').addEventListener('click', () => closeModalFunc(modal));
+
+    window.saveClienteFuntion = async function saveClienteFuntion (){
+        const cliente ={
+            idUsuario: document.getElementById('idCliente').value,
+            nombre: document.getElementById('clienteNombre').value,
+            apellidoPaterno: document.getElementById('clienteApellidoPaterno').value,
+            apellidoMaterno: document.getElementById('clienteApellidoMaterno').value,
+            correo: document.getElementById('clienteCorreo').value,
+            telefono: document.getElementById('clienteTelefono').value,
+        }
+        try {
+            const response = await fetchWithAuth(
+                `${API_BASE_URL}/administrarClientes/${cliente.idUsuario}`,
+                { method: 'PUT', body:JSON.stringify(cliente) }
+            );
+
+            if (!response.ok) {
+                // Error HTTP (400, 404, 500, etc.)
+                const errorText = await response.text();
+                throw new Error(errorText || "Error al eliminar cliente");
+            }
+            closeModalFunc(modal)
+            await fetchClientes();
+            // Éxito
+            window.alert("Cliente actualizado correctamente");
+        } catch (e){
+            console.error(e)
+            window.alert("Error al actualizar");
+
+        }
+    }
+
     // --- INICIALIZACIÓN ---
     await loadProfileAndGreeting();
     await fetchClientes();
