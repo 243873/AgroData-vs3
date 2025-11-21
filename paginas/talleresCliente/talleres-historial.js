@@ -204,7 +204,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             const view = e.target.dataset.view;
-            
+
+            detailView.classList.add('hidden');
             viewSolicitudes.classList.toggle('hidden', view !== 'solicitudes');
             viewHistorial.classList.toggle('hidden', view !== 'historial');
             
