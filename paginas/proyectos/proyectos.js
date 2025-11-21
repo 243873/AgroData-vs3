@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- ★ LÓGICA DE FILTROS (MODIFICADA) ★ ---
     // IDs de Estado: 1=Pendiente, 2=En Progreso, 3=En Progreso, 4=Rechazado, 5=Completado
     const STATUS_MAP = {
+        1: { text: 'En Progreso', filter: 'aceptada' },
         2: { text: 'En Progreso', filter: 'aceptada' },
         5: { text: 'Completado', filter: 'completado' },
         3: { text: 'Rechazado', filter: 'rechazada' }, // Opcional si quieres mostrar rechazados
