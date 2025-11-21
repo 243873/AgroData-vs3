@@ -19,7 +19,9 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .container-header {
     flex-direction: row;
     display: flex;
-    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
     padding-bottom: 15px; margin-bottom: 25px; border-bottom: 1px solid #E9ECEF; }
 .container-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
 .container-header p { font-size: 14px; color: #666; margin: 5px 0 0 0; }

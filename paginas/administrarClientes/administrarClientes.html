@@ -24,7 +24,7 @@
             <ul>
                 <li><a href="/paginas/inicio/inicio.html"><img src="/Imagenes/home.png" class="nav-icon"> <span data-i18n="nav.home">Inicio</span></a></li>
                 <li><a href="/paginas/perfil/perfil.html"><img src="/Imagenes/user.png" class="nav-icon"> <span data-i18n="nav.profile">Perfil</span></a></li>
-                <li class="active"><a href="administrarClientes.html"><img src="/Imagenes/employees.png" class="nav-icon"> <span data-i18n="nav.clients">Clientes</span></a></li>
+                <li class="active"><a href="/paginas/clientes/clientes.html"><img src="/Imagenes/employees.png" class="nav-icon"> <span data-i18n="nav.clients">Clientes</span></a></li>
                 <li><a href="/paginas/proyectos/proyectos.html"><img src="/Imagenes/tree-sapling.png" class="nav-icon"> <span data-i18n="nav.projects">Proyectos</span></a></li>
                 <li><a href="/paginas/talleres/talleres.html"><img src="/Imagenes/wrench-alt.png" class="nav-icon"> <span data-i18n="nav.workshops">Talleres</span></a></li>
                 <li><a href="/paginas/solicitudes/solicitudes.html"><img src="/Imagenes/ballot-check.png" class="nav-icon"> <span data-i18n="nav.requests">Solicitudes</span></a></li>
@@ -69,6 +69,7 @@
             <!-- Contenedor principal con el nuevo estilo de panel -->
             <div class="content-container">
                 <div class="container-header">
+                    <a class="btn btn-secondary" href="/paginas/clientes/clientes.html">Regresar</a>
                     <div>
                         <h4 data-i18n="administrarCliente.title">Administrar clientes</h4>
                         <p id="client-count" data-i18n="clients.loading">Cargando clientes...</p>
@@ -78,11 +79,11 @@
              <table>
                  <thead>
                  <tr>
-                     <td> id</td>
-                     <td> nombre</td>
-                     <td> correo</td>
-                     <td> número</td>
-                     <td> acciones</td>
+                     <td> Id</td>
+                     <td> Nombre</td>
+                     <td> Correo</td>
+                     <td> Número</td>
+                     <td> Acciones</td>
                  </tr>
                  </thead>
                  <tbody id="client-grid">
