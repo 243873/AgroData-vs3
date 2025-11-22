@@ -23,15 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCorreo = document.getElementById('viewCorreo');
     const viewTelefono = document.getElementById('viewTelefono');
 
-    // --- ** CAMPOS DE EDICIÓN DEL NUEVO FORMULARIO ** ---
     const editNombre = document.getElementById('editNombre');
     const editApellidoPaterno = document.getElementById('editApellidoPaterno'); 
     const editApellidoMaterno = document.getElementById('editApellidoMaterno'); 
     const emailInput = document.getElementById('emailInput');
     const contactInput = document.getElementById('contactInput');
 
-    // --- ESTADO DE LA APLICACIÓN ---
-    // Usamos el 'usuarioActual' que guardó tu script de login
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
     const RUTA_IMAGEN_PREDEFINIDA = "/Imagenes/perfil.png"; 
     

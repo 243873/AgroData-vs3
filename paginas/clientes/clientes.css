@@ -29,7 +29,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 25px;
-    align-items: start; /* CRÍTICO: Evita que las tarjetas se estiren al abrir una */
+    align-items: start; 
 }
 
 .client-card {
@@ -69,15 +69,14 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     opacity: 0.7;
 }
 
-/* --- SECCIÓN "VER MÁS" MEJORADA --- */
 .more-details {
-    max-height: 0; /* Oculto por defecto */
+    max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-in-out; /* Animación suave */
+    transition: max-height 0.4s ease-in-out; 
     font-size: 14px;
 }
 .client-card.open .more-details {
-    max-height: 200px; /* Altura máxima al expandirse (ajustar si es necesario) */
+    max-height: 200px; 
 }
 .more-details p {
     margin: 10px 0;

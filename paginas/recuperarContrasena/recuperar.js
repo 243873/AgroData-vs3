@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const jsonData = JSON.stringify({ email: email });
         console.log("JSON listo para enviar:", jsonData);
         alert(t('modal.requestReceived'));
-        // Redirigir a la página de actualizar contraseña
+
         window.location.href = '/actualizar-contrasena/actualizar.html';
     });
 });

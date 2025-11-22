@@ -1,10 +1,9 @@
-/* --- ESTILOS DE PLANTILLA BASE --- */
 html, body { 
     margin: 0; 
     padding: 0; 
     height: 100%; 
     font-family: 'Montserrat', sans-serif; 
-    background-color: #F9F5EE; /* Fondo general de la página */
+    background-color: #F9F5EE; 
     color: #1B1B1B; 
 }
 .page-wrapper { 
@@ -60,17 +59,16 @@ html, body {
     flex-grow: 1; 
     padding: 30px 40px; 
     overflow-y: auto; 
-    background-color: #F0EFEA; /* Fondo del área de contenido */
+    background-color: #F0EFEA;
 }
 
-/* --- ESTILOS DE LA LISTA DE PROYECTOS (MODIFICADO) --- */
 .list-container { 
     max-width: 1200px; 
     margin: 0 auto; 
-    background-color: #FFFFFF; /* <-- CAMBIO CLAVE: Fondo blanco */
-    border-radius: 12px;      /* <-- CAMBIO CLAVE: Bordes redondeados */
-    padding: 35px;           /* <-- CAMBIO CLAVE: Espaciado interno */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* <-- CAMBIO CLAVE: Sombra */
+    background-color: #FFFFFF; 
+    border-radius: 12px;      
+    padding: 35px;          
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
 }
 .list-container h3 { 
     margin-bottom: 25px; 
@@ -78,7 +76,6 @@ html, body {
     color: #333; 
 }
 
-/* Tarjeta de proyecto (sin cambios, pero se integra mejor ahora) */
 .project-card {
     background-color: #F8F9FA;
     border: 1px solid #E9ECEF;

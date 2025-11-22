@@ -36,9 +36,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 #solicitudes-list-view { display: flex; flex-direction: column; gap: 20px; }
 
 
-/* ================================================== */
-/* --- ★ TARJETA DE TRÁMITE (DISEÑO) ★ --- */
-/* ================================================== */
 .tramite-card {
     background-color: #FDFBF7; 
     border-radius: 15px;
@@ -65,7 +62,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     min-width: 160px; /* Ancho fijo para alinear */
 }
 
-/* --- BOTÓN VER DETALLES (REDONDO) --- */
 .btn-ver-detalles {
     background-color: #F3EFE0;
     color: #333;
@@ -81,7 +77,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 }
 .btn-ver-detalles:hover { background-color: #E0DCC0; }
 
-/* --- ★ MODIFICACIÓN: BADGE DE ESTADO (RECTANGULAR) ★ --- */
 .status-badge-tramite {
     padding: 10px 25px;
     border-radius: 6px; /* Rectangular con bordes suaves */
@@ -103,9 +98,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .bg-rechazada { background-color: #DC3545; }
 
 
-/* ================================================== */
 /* --- ESTILOS GENERALES Y DE HISTORIAL --- */
-/* ================================================== */
 .historial-card { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 .historial-card-body { padding: 20px; }
 .historial-card-body h5 { margin: 0 0 15px 0; font-size: 18px; color: #1B1B1B; }
@@ -113,13 +106,11 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .historial-card-body .icon { width: 16px; height: 16px; min-width: 16px; opacity: 0.7; margin-right: 10px; object-fit: contain; }
 .historial-card-footer { margin-top: auto; background-color: #F1F3F5; border-top: 1px solid #E9ECEF; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
 
-/* Estilos para el footer de la tarjeta simple (si se usa) */
 .btn-details { padding: 10px 25px; border-radius: 20px; font-weight: 600; text-align: center; width: 160px; box-sizing: border-box; background-color: #F0EFEA; color: #333; border: 1px solid #DCD9D0; }
 
-/* --- MODIFICACIÓN AQUÍ TAMBIÉN PARA HISTORIAL SIMPLE --- */
 .status-badge { 
     padding: 10px 25px; 
-    border-radius: 6px; /* Rectangular */
+    border-radius: 6px;
     font-weight: 600; 
     text-align: center; 
     width: 160px; 
@@ -130,7 +121,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .status-completado { background-color: #1C6E3E; color: white; }
 .status-rechazada { background-color: #DC3545; color: white; }
 
-/* --- TARJETA DE HISTORIAL (COMPLEJA) --- */
+/* --- TARJETA DE HISTORIAL --- */
 .workshop-card {
     background-color: #FDFBF7; 
     border-radius: 15px;

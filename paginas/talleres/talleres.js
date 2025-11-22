@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const renderTalleresDisponibles = () => {
         workshopListContainer.innerHTML = '';
         catalogoTalleres.forEach(taller => {
+
+            if (taller.idEstado === 7) return;
+
             const div = document.createElement('div');
             div.className = 'workshop-item';
             div.innerHTML = `
@@ -138,9 +141,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const fInicioStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
                 const fFinStr = s.fechaFin ? new Date(s.fechaFin).toLocaleDateString('es-ES') : '...';
                 
-                // ★ AÑADIDO: Enlace para ver el comprobante en el historial del agrónomo ★
                 const receiptHTML = s.estadoPagoImagen 
-                    ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">${t('workshop.viewReceipt')}</a></div>` 
+                    ? `<div style="margin-top:10px;"><img src="/Imagenes/angle-small-down.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">${t('workshop.viewReceipt')}</a></div>` 
                     : '';
 
                 const cardHTML = `
@@ -188,7 +190,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) { historyGridContainer.innerHTML = `<p>${t('workshop.error')}</p>`; }
     }
 
-    // ... (RESTO DE EVENTOS: nav, filtros, modales, eliminar, igual que antes) ...
     document.querySelector('.workshops-nav').addEventListener('click', (e) => {
         if (e.target.matches('.nav-button')) {
             document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
@@ -257,13 +258,35 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('deleteWorkshopBtn').addEventListener('click', () => { closeModalFunc(modal); openModalFunc(deleteModal); });
     document.getElementById('cancelDelete').addEventListener('click', () => closeModalFunc(deleteModal));
-    document.getElementById('acceptDelete').addEventListener('click', async () => {
-         try {
-            await fetchWithAuth(`${API_BASE_URL}/talleres/${editingWorkshopId}`, { method: 'DELETE' });
-            await fetchTalleresDisponibles();
-            closeModalFunc(deleteModal);
-        } catch (e) { alert(e.message); closeModalFunc(deleteModal); }
-    });
+   document.getElementById('acceptDelete').addEventListener('click', async () => {
+    try {
+        // 1. Buscamos el taller actual para obtener sus datos
+        const tallerActual = catalogoTalleres.find(t => t.idTaller === editingWorkshopId);
+
+        if (tallerActual) {
+            const payload = {
+                nombreTaller: tallerActual.nombreTaller,
+                descripcion: tallerActual.descripcion,
+                costo: tallerActual.costo,
+                idEstado: 7 // <--- "ELIMINADO" 
+            }; 
+
+            await fetchWithAuth(`${API_BASE_URL}/talleres/${editingWorkshopId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        await fetchTalleresDisponibles();
+        closeModalFunc(deleteModal);
+        showSuccess();
+
+    } catch (e) {
+        alert("Error: " + e.message);
+        closeModalFunc(deleteModal);
+    }
+});
     
     if(closeReceipt) closeReceipt.addEventListener('click', () => closeModalFunc(receiptModal));
 

@@ -1,10 +1,10 @@
-/* --- ESTILOS DE PLANTILLA BASE (Adoptados del Cliente) --- */
+/* --- ESTILOS DE PLANTILLA BASE  --- */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: 'Montserrat', sans-serif;
-    background-color: #F9F5EE; /* Color de fondo del cliente */
+    background-color: #F9F5EE;
     color: #1B1B1B;
 }
 
@@ -16,14 +16,14 @@ html, body {
 }
 
 .top-header {
-    background-color: #1C6E3E; /* Color principal del cliente */
+    background-color: #1C6E3E;
     color: #FFFFFF;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
     flex-shrink: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra del cliente */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
 }
 
 .logo-container {
@@ -48,9 +48,9 @@ html, body {
 }
 
 .navbar {
-    background-color: #FFFFFF; /* Color de navbar del cliente */
+    background-color: #FFFFFF;
     padding: 10px 40px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra del cliente */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
     flex-shrink: 0;
 }
 
@@ -59,7 +59,7 @@ html, body {
     padding: 0;
     list-style: none;
     display: flex;
-    gap: 60px; /* Espaciado del cliente */
+    gap: 60px;
 }
 
 .navbar a {
@@ -79,7 +79,6 @@ html, body {
     height: 16px;
 }
 
-/* Estilo para el link activo, igual al del cliente */
 .navbar li.active a {
     color: #1C6E3E;
     border-bottom-color: #1C6E3E;
@@ -91,14 +90,13 @@ html, body {
     overflow-y: auto;
 }
 
-/* --- CONTENEDOR DE CONTENIDO (Estilo Panel del Cliente) --- */
 .content-container {
     max-width: 1200px;
     margin: 0 auto 30px auto;
     background-color: #FFFFFF;
     border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra de panel del cliente */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
 }
 
 .container-header h4 {
@@ -118,19 +116,19 @@ html, body {
 .notifications-list {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espacio entre notificaciones */
+    gap: 15px; 
 }
 
 .notification-actions .btn {
-    width: 130px; /* Ancho fijo */
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
-    text-align: center; /* Centra el texto dentro del botón */
-    padding: 10px 15px; /* Ajuste del padding para que se vea bien */
+    width: 130px; 
+    box-sizing: border-box; 
+    text-align: center; 
+    padding: 10px 15px; 
 }
 
 .notification-item {
-    background-color: #F8F9FA; /* Color de fondo de notificación del cliente */
-    border: 1px solid #E9ECEF; /* Borde del cliente */
+    background-color: #F8F9FA; 
+    border: 1px solid #E9ECEF;
     border-radius: 10px;
     padding: 15px 25px;
     display: flex;
@@ -187,32 +185,28 @@ html, body {
 }
 
 
-/* --- INICIO: ESTILOS DEL MODAL (Añadir esto) --- */
-
-/* Clase para ocultar el modal */
 .hidden {
     display: none !important;
 }
 
-/* El fondo oscuro que cubre la pantalla */
+
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+    background-color: rgba(0, 0, 0, 0.6); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Asegura que esté por encima de todo */
+    z-index: 1000; 
 }
 
-/* La caja blanca del modal */
 .modal-content {
     background-color: white;
     padding: 25px 30px;
-    border-radius: 12px; /* Coincide con tu .content-container */
+    border-radius: 12px; 
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     width: 90%;
     max-width: 400px;
@@ -223,21 +217,18 @@ html, body {
     font-size: 1.1rem;
     color: #333;
     margin-top: 0;
-    margin-bottom: 25px; /* Más espacio */
+    margin-bottom: 25px; /
 }
 
-/* Contenedor de los botones */
+
 .modal-actions {
     display: flex;
     justify-content: center;
-    gap: 15px; /* Coincide con tu .notification-actions */
+    gap: 15px; 
 }
 
-/* Estilo para el botón 'Cancelar'.
-  Tu HTML usa 'btn-secondary', pero no estaba definido en tu CSS.
-*/
 .btn-secondary {
-    background-color: #6c757d; /* Gris estándar */
+    background-color: #6c757d; 
     color: #FFFFFF;
 }
 
@@ -246,5 +237,3 @@ html, body {
     transform: translateY(-1px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-
-/* --- FIN: ESTILOS DEL MODAL --- */

@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const fInicioStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
             const fFinStr = s.fechaFin ? new Date(s.fechaFin).toLocaleDateString('es-ES') : '...';
 
-            // ★ CORRECCIÓN: Mostrar enlace "Ver comprobante" en historial ★
             const receiptHTML = s.estadoPagoImagen 
                 ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">Ver comprobante</a></div>` 
                 : '';
@@ -250,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.target.id === 'backToListBtn') {
             detailView.classList.add('hidden');
             const activeView = document.querySelector('.nav-button.active').dataset.view;
-            // Regresar a la vista correcta
+            // Regresar a la vista 
             if (activeView === 'solicitudes') viewSolicitudes.classList.remove('hidden');
             else viewHistorial.classList.remove('hidden');
         }
@@ -268,7 +267,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                  // Recargar datos
                  await loadAllData();
                  
-                 // IMPORTANTE: Volver a la vista de HISTORIAL, donde aparecerá como "Completada"
                  viewSolicitudes.classList.remove('hidden');
                  
              } catch (error) { alert("Error al subir."); }

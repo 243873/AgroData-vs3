@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
-    // 1. VERIFICACIÓN DE USUARIO (con Token)
+document.addEventListener('DOMContentLoaded', async () => { 
+
     const currentUser = JSON.parse(localStorage.getItem('usuarioActual'));
     if (!currentUser || !currentUser.token) { 
         window.location.href = '/index.html'; 
@@ -7,13 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
     }
     const authToken = currentUser.token;
 
-    // 2. ELEMENTOS DEL DOM
     const projectsListContainer = document.getElementById('projects-list-container');
     const welcomeMessage = document.getElementById('welcomeMessage');
 
-    /**
-     * Función 'fetch' personalizada que añade el token
-     */
     async function fetchWithToken(url, options = {}) {
         const defaultHeaders = {
             'Authorization': `Bearer ${authToken}`,
@@ -31,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         const response = await fetch(url, finalOptions);
 
         if (!response.ok) {
-            if (response.status === 401) { // Token inválido o expirado
+            if (response.status === 401) { 
                 window.location.href = '/index.html';
             }
             throw new Error(`Error de API: ${response.status}`);
@@ -39,9 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         return response.json();
     }
 
-    /**
-     * Carga el perfil del usuario para obtener el nombre
-     */
     async function fetchUserProfile() {
         try {
             const userProfile = await fetchWithToken(`${API_BASE_URL}/perfil/${currentUser.id}`);
@@ -52,16 +45,11 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         }
     }
 
-    /**
-     * Llama a la API para obtener TODOS los planes de cultivo
-     */
     async function getAllProjectsFromAPI() {
         try {
-            // Llama al endpoint del backend
+
             const allProjects = await fetchWithToken(`${API_BASE_URL}/obtenerPlanCultivos`);
             
-            // La API devuelve *todos* los proyectos.
-            // Filtramos en el cliente solo los que pertenecen a este usuario.
             const myProjects = allProjects.filter(project => project.idUsuario === currentUser.id);
             return myProjects;
 
@@ -74,13 +62,9 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
     const STATUS_MAP = {
         2: { text: 'En Progreso', filter: 'aceptada' },
         5: { text: 'Completado', filter: 'completado' },
-        3: { text: 'Rechazado', filter: 'rechazada' }, // Opcional si quieres mostrar rechazados
-        // Todos los demás se consideran "En Progreso" por defecto en la función de renderizado
+        3: { text: 'Rechazado', filter: 'rechazada' }, 
     };
 
-    /**
-     * Renderiza las tarjetas de proyecto en el HTML
-     */
     async function renderProjects() {
         projectsListContainer.innerHTML = `<p>${t('common.loading')}</p>`;
         const myProjects = await getAllProjectsFromAPI();
@@ -93,7 +77,6 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         projectsListContainer.innerHTML = ''; // Limpiar "Cargando..."
         
         myProjects.forEach(project => {
-            // Mapeamos los datos del modelo PlanCultivo
             const estado = STATUS_MAP[project.idEstado] || { text: 'Desconocido', filter: 'desconocido' };
             const cultivosNombres = project.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ');
 

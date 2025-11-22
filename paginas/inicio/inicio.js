@@ -131,19 +131,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             switch (tipo) {
                 case 'asesoria':
-                    // Cambio 1: Quitamos el ID del mensaje
+
                     texto = t('notifications.newAdvisory');
                     link = '/paginas/solicitudes/solicitudes.html';
                     linkText = t('notifications.goToRequests');
                     break;
                 case 'taller':
-                    // Cambio 1b: Quitamos el ID para consistencia
+
                     texto = t('notifications.newWorkshop');
                     link = '/paginas/solicitudes/solicitudes.html';
                     linkText = t('notifications.goToRequests');
                     break;
                 case 'tarea':
-                    // Cambio 2: Usamos el ID del Plan en lugar del ID de la tarea
+
                     const planText = infoExtra ? `${t('notifications.cultivationPlan')} #${infoExtra}` : `(ID: ${id})`;
                     
                     if (estado.toLowerCase() === 'completada') {

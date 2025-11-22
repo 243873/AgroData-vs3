@@ -1,11 +1,8 @@
-// registro.js (REGISTRO ADAPTADO A LA API)
-
 document.addEventListener("DOMContentLoaded", function() {
-    // Elementos del DOM (referencias de validación se mantienen)
+
     const registerForm = document.getElementById("registerForm");
     const submitBtn = document.querySelector(".submit-btn");
-    
-    // Input references (using the IDs you specified)
+
     const nombreInput = document.getElementById("nombre");
     const apellidoPaternoInput = document.getElementById("apellidoPaterno");
     const apellidoMaternoInput = document.getElementById("apellidoMaterno");
@@ -14,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const passwordInput = document.getElementById("password");
     const confirmPasswordInput = document.getElementById("confirmPassword");
 
-    // Error message references
     const errorNombre = document.getElementById("errorNombre");
     const errorApellidoPaterno = document.getElementById("errorApellidoPaterno");
     const errorApellidoMaterno = document.getElementById("errorApellidoMaterno");
@@ -23,13 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const errorPassword = document.getElementById("errorPassword");
     const errorConfirmPassword = document.getElementById("errorConfirmPassword");
     
-    // Lógica para quitar los usuarios de prueba de localStorage si existían
     if (localStorage.getItem("usuarios")) {
          localStorage.removeItem("usuarios");
          console.log("Usuarios de prueba de localStorage eliminados. Usando API real.");
     }
     
-    // Lógica de validación local (la conservamos, solo quitamos la verificación de correo en localStorage)
+    // Lógica de validación local 
     function validarRegistro(nombre, ap, am, tel, corr, pass, confPass) {
         // Limpiar errores previos en cada envío.
         document.querySelectorAll(".error-message").forEach(p => p.textContent = "");
@@ -89,16 +84,16 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
 
-        // 1. Preparar datos como JSON (requisito de tu controlador Java ctx.bodyAsClass)
+        // 1. Preparar datos como JSON (
         const nuevoUsuario = {
             nombre,
             apellidoPaterno,
             apellidoMaterno,
             telefono,
             correo,
-            password, // La API se encarga de hashear esto con BCrypt
+            password, // La API se  hashea esto con BCrypt
             imagenPerfil: "default.jpg", 
-            rol: 2 // Rol por defecto: cliente
+            rol: 2 
         };
 
         // 2. Ejecutar la llamada a la API
@@ -111,18 +106,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 headers: {
                     'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify(nuevoUsuario) // Enviamos la cadena JSON
+                body: JSON.stringify(nuevoUsuario) 
             });
             
-            // La API puede devolver texto (éxito: "Usuario registrado") o texto de error.
             const responseBodyText = await response.text(); 
 
-            if (response.status === 201) { // Éxito: 201 Created
+            if (response.status === 201) { 
                 alert(t('validation.accountCreated'));
-                window.location.href = "/index.html"; // Redirige a la página de login
+                window.location.href = "/index.html"; // Redirige al login
 
-            } else { // Fallo: Códigos 4xx o 5xx
-                // Muestra el mensaje exacto que devuelve la API (ej: "Este correo ya está registrado.")
+            } else { 
+
                 errorEmail.textContent = responseBodyText || t('validation.unknownError');
             }
 

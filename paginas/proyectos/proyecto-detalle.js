@@ -1,4 +1,3 @@
-// paginas/proyectos/proyecto-detalle.js
 document.addEventListener('DOMContentLoaded', async () => {
 
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -327,7 +326,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         reporteView.innerHTML = html;
 
-        // --- EVENTO CORREGIDO: Guardar Rendimiento ---
         document.getElementById('save-yield-btn').addEventListener('click', async () => {
             const rendimiento = document.getElementById('rendimiento-final-input').value;
             try {
@@ -335,19 +333,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     idPlan: idPlan,
                     fechaGeneracion: new Date().toISOString().split('.')[0], 
                     observaciones: rendimiento,
-                    // Los valores numéricos se ignoran en el backend al actualizar solo observaciones,
-                    // pero se envían para cumplir con el modelo.
+
                     totalTareas: 0, tareasCompletadas: 0, tareasAceptadas: 0, tareasPendientes: 0, tareasAtrasadas: 0, porcentageCompletadas: 0 
                 };
 
-                // Usamos fetchWithAuth, que ya maneja el error si !response.ok
                 await fetchWithAuth(`${API_BASE_URL}/registrarReporteDesempeno`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                // Si llega aquí es éxito
                 alert("Rendimiento final guardado correctamente.");
 
             } catch (e) {
@@ -369,7 +364,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             if (window.html2pdf) {
-                // Hack: Reemplazar textarea por div para correcta renderización
                 const textarea = document.getElementById('rendimiento-final-input');
                 const textVal = textarea.value;
                 const p = document.createElement('p');

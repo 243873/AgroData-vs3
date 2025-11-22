@@ -45,18 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../../index.html';
         return;
     }
-
-    /**
-     * Función SÍNCRONA para poblar el DOM con un objeto de datos.
-     * Muestra el saludo dinámico.
-     */
     const populateDOM = (data) => {
-        // ✅ CORRECCIÓN: Saludo dinámico para todas las vistas
         welcomeMessage.textContent = `${t('greeting.welcome')}, ${data.nombre}`;
         
         const fullName = `${data.nombre} ${data.apellidoPaterno || ''} ${data.apellidoMaterno || ''}`.trim();
-        
-        // ✅ Estandarización del título del usuario (igual al cliente)
+
         userTitleView.textContent = fullName; 
         
         viewCorreo.textContent = data.correo;
@@ -77,9 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contactInput.value = data.telefono;
     };
 
-    /**
-     * Carga los datos del usuario desde el backend (GET /perfil/{id})
-     */
+
     const loadUserData = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/perfil/${authInfo.id}`, {
@@ -103,16 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('Error en loadUserData:', error);
-            // El error net::ERR_FAILED aparece aquí, indicando un fallo en el servidor.
             alert(t('validation.serverError'));
             localStorage.removeItem('usuarioActual');
             window.location.href = '../../index.html';
         }
     };
 
-    /**
-     * Activa o desactiva el modo de edición del formulario.
-     */
     const setEditMode = (isEditing) => {
         viewModeElements.forEach(el => el.classList.toggle('hidden', isEditing));
         editModeElements.forEach(el => el.classList.toggle('hidden', !isEditing));
@@ -124,9 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadButton.classList.toggle('hidden', !isEditing);
     };
 
-    /**
-     * Restaura los datos desde 'originalUserData' y vuelve al modo vista.
-     */
     const cancelEdit = () => {
         populateDOM(originalUserData);
         fullUserData = { ...originalUserData };
@@ -134,9 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setEditMode(false);
     };
 
-    /**
-     * Envía los cambios del perfil al backend (PUT /perfil/{id})
-     */
     const saveChanges = async () => {
         
         // --- Lectura de los 5 campos ---

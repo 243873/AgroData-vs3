@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let currentProject = null; 
     let projectTasks = []; 
-    let projectEvidenceList = []; // ★ Nuevo: Lista de evidencias
+    let projectEvidenceList = []; 
     let currentActivityId = null; 
     let newActivityImageBase64 = null;
     let newPlagaImageBase64 = null;

@@ -33,20 +33,15 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .btn-upload { background-color: #FFFFFF; border: 1px solid #CCC; border-radius: 8px; padding: 10px 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: 500; }
 .upload-icon { width: 16px; height: 16px; }
 
-/* --- NUEVA ESTRUCTURA DE COLUMNAS --- */
 .profile-main-content { flex-grow: 1; }
 .user-title { font-size: 24px; font-weight: 600; margin-top: 0; margin-bottom: 30px; color: #1C6E3E; }
 
-/* LAYOUT DE GRID PARA AMBOS MODOS */
 .profile-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px; /* Espacio entre las columnas */
+    gap: 40px; 
 }
 
-/* * ** LÍNEA DIVISORIA (AÑADIDA) **
- * Se aplica a la segunda columna (en ambos modos)
-*/
 .profile-grid .profile-column + .profile-column {
     border-left: 1px solid #E9ECEF;
     padding-left: 40px;
@@ -58,9 +53,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .info-group p { font-size: 16px; margin: 0; color: #555; }
 .password-field { font-family: monospace; letter-spacing: 2px; }
 
-/* * ** BOTÓN LOGOUT (MODIFICADO) **
- * Se hizo más pequeño para que quepa en el header.
-*/
+
 .btn-logout {
     font-size: 13px;
     padding: 8px 20px;

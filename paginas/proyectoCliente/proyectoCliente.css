@@ -14,7 +14,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; background-color: #F0EFEA; } /* Fondo del agrónomo */
 .hidden { display: none !important; }
 
-/* Oculta el contenido al inicio para evitar parpadeo */
+
 .content-hidden {
     visibility: hidden;
     opacity: 0;
@@ -27,7 +27,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .btn-primary { background-color: #1C6E3E; color: white; }
 .btn-danger { background-color: #DC3545; color: white; }
 .btn-upload { background-color: #F0F0F0; color: #333; border: 1px solid #E0E0E0; width: 100%; padding: 10px; }
-/* Botón pequeño para ver imagen */
+
 .btn-sm {
     padding: 5px 10px;
     font-size: 12px;
@@ -35,15 +35,13 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 }
 
 
-/* --- CONTENEDOR PRINCIPAL DEL PROYECTO (Estilo Agrónomo) --- */
 .project-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
 .project-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; border-bottom: 1px solid #E9ECEF; padding-bottom: 20px; }
 .project-header h2 { margin: 0; font-size: 22px; color: #333; font-weight: 600; }
 
-/* --- NAVEGACIÓN DE PESTAÑAS (Estilo Agrónomo) --- */
 .tab-navigation { 
     display: grid; 
-    grid-template-columns: repeat(2, 1fr); /* <-- MODIFICACIÓN: 2 columnas */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 15px; 
     margin-bottom: 30px; 
 }
@@ -74,7 +72,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     display: none;
 }
 
-/* --- PESTAÑA DE INFORMACIÓN (Estilo Agrónomo) --- */
 .info-grid { 
     display: grid; 
     grid-template-columns: 1fr 1fr; 
@@ -87,9 +84,9 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     padding: 20px;
 }
 .info-card.full-width { grid-column: 1 / -1; }
-/* NUEVO: Estilos para el card de reportar plaga */
+
 #report-plaga-card {
-    background-color: #FFFBEB; /* Amarillo pálido */
+    background-color: #FFFBEB; 
     border-color: #FBE1A9;
 }
 #report-plaga-card h4 {
@@ -114,7 +111,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     font-weight: 500; 
 }
 
-/* --- PESTAÑA DE ACTIVIDADES (Estilo Agrónomo) --- */
 .container-header {
     display: flex;
     justify-content: space-between;
@@ -143,7 +139,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .status-atrasado { color: #DC3545; font-weight: 600; }
 .status-completado { color: #28A745; font-weight: 600; }
 
-/* Sección de Plagas (Estilo Agrónomo) */
 .plaga-item {
     padding: 10px 0;
     border-bottom: 1px solid #eee;
@@ -171,7 +166,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 #image-preview, #plaga-preview { max-width: 100px; border-radius: 5px; }
 #modal-report-image { max-width: 100%; border-radius: 8px; }
 
-/* Añadir al final de proyectoCliente.css */
 .view-plaga-image {
     cursor: pointer;
     text-decoration: underline;

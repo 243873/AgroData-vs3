@@ -61,7 +61,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     font-weight: 600;
 }
 
-/* Botón "Editar" estilo pastilla verde */
 .workshop-header .btn-edit {
     background-color: #1C6E3E;
     color: white;
@@ -86,7 +85,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     margin: 0;
 }
 
-/* Botón "Agregar nuevo taller" alineado a la derecha en header */
 #addNewWorkshopBtn {
     display: flex;
     align-items: center;
@@ -106,7 +104,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 
 #workshop-history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
 
-/* Tarjeta Historial (Diseño completo) */
 .workshop-card {
     background-color: #FDFBF7; 
     border-radius: 15px;

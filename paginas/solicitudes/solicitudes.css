@@ -42,12 +42,11 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     gap: 10px; 
     align-items: flex-end; 
     width: 160px;  /* Ancho fijo para el contenedor de botones */
-    flex-shrink: 0; /* Evita que el contenedor se encoja */
+    flex-shrink: 0;
 }
-/* CORRECCIÓN: Asegura que todos los botones de acción tengan el mismo ancho */
 .summary-actions .btn {
     width: 100%;
-    box-sizing: border-box; /* Incluye el padding dentro del ancho total */
+    box-sizing: border-box; 
 }
 
 .btn-accept { background-color: #1C6E3E; color: white; }
@@ -56,7 +55,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .btn-status-badge { cursor: default; }
 .btn-status-badge:hover { transform: none; box-shadow: none; }
 
-/* --- VISTA DETALLADA (EXPANDIDA) --- */
 .details-view {
     max-height: 0;
     overflow: hidden;

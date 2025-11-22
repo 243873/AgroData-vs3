@@ -11,10 +11,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const SS = pad(date.getSeconds());
         return `${YYYY}-${MM}-${DD}T${HH}:${MIN}:${SS}`;
     }
-    
-    /**
-     * Devuelve la fecha de hoy en formato 'YYYY-MM-DD' (ISO local)
-     */
+
+    //Devuelve la fecha  en formato 'YYYY-MM-DD' (ISO local)
+
     function getTodayString() {
         const today = new Date();
         const year = today.getFullYear();
@@ -45,11 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let catalogoTalleres = [];
     let catalogoRiego = [];
 
-    
-    // ===============================================
     // --- 2. FUNCIONES HELPER (API y Notificaciones) ---
-    // ===============================================
-
     async function fetchWithCors(url, options = {}) {
         const defaultHeaders = {
             'Authorization': `Bearer ${authToken}`,
@@ -119,10 +114,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ===============================================
     // --- 3. CARGA INICIAL DE DATOS ---
-    // ===============================================
-    
     try {
         console.log("Iniciando carga de datos...");
         const responseUser = await fetch(`${API_BASE_URL}/perfil/${userId}`, {   
@@ -180,10 +172,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ===============================================
     // --- 4. ELEMENTOS DEL DOM Y LÓGICA DE VISTAS ---
-    // ===============================================
-    
+
     const initialView = document.getElementById('initial-view');
     const asesoriaFormView = document.getElementById('asesoria-form-view');
     const talleresFlowView = document.getElementById('talleres-flow-view');
@@ -209,9 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (viewToShow) viewToShow.classList.remove('hidden');
     }
 
-    // ===============================================
     // --- 5. LÓGICA PARA DESCARTAR NOTIFICACIONES ---
-    // ===============================================
     
     if (notificationsList) {
         notificationsList.addEventListener('click', (e) => {
@@ -253,10 +241,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             notificationToDiscard = null;
         });
     }
-
-    // ===============================================
     // --- 6. LÓGICA DE ASESORÍAS ---
-    // ===============================================
 
     const showAsesoriaFormBtn = document.getElementById('show-asesoria-form');
     const asesoriaSelectionView = document.querySelector('#asesoria-form-view .asesoria-selection-view');
@@ -477,9 +462,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ===============================================
     // --- 7. LÓGICA DE TALLERES ---
-    // ===============================================
 
     const showTalleresFlowBtn = document.getElementById('show-talleres-flow');
     const tallerSelectionView = document.getElementById('taller-selection-view');
@@ -496,6 +479,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!talleresListContainer) return;
         talleresListContainer.innerHTML = '';
         catalogoTalleres.forEach(taller => {
+
+            if (taller.idEstado === 7) return;
+
             const wrapper = document.createElement('div');
             wrapper.className = 'taller-card';
             wrapper.innerHTML = `
@@ -644,10 +630,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ===============================================
     // --- 8. LÓGICA DE MODALES Y NAVEGACIÓN ---
-    // ===============================================
-
     if (modalAceptar) {
         modalAceptar.addEventListener('click', () => {
             if(successModal) successModal.classList.add('hidden');

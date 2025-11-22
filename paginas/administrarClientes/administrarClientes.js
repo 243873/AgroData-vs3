@@ -37,18 +37,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 const user = await response.json();
                 if (welcomeMessage) {
-                    // ✅ CORRECCIÓN 1: Saludo dinámico exitoso
                     welcomeMessage.textContent = `${t('greeting.welcome')}, ${user.nombre}`;
                     authInfo.nombre = user.nombre;
                     localStorage.setItem('usuarioActual', JSON.stringify(authInfo));
                 }
             } else {
-                // ✅ CORRECCIÓN 2: Saludo por defecto si el fetch falla (status != 200)
                 if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) {
             console.error('Error al cargar datos de perfil para el saludo:', error);
-            // ✅ CORRECCIÓN 3: Saludo por defecto si el fetch falla (excepción)
             if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
         }
     }
@@ -84,9 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    /**
-     * Llama a la API para obtener la lista de clientes.
-     */
+    //Llama a la API para obtener la lista de clientes.
     async function fetchClientes() {
         clientGrid.innerHTML = `<p class="loading-message">${t('clients.loading')}</p>`;
         clientCountElement.textContent = t('common.loading');
@@ -95,7 +90,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithAuth(`${API_BASE_URL}/administrarClientes`, { method: 'GET' });
 
             if (!response.ok) {
-                // Si falla, muestra un mensaje amigable, no el error crudo.
                 clientGrid.innerHTML = `<p class="error-message">${t('client.loadError')}</p>`;
                 clientCountElement.textContent = t('client.loadingError');
                 return;
@@ -177,7 +171,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             );
 
             if (!response.ok) {
-                // Error HTTP (400, 404, 500, etc.)
                 const errorText = await response.text();
                 throw new Error(errorText || "Error al eliminar cliente");
             }

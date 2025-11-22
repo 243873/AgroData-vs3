@@ -19,7 +19,6 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .container-header h4 { font-size: 20px; font-weight: 600; color: #333; margin: 0 0 10px 0; }
 .container-header p { margin: 0 0 25px 0; font-size: 14px; color: #666; }
 
-/* --- NOTIFICACIONES (MODIFICADAS) --- */
 .notifications-list { display: flex; flex-direction: column; gap: 15px; }
 .notification-item { background-color: #F8F9FA; border: 1px solid #E9ECEF; border-radius: 10px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s, box-shadow 0.2s; }
 .notification-item:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
@@ -33,10 +32,10 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .notification-empty img { display: block; margin: 0 auto 15px auto; }
 .notification-empty p { font-size: 16px; color: #555; }
 .notification-actions .btn {
-    width: 130px; /* Ancho fijo para todos los botones */
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
-    text-align: center; /* Centra el texto dentro del botón */
-    padding: 10px 15px; /* Ajuste del padding para que se vea bien */
+    width: 130px; 
+    box-sizing: border-box; 
+    text-align: center; 
+    padding: 10px 15px; 
 }
 
 /* --- BOTONES GENERALES --- */
@@ -56,9 +55,8 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
 .service-content p { margin: 0 0 20px 0; font-size: 14px; line-height: 1.5; color: #666; }
 .service-content img { width: 100%; border-radius: 8px; height: 150px; object-fit: cover; }
 
-/* ================================================= */
 /* === ESTILOS PARA FORMULARIOS (ASESORÍAS Y TALLERES) === */
-/* ================================================= */
+
 .form-header { text-align: center; margin-bottom: 30px; }
 .form-header h4 { font-size: 24px; }
 .form-group { margin-bottom: 18px; }

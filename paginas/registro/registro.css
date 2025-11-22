@@ -52,8 +52,8 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* <-- Centrado horizontal */
-  text-align: center;     /* <-- Centrado de texto */
+  align-items: center; 
+  text-align: center;     
 }
 
 .logo-container {
@@ -61,7 +61,7 @@ html, body {
   align-items: center;
   gap: 15px;
   margin-bottom: 20px;
-  justify-content: center; /* <-- Centrado del logo y título */
+  justify-content: center;
 }
 
 .logo {

@@ -1,7 +1,4 @@
-// main.js (INICIO DE SESIÓN - CÓDIGO FINAL CORREGIDO CON TOKEN)
-
 document.addEventListener("DOMContentLoaded", function () {
-    
     // Elementos del DOM
     const loginForm = document.getElementById("loginForm");
     const emailInput = document.getElementById("email");
@@ -43,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // --- INICIO DE CONEXIÓN CON LA API ---
-        
-        // El back-end espera FormData (ctx.formParam) para el /login
+        // El back-end espera FormData para el /login
         const formData = new URLSearchParams();
         formData.append('correo', correo);
         formData.append('password', password); 
@@ -62,21 +58,18 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = {};
             
             try {
-                // Intentar parsear a JSON. Esperamos: { mensaje, rol, id, token }
                 data = JSON.parse(responseBodyText); 
                 console.log("Respuesta de la API:", data);
                 
-                // Las líneas de debug de localStorage (76-78) se han eliminado
-                
             } catch (e) {
-                // Si falla (texto plano de error), el objeto 'data' contendrá el mensaje.
+
                 data = { mensaje: responseBodyText };
             }
             
             // 3. Manejo de la Respuesta
-            if (response.ok) { // Éxito: Status 200 OK
+            if (response.ok) { 
                 
-                // 🎯 El API devuelve: { mensaje, rol, id, token }
+                // El API devuelve: { mensaje, rol, id, token }
                 const rol = data.rol;
                 const idUsuario = data.id;
                 const token = data.token;
@@ -86,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
-                // 🎯 Guardar un solo objeto JSON en localStorage (el método estándar)
+                // Guardar un solo objeto JSON en localStorage (el método estándar)
                 const usuarioActual = {
                     id: idUsuario,
                     rol: rol,
@@ -108,9 +101,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert(t('validation.roleNotRecognized'));
                 }
 
-            } else { // Fallo: Códigos 4xx o 5xx (ej: 401, 404)
-                
-                // Muestra el mensaje de error que proviene directamente de la API
+            } else { // Fallo
+
                 errorPassword.textContent = data.mensaje || responseBodyText || t('validation.loginError');
             }
 

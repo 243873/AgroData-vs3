@@ -16,14 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     let allProjects = []; 
 
-    // --- ★ LÓGICA DE FILTROS (MODIFICADA) ★ ---
     // IDs de Estado: 1=Pendiente, 2=En Progreso, 3=En Progreso, 4=Rechazado, 5=Completado
     const STATUS_MAP = {
         1: { text: 'En Progreso', filter: 'aceptada' },
         2: { text: 'En Progreso', filter: 'aceptada' },
         5: { text: 'Completado', filter: 'completado' },
-        3: { text: 'Rechazado', filter: 'rechazada' }, // Opcional si quieres mostrar rechazados
-        // Todos los demás se consideran "En Progreso" por defecto en la función de renderizado
+        3: { text: 'Rechazado', filter: 'rechazada' }, 
     };
 
     // --- FUNCIONES HELPER (API) ---
@@ -68,12 +66,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         projectsListContainer.innerHTML = '';
         let projectsToRender = [];
 
-        // ★ LÓGICA DE FILTRADO ★
+
         if (filterKey === 'all') {
             projectsToRender = allProjects;
         } else {
             projectsToRender = allProjects.filter(p => {
-                // Si es estado 5, es 'completado'. Cualquier otro (que no sea rechazado) es 'en-progreso'
+
                 if (filterKey === 'completado') return p.idEstado === 5;
                 if (filterKey === 'en-progreso') return p.idEstado !== 5 && p.idEstado !== 4; 
                 return false;

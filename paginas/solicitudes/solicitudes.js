@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="info-group"><label>${t('label.state')}</label><p>${estadoDisplay.text}</p></div>
                     </div>`;
                 
-                // Si está en revisión, añadir botón también aquí (redundancia útil)
                 if (solicitud.idEstado === STATUS_IDS.REVISION && solicitud.estadoPagoImagen) {
                     detailsHTML += `<div class="taller-flow-box"><p>${t('status.receiptReceived')}</p><button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}">${t('status.viewReceipt')}</button></div>`;
                 }
