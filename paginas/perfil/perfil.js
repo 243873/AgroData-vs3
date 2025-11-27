@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- OBTENER ELEMENTOS DEL DOM ---
+
     const editButton = document.getElementById('editButton');
     const saveButton = document.getElementById('saveButton');
     const cancelButton = document.getElementById('cancelButton');
@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCorreo = document.getElementById('viewCorreo');
     const viewTelefono = document.getElementById('viewTelefono');
 
-    // --- ** CAMPOS DE EDICIÓN ** ---
+
     const editNombre = document.getElementById('editNombre');
     const editApellidoPaterno = document.getElementById('editApellidoPaterno'); 
     const editApellidoMaterno = document.getElementById('editApellidoMaterno'); 
     const emailInput = document.getElementById('emailInput');
     const contactInput = document.getElementById('contactInput');
 
-    // --- ESTADO DE LA APLICACIÓN ---
+
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
     const RUTA_IMAGEN_PREDEFINIDA = "/Imagenes/perfil.png"; 
     
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let originalUserData = {};
     let newProfilePicBase64 = null;
 
-    // --- LÓGICA PRINCIPAL ---
+
 
     if (!authInfo || !authInfo.id || !authInfo.token) {
         alert(t('validation.connectionError'));
@@ -46,30 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    /**
-     * Función SÍNCRONA para poblar el DOM con un objeto de datos.
-     * Muestra el saludo dinámico.
-     */
+
     const populateDOM = (data) => {
-        // ✅ CORRECCIÓN: Saludo dinámico para todas las vistas
+
         welcomeMessage.textContent = `${t('greeting.welcome')}, ${data.nombre}`;
         
         const fullName = `${data.nombre} ${data.apellidoPaterno || ''} ${data.apellidoMaterno || ''}`.trim();
         
-        // ✅ Estandarización del título del usuario (igual al cliente)
+
         userTitleView.textContent = fullName; 
         
         viewCorreo.textContent = data.correo;
         viewTelefono.textContent = data.telefono;
         
-        // Lógica de imagen 
+
         if (data.imagenPerfil && data.imagenPerfil.trim() !== '' && data.imagenPerfil.trim() !== 'default.jpg') {
             profileImage.src = data.imagenPerfil;
         } else {
             profileImage.src = RUTA_IMAGEN_PREDEFINIDA;
         }
         
-        // Poblar los 5 campos de edición
+
         editNombre.value = data.nombre || '';
         editApellidoPaterno.value = data.apellidoPaterno || '';
         editApellidoMaterno.value = data.apellidoMaterno || '';
@@ -77,9 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contactInput.value = data.telefono;
     };
 
-    /**
-     * Carga los datos del usuario desde el backend (GET /perfil/{id})
-     */
+
     const loadUserData = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/perfil/${authInfo.id}`, {
@@ -110,9 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Activa o desactiva el modo de edición del formulario.
-     */
+
     const setEditMode = (isEditing) => {
         viewModeElements.forEach(el => el.classList.toggle('hidden', isEditing));
         editModeElements.forEach(el => el.classList.toggle('hidden', !isEditing));
@@ -124,9 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadButton.classList.toggle('hidden', !isEditing);
     };
 
-    /**
-     * Restaura los datos desde 'originalUserData' y vuelve al modo vista.
-     */
+
     const cancelEdit = () => {
         populateDOM(originalUserData);
         fullUserData = { ...originalUserData };
@@ -134,12 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setEditMode(false);
     };
 
-    /**
-     * Envía los cambios del perfil al backend (PUT /perfil/{id})
-     */
+
     const saveChanges = async () => {
         
-        // --- Lectura de los 5 campos ---
+
         const newNombre = editNombre.value.trim();
         const newApellidoPaterno = editApellidoPaterno.value.trim();
         const newApellidoMaterno = editApellidoMaterno.value.trim();
@@ -177,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`Error al guardar: ${errorText || response.statusText}`);
             }
 
-            // --- Éxito ---
+
             newProfilePicBase64 = null;
             
             successModal.classList.remove('hidden');
@@ -197,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- ASIGNACIÓN DE EVENTOS ---
+
     editButton.addEventListener('click', () => setEditMode(true));
     saveButton.addEventListener('click', saveChanges);
     cancelButton.addEventListener('click', cancelEdit);
@@ -222,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../../index.html';
     });
     
-    // --- INICIALIZACIÓN ---
+
     loadUserData();
     setEditMode(false);
 });

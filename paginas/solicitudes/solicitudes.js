@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const authToken = authInfo.token;
 
-    // --- ELEMENTOS DOM ---
+
     const requestListContainer = document.getElementById('request-list');
     const rejectionModal = document.getElementById('rejectionModal');
     const receiptModal = document.getElementById('receiptModal');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentSolicitud = { id: null, type: null }; 
     let allSolicitudes = []; 
 
-    // --- API HELPERS ---
+
     async function fetchWithAuth(url, options = {}) {
         const headers = { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json', ...(options.headers || {}) };
         return await fetch(url, { ...options, headers });
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {}
     }
 
-    // --- FETCH DATOS ---
+
     async function fetchSolicitudes() {
         requestListContainer.innerHTML = `<p class="loading-message">${t('loading.requests')}</p>`;
         try {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- RENDERIZADO ---
+
     const renderSolicitudes = () => {
         const filterType = document.querySelector('.filter-btn.active').dataset.filter;
         requestListContainer.innerHTML = '';
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         filtered.forEach(solicitud => {
-            // Debug: Verifica en consola si el ID de estado es correcto (Debe ser 4 para En Revisión)
+
             console.log(`Solicitud ${solicitud.id} (${solicitud.type}) - Estado: ${solicitud.idEstado}`);
 
             const card = document.createElement('div');
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="info-group motivo-box"><label>${t('label.reason')}</label><p>${solicitud.motivoAsesoria}</p></div>
                     </div>`;
             } else { 
-                // --- VISTA DETALLE TALLER ---
+
                 tagsHTML = `<div class="summary-tags"><span>${t('label.workshopId')}</span><span class="request-tag">${solicitud.nombreTaller}</span></div>`;
                 detailsHTML = `
                     <div class="details-grid">
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="info-group"><label>${t('label.state')}</label><p>${estadoDisplay.text}</p></div>
                     </div>`;
                 
-                // Si está en revisión, añadir botón también aquí (redundancia útil)
+
                 if (solicitud.idEstado === STATUS_IDS.REVISION && solicitud.estadoPagoImagen) {
                     detailsHTML += `<div class="taller-flow-box"><p>${t('status.receiptReceived')}</p><button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}">${t('status.viewReceipt')}</button></div>`;
                 }
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             let actionsHTML = '';
 
-            // CASO 1: PENDIENTE
+
             if (solicitud.idEstado === STATUS_IDS.PENDIENTE) {
                 actionsHTML = `
                     <button class="btn btn-details">${t('button.viewMore')}</button>
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <button class="btn btn-reject" data-id="${solicitud.id}" data-type="${solicitud.type}">${t('button.reject')}</button>
                 `;
             } 
-            // CASO 2: EN REVISIÓN (Ver Pago)
+
             else if (solicitud.idEstado === STATUS_IDS.REVISION && solicitud.type === 'taller') {
                 actionsHTML = `
                     <button class="btn btn-details">${t('button.viewMore')}</button>
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <button class="btn btn-reject" data-id="${solicitud.id}" data-type="${solicitud.type}">${t('button.rejectPayment')}</button>
                 `;
             }
-            // CASO 3: OTROS
+
             else {
                 actionsHTML = `<button class="btn btn-details">${t('button.viewMore')}</button><button class="btn btn-status-badge ${estadoDisplay.class}" disabled>${estadoDisplay.text}</button>`;
             }
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) { alert(`Error: ${error.message}`); }
     }
 
-    // --- EVENTOS ---
+
     document.querySelector('.filter-buttons').addEventListener('click', (e) => {
         if (e.target.matches('.filter-btn')) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -210,26 +210,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             e.target.textContent = isExpanded ? t('button.viewLess') : t('button.viewMore');
         }
 
-        // Aceptar
+
         if (e.target.matches('.btn-accept') && !e.target.classList.contains('btn-validate-payment')) {
             const newState = STATUS_IDS.ACEPTADA;
             handleStatusUpdate(solicitudId, solicitudType, newState);
         }
 
-        // Rechazar
+
         if (e.target.matches('.btn-reject')) { 
             currentSolicitud = { id: solicitudId, type: solicitudType }; 
             openModal(rejectionModal); 
         }
 
-        // Validar Pago
+
         if (e.target.matches('.btn-validate-payment')) {
              if(confirm(t('confirm.paymentReception'))) {
                  handleStatusUpdate(solicitudId, solicitudType, STATUS_IDS.COMPLETADO);
              }
         }
         
-        // Ver Recibo
+
         if (e.target.matches('.view-receipt-btn')) { 
             const imgSrc = e.target.dataset.imgSrc;
             if(imgSrc) {

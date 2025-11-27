@@ -1,8 +1,8 @@
-// Sistema de Internacionalización (i18n) - Funcional
+
 let translations = {};
 let currentLanguage = localStorage.getItem('language') || 'es';
 
-// Cargar traducciones
+
 async function loadTranslations() {
     try {
         const esResponse = await fetch('/js/es.json');
@@ -15,12 +15,12 @@ async function loadTranslations() {
     }
 }
 
-// Función de traducción
+
 function t(key) {
     return translations[currentLanguage]?.[key] || key;
 }
 
-// Cambiar idioma
+
 function setLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('language', lang);
@@ -28,19 +28,19 @@ function setLanguage(lang) {
     updateLanguageSelector();
 }
 
-// Actualizar idioma de la página
+
 function updatePageLanguage() {
     document.documentElement.lang = currentLanguage;
     document.querySelectorAll('[data-i18n], [data-i18n-placeholder]').forEach(translateElement);
 
-    // Actualizar título
+
     const titleKey = document.querySelector('title')?.getAttribute('data-i18n');
     if (titleKey) {
         document.title = t(titleKey);
     }
 }
 
-// Agregar selector de idioma
+
 function addLanguageSelector() {
     if (document.querySelector('.language-selector')) return;
 
@@ -65,7 +65,7 @@ function addLanguageSelector() {
     });
 }
 
-// Actualizar selector de idioma
+
 function updateLanguageSelector() {
     const select = document.querySelector('#languageSelect');
     if (select) {
@@ -76,7 +76,7 @@ function updateLanguageSelector() {
     }
 }
 
-// Función para traducir un elemento
+
 function translateElement(element) {
     const key = element.getAttribute('data-i18n');
     const placeholderKey = element.getAttribute('data-i18n-placeholder');
@@ -105,11 +105,11 @@ function translateElement(element) {
     }
 }
 
-// Observer para detectar cambios en el DOM
+
 function setupDOMObserver() {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-            // Detectar nodos agregados
+
             if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                 mutation.addedNodes.forEach((node) => {
                     if (node.nodeType === Node.ELEMENT_NODE) {
@@ -123,7 +123,7 @@ function setupDOMObserver() {
                 });
             }
 
-            // Detectar cambios de atributos data-i18n
+
             if (mutation.type === 'attributes' && (mutation.attributeName === 'data-i18n' || mutation.attributeName === 'data-i18n-placeholder')) {
                 translateElement(mutation.target);
             }
@@ -138,7 +138,7 @@ function setupDOMObserver() {
     });
 }
 
-// Inicializar sistema i18n
+
 async function initI18n() {
     await loadTranslations();
     updatePageLanguage();
@@ -146,5 +146,5 @@ async function initI18n() {
     setupDOMObserver();
 }
 
-// Inicializar cuando el DOM esté listo
+
 document.addEventListener('DOMContentLoaded', initI18n);

@@ -10,23 +10,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const authToken = authInfo.token;
     
-    // --- ELEMENTOS DEL DOM ---
+
     const projectsListContainer = document.getElementById('projects-list-container');
     const welcomeMessage = document.getElementById('welcomeMessage');
     
     let allProjects = []; 
 
-    // --- ★ LÓGICA DE FILTROS (MODIFICADA) ★ ---
-    // IDs de Estado: 1=Pendiente, 2=En Progreso, 3=En Progreso, 4=Rechazado, 5=Completado
+
     const STATUS_MAP = {
         1: { text: 'En Progreso', filter: 'aceptada' },
         2: { text: 'En Progreso', filter: 'aceptada' },
         5: { text: 'Completado', filter: 'completado' },
-        3: { text: 'Rechazado', filter: 'rechazada' }, // Opcional si quieres mostrar rechazados
-        // Todos los demás se consideran "En Progreso" por defecto en la función de renderizado
+        3: { text: 'Rechazado', filter: 'rechazada' },
     };
 
-    // --- FUNCIONES HELPER (API) ---
+
     async function fetchWithAuth(url, options = {}) {
         const headers = { 'Authorization': `Bearer ${authToken}`, ...(options.headers || {}) };
         return await fetch(url, { ...options, headers });
@@ -47,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- LÓGICA DE DATOS ---
+
     async function fetchAllProjects() {
         projectsListContainer.innerHTML = `<p class="loading-message">${t('projects.loading')}</p>`;
         try {
@@ -63,17 +61,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- LÓGICA DE RENDERIZADO ---
+
     function renderProjects(filterKey = 'all') {
         projectsListContainer.innerHTML = '';
         let projectsToRender = [];
 
-        // ★ LÓGICA DE FILTRADO ★
+
         if (filterKey === 'all') {
             projectsToRender = allProjects;
         } else {
             projectsToRender = allProjects.filter(p => {
-                // Si es estado 5, es 'completado'. Cualquier otro (que no sea rechazado) es 'en-progreso'
+
                 if (filterKey === 'completado') return p.idEstado === 5;
                 if (filterKey === 'en-progreso') return p.idEstado !== 5 && p.idEstado !== 4; 
                 return false;
@@ -113,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- MANEJO DE EVENTOS ---
+
     document.querySelector('.filter-buttons').addEventListener('click', e => {
         if (e.target.matches('.filter-btn')) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -122,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // --- INICIALIZACIÓN ---
+
     await loadProfileAndGreeting();
     await fetchAllProjects();
 });

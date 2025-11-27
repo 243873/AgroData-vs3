@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- 1. CONFIGURACIÓN Y USUARIO ---
+
     const currentUser = JSON.parse(localStorage.getItem('usuarioActual'));
     if (!currentUser || !currentUser.token) { 
         window.location.href = '/index.html'; 
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let currentProject = null; 
     let projectTasks = []; 
-    let projectEvidenceList = []; // ★ Nuevo: Lista de evidencias
+    let projectEvidenceList = [];
     let currentActivityId = null; 
     let newActivityImageBase64 = null;
     let newPlagaImageBase64 = null;
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const HOY = new Date(); 
     HOY.setHours(0, 0, 0, 0); 
 
-    // --- 2. ELEMENTOS DEL DOM ---
+
     const projectContainer = document.querySelector('.project-container');
     const welcomeMessage = document.getElementById('welcomeMessage');
     const projectTitle = document.getElementById('project-title');
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const plagaReportModal = document.getElementById('plaga-report-modal');
     const successModal = document.getElementById('success-modal');
     
-    // Campos de Modal Actividad
+
     const modalActivityTitle = document.getElementById('modal-activity-title');
     const activityComment = document.getElementById('activity-comment');
     const activityImageInput = document.getElementById('activity-image-input');
@@ -43,12 +43,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const cancelEditBtn = document.getElementById('cancel-edit-btn');
     const saveActivityBtn = document.getElementById('save-activity-btn');
     
-    // Campos de Modal Visor Imagen
+
     const viewerModalTitle = document.getElementById('viewer-modal-title');
     const modalReportImage = document.getElementById('modal-report-image');
     const closeImageViewerBtn = document.getElementById('close-image-viewer-btn');
     
-    // Campos de Modal Plaga
+
     const btnUploadPlaga = document.getElementById('btn-upload-plaga');
     const plagaImageInput = document.getElementById('plaga-image-input');
     const plagaPreviewContainer = document.getElementById('plaga-preview-container');
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const cancelPlagaBtn = document.getElementById('cancel-plaga-btn');
     const savePlagaBtn = document.getElementById('save-plaga-btn');
 
-    // --- 3. DATOS (API) ---
+
     async function fetchWithToken(url, options = {}) {
         const defaultHeaders = {
             'Authorization': `Bearer ${authToken}`,
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const allUserTasks = await fetchWithToken(`/tarea`);
             projectTasks = allUserTasks.filter(task => task.idPlan == currentProject.idPlan);
 
-            // ★ NUEVO: Cargar las evidencias ★
+
             try {
                 const allEvidence = await fetchWithToken(`/registroactividades/`);
                 projectEvidenceList = allEvidence;
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- 4. RENDERIZADO ---
+
     function renderProject() {
         const cultivosNombres = currentProject.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ');
         projectTitle.textContent = `${t('project.cultivationPlan')} ${cultivosNombres}`;
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let estadoClass = act.idEstado === 1 ? 'status-pendiente' : 'status-completado';
                 let buttonHtml = '';
                 
-                // Buscar evidencia para esta tarea
+
                 const evidencia = projectEvidenceList.find(e => e.idTarea === act.idTarea);
                 let evidenceLink = '';
 
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else if (act.idEstado === 2) { 
                     buttonHtml = `<button class="btn btn-primary" style="background-color: #28a745; border-color: #28a745;" disabled data-i18n="project.completed">Completada</button>`;
                     
-                    // ★ NUEVO: Si está completada y tiene evidencia, mostrar enlace ★
+
                     if (evidencia && evidencia.imagen) {
                         evidenceLink = `<br><a href="#" class="view-plaga-image" style="display:inline-block; margin-top:5px; color:#1C6E3E; font-weight:600;" data-url="${evidencia.imagen}" data-i18n="project.viewImage">Ver imagen</a>`;
                     }
@@ -213,11 +213,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
-    // --- 5. MANEJO DE EVENTOS ---
+
     projectContainer.addEventListener('click', (e) => {
         const editBtn = e.target.closest('.btn-edit');
         const addPlagaBtn = e.target.closest('#add-plaga-btn-info'); 
-        // Este selector ahora captura tanto las imágenes de plagas como las de evidencia de tareas
+
         const viewImageBtn = e.target.closest('.view-plaga-image'); 
 
         if (editBtn) {
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             successModal.classList.remove('hidden');
             setTimeout(() => successModal.classList.add('hidden'), 2000);
             
-            // Recargar todo para actualizar la vista con la evidencia nueva
+
             await loadProjectData(currentProject.idPlan);
             renderActividadesPane(); 
         } catch (error) {
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     closeImageViewerBtn.addEventListener('click', () => imageViewerModal.classList.add('hidden'));
     cancelPlagaBtn.addEventListener('click', () => plagaReportModal.classList.add('hidden'));
 
-    // --- 6. INICIALIZACIÓN ---
+
     async function initialize() {
         await fetchUserProfile();
         const urlParams = new URLSearchParams(window.location.search);

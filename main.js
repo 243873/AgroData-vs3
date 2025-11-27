@@ -1,8 +1,8 @@
-// main.js (INICIO DE SESIÓN - CÓDIGO FINAL CORREGIDO CON TOKEN)
+
 
 document.addEventListener("DOMContentLoaded", function () {
     
-    // Elementos del DOM
+
     const loginForm = document.getElementById("loginForm");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
@@ -10,12 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorPassword = document.getElementById("errorPassword");
     const submitBtn = document.querySelector(".submit-btn");
 
-    // Lógica para limpiar datos de prueba antiguos (localStorage)
+
     if (localStorage.getItem("usuarios")) {
          localStorage.removeItem("usuarios");
     }
 
-    // Función de validación local (se mantiene tu lógica)
+
     function validarLocalmente(correo, password) {
         let isValid = true;
         errorEmail.textContent = "";
@@ -42,9 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return; 
         }
 
-        // --- INICIO DE CONEXIÓN CON LA API ---
-        
-        // El back-end espera FormData (ctx.formParam) para el /login
+
         const formData = new URLSearchParams();
         formData.append('correo', correo);
         formData.append('password', password); 
@@ -62,21 +60,21 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = {};
             
             try {
-                // Intentar parsear a JSON. Esperamos: { mensaje, rol, id, token }
+
                 data = JSON.parse(responseBodyText); 
                 console.log("Respuesta de la API:", data);
                 
-                // Las líneas de debug de localStorage (76-78) se han eliminado
+
                 
             } catch (e) {
-                // Si falla (texto plano de error), el objeto 'data' contendrá el mensaje.
+
                 data = { mensaje: responseBodyText };
             }
             
-            // 3. Manejo de la Respuesta
-            if (response.ok) { // Éxito: Status 200 OK
+
+            if (response.ok) {
                 
-                // 🎯 El API devuelve: { mensaje, rol, id, token }
+
                 const rol = data.rol;
                 const idUsuario = data.id;
                 const token = data.token;
@@ -86,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
-                // 🎯 Guardar un solo objeto JSON en localStorage (el método estándar)
+
                 const usuarioActual = {
                     id: idUsuario,
                     rol: rol,
@@ -94,12 +92,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
                 localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
 
-                // Limpiar cualquier dato antiguo de sessionStorage por si acaso
+
                 sessionStorage.clear();
                 
                 alert(t('login.success'));
 
-                // Redirigir según el rol
+
                 if (rol === 1) { 
                     window.location.href = "/paginas/inicio/inicio.html";
                 } else if (rol === 2) { 
@@ -108,14 +106,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert(t('validation.roleNotRecognized'));
                 }
 
-            } else { // Fallo: Códigos 4xx o 5xx (ej: 401, 404)
+            } else {
                 
-                // Muestra el mensaje de error que proviene directamente de la API
+
                 errorPassword.textContent = data.mensaje || responseBodyText || t('validation.loginError');
             }
 
         } catch (error) {
-            // Error de red/conexión (Servidor apagado, CORS)
+
             console.error("Error de red/servidor:", error);
             errorPassword.textContent = t('validation.connectionError');
         } finally {

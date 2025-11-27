@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const authToken = authInfo.token;
 
-    // --- ELEMENTOS DEL DOM ---
+
     const clientGrid = document.getElementById('client-grid');
     const clientCountElement = document.getElementById('client-count');
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 
-    // --- FUNCIÓN PARA RENDERIZAR CLIENTES ---
+
 
     const renderClientes = (clientes) => {
         clientGrid.innerHTML = '';
@@ -84,9 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    /**
-     * Llama a la API para obtener la lista de clientes.
-     */
+
     async function fetchClientes() {
         clientGrid.innerHTML = `<p class="loading-message">${t('clients.loading')}</p>`;
         clientCountElement.textContent = t('common.loading');
@@ -95,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithAuth(`${API_BASE_URL}/administrarClientes`, { method: 'GET' });
 
             if (!response.ok) {
-                // Si falla, muestra un mensaje amigable, no el error crudo.
+
                 clientGrid.innerHTML = `<p class="error-message">${t('client.loadError')}</p>`;
                 clientCountElement.textContent = t('client.loadingError');
                 return;
@@ -119,16 +117,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 );
 
                 if (!response.ok) {
-                    // Error HTTP (400, 404, 500, etc.)
+
                     const errorText = await response.text();
                     throw new Error(errorText || "Error al eliminar cliente");
                 }
                 await fetchClientes();
-                // Éxito
+
                 window.alert("Cliente eliminado correctamente");
             }
         } catch (error) {
-            // Error de red o excepción inesperada
+
             window.alert("Ocurrió un error al intentar eliminar el cliente, contiene información en el sistema");
             console.error("Error en eliminarCliente:", error);
         }
@@ -177,13 +175,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             );
 
             if (!response.ok) {
-                // Error HTTP (400, 404, 500, etc.)
+
                 const errorText = await response.text();
                 throw new Error(errorText || "Error al eliminar cliente");
             }
             closeModalFunc(modal)
             await fetchClientes();
-            // Éxito
+
             window.alert("Cliente actualizado correctamente");
         } catch (e){
             console.error(e)
@@ -192,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- INICIALIZACIÓN ---
+  
     await loadProfileAndGreeting();
     await fetchClientes();
 });

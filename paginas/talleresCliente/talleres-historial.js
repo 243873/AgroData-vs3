@@ -73,9 +73,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- 1. RENDERIZAR SOLICITUDES (EN TRÁMITE) ---
+
     function renderSolicitudesEnTramite() {
-        // Mostrar todo lo que NO sea completado
+
         const tramites = allRequests.filter(s => s.idEstado !== ESTADOS.COMPLETADA);
         solicitudesList.innerHTML = '';
 
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- 2. RENDERIZAR HISTORIAL (COMPLETADOS) ---
+
     function renderHistorial(filtro = 'todos') {
         const historial = allRequests || [];
         historialList.innerHTML = '';
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const fInicioStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
             const fFinStr = s.fechaFin ? new Date(s.fechaFin).toLocaleDateString('es-ES') : '...';
 
-            // ★ CORRECCIÓN: Mostrar enlace "Ver comprobante" en historial ★
+
             const receiptHTML = s.estadoPagoImagen 
                 ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">Ver comprobante</a></div>` 
                 : '';
@@ -250,13 +250,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.target.id === 'backToListBtn') {
             detailView.classList.add('hidden');
             const activeView = document.querySelector('.nav-button.active').dataset.view;
-            // Regresar a la vista correcta
+
             if (activeView === 'solicitudes') viewSolicitudes.classList.remove('hidden');
             else viewHistorial.classList.remove('hidden');
         }
         if (e.target.closest('.btn-action-box')) document.getElementById(e.target.closest('.btn-action-box').dataset.forInput).click();
         
-        // --- LÓGICA DE SUBIDA Y RECARGA ---
+
         if (e.target.matches('.btn-update')) {
              const id = e.target.dataset.id;
              const imgBase64 = document.querySelector('.image-preview').src; 
@@ -265,10 +265,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                  alert('Comprobante enviado.');
                  detailView.classList.add('hidden');
                  
-                 // Recargar datos
+
                  await loadAllData();
                  
-                 // IMPORTANTE: Volver a la vista de HISTORIAL, donde aparecerá como "Completada"
+
                  viewSolicitudes.classList.remove('hidden');
                  
              } catch (error) { alert("Error al subir."); }

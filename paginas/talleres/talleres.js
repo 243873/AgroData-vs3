@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (e) {}
     }
 
-    // --- 1. CATÁLOGO ---
+
     async function fetchTalleresDisponibles() {
         workshopListContainer.innerHTML = `<p>${t('workshop.loading')}</p>`;
         try {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- 2. HISTORIAL ---
+
     function getVisualState(taller) {
         switch (taller.idEstado){
             case 5:
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const fInicioStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
                 const fFinStr = s.fechaFin ? new Date(s.fechaFin).toLocaleDateString('es-ES') : '...';
                 
-                // ★ AÑADIDO: Enlace para ver el comprobante en el historial del agrónomo ★
+
                 const receiptHTML = s.estadoPagoImagen 
                     ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">${t('workshop.viewReceipt')}</a></div>` 
                     : '';
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) { historyGridContainer.innerHTML = `<p>${t('workshop.error')}</p>`; }
     }
 
-    // ... (RESTO DE EVENTOS: nav, filtros, modales, eliminar, igual que antes) ...
+
     document.querySelector('.workshops-nav').addEventListener('click', (e) => {
         if (e.target.matches('.nav-button')) {
             document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));

@@ -1,4 +1,4 @@
-// paginas/proyectos/proyecto-detalle.js
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -20,20 +20,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // --- ELEMENTOS DOM ---
+
     const projectTitle = document.getElementById('project-title');
     const infoView = document.getElementById('info-view');
     const actividadesView = document.getElementById('actividades-view');
     const reporteView = document.getElementById('reporte-view');
 
-    // Modales
+
     const infoModal = document.getElementById('info-modal');
     const activityModal = document.getElementById('activity-modal');
     const deleteActivityModal = document.getElementById('delete-activity-modal'); 
     const successModal = document.getElementById('successModal');
     const successMessage = document.getElementById('successMessage');
     
-    // Modal de Evidencia
+
     const evidenceModal = document.getElementById('evidence-modal');
     const evidenceImageFull = document.getElementById('evidence-image-full');
     const evidenceDescText = document.getElementById('evidence-desc-text');
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const HOY = new Date(); 
     HOY.setHours(0, 0, 0, 0); 
 
-    // Inyectar librería PDF si no existe
+
     if (!window.html2pdf) {
         const script = document.createElement('script');
         script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!reporte) { reporteView.innerHTML = `<p>${t('error.noData')}</p>`; return; }
         
         const total = reporte.totalTareas;
-        // Calcular alturas de barras
+
         const hPlanificadas = total > 0 ? 100 : 0; 
         const hCumplidas = total > 0 ? (reporte.tareasCompletadas / total) * 100 : 0;
         const hAtrasadas = total > 0 ? (reporte.tareasAtrasadas / total) * 100 : 0;
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         html += `</div>`; 
 
-        // data-html2canvas-ignore se usa para que el botón no salga en el PDF
+
         html += `
                 <h4 style="margin-top: 40px; margin-bottom: 10px; color:#1C6E3E;">${typeof t === 'function' ? t('report.finalYield') : 'Rendimiento Final:'}</h4>
                 <textarea id="rendimiento-final-input" style="width: 100%; padding: 15px; border: 1px solid #CCC; border-radius: 8px; min-height: 100px; font-family: 'Montserrat', sans-serif; font-size:14px; resize: vertical; background-color: #FFF;" placeholder="${typeof t === 'function' ? t('placeholder.finalYield') : 'Escriba el rendimiento final del cultivo...'}">${reporte.observaciones || ''}</textarea>
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         reporteView.innerHTML = html;
 
-        // --- EVENTO CORREGIDO: Guardar Rendimiento ---
+
         document.getElementById('save-yield-btn').addEventListener('click', async () => {
             const rendimiento = document.getElementById('rendimiento-final-input').value;
             try {
@@ -335,19 +335,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     idPlan: idPlan,
                     fechaGeneracion: new Date().toISOString().split('.')[0], 
                     observaciones: rendimiento,
-                    // Los valores numéricos se ignoran en el backend al actualizar solo observaciones,
-                    // pero se envían para cumplir con el modelo.
+
                     totalTareas: 0, tareasCompletadas: 0, tareasAceptadas: 0, tareasPendientes: 0, tareasAtrasadas: 0, porcentageCompletadas: 0 
                 };
 
-                // Usamos fetchWithAuth, que ya maneja el error si !response.ok
+
                 await fetchWithAuth(`${API_BASE_URL}/registrarReporteDesempeno`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                // Si llega aquí es éxito
+
                 alert("Rendimiento final guardado correctamente.");
 
             } catch (e) {
@@ -356,7 +355,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-        // --- EVENTO: Generar PDF ---
+
         document.getElementById('generate-pdf-btn').addEventListener('click', () => {
             const element = document.getElementById('pdf-content');
             const opt = {
@@ -369,7 +368,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             if (window.html2pdf) {
-                // Hack: Reemplazar textarea por div para correcta renderización
+
                 const textarea = document.getElementById('rendimiento-final-input');
                 const textVal = textarea.value;
                 const p = document.createElement('p');
@@ -387,7 +386,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- EVENTOS GENERALES ---
+
     document.querySelector('.tab-navigation').addEventListener('click', (e) => {
         if (e.target.matches('.tab-btn')) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- OBTENER ELEMENTOS DEL DOM ---
+
     const editButton = document.getElementById('editButton');
     const saveButton = document.getElementById('saveButton');
     const cancelButton = document.getElementById('cancelButton');
@@ -23,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCorreo = document.getElementById('viewCorreo');
     const viewTelefono = document.getElementById('viewTelefono');
 
-    // --- ** CAMPOS DE EDICIÓN DEL NUEVO FORMULARIO ** ---
+
     const editNombre = document.getElementById('editNombre');
     const editApellidoPaterno = document.getElementById('editApellidoPaterno'); 
     const editApellidoMaterno = document.getElementById('editApellidoMaterno'); 
     const emailInput = document.getElementById('emailInput');
     const contactInput = document.getElementById('contactInput');
 
-    // --- ESTADO DE LA APLICACIÓN ---
-    // Usamos el 'usuarioActual' que guardó tu script de login
+
+
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
     const RUTA_IMAGEN_PREDEFINIDA = "/Imagenes/perfil.png"; 
     
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let originalUserData = {};
     let newProfilePicBase64 = null;
 
-    // --- LÓGICA PRINCIPAL ---
+
 
     if (!authInfo || !authInfo.id || !authInfo.token) {
         alert(t('validation.connectionError'));
@@ -47,9 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    /**
-     * Función SÍNCRONA para poblar el DOM con un objeto de datos.
-     */
+
     const populateDOM = (data) => {
         welcomeMessage.textContent = `${t('greeting.welcome')}, ${data.nombre}`;
         
@@ -59,14 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
         viewCorreo.textContent = data.correo;
         viewTelefono.textContent = data.telefono;
         
-        // Lógica de imagen (correcta)
+
         if (data.imagenPerfil && data.imagenPerfil.trim() !== '' && data.imagenPerfil.trim() !== 'default.jpg') {
             profileImage.src = data.imagenPerfil;
         } else {
             profileImage.src = RUTA_IMAGEN_PREDEFINIDA;
         }
         
-        // --- ** POBLAR LOS 5 CAMPOS DE EDICIÓN ** ---
+
         editNombre.value = data.nombre || '';
         editApellidoPaterno.value = data.apellidoPaterno || '';
         editApellidoMaterno.value = data.apellidoMaterno || '';
@@ -74,9 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contactInput.value = data.telefono;
     };
 
-    /**
-     * Carga los datos del usuario desde el backend (GET /perfil/{id})
-     */
+
     const loadUserData = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/perfil/${authInfo.id}`, {
@@ -106,25 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Activa o desactiva el modo de edición del formulario.
-     */
+
     const setEditMode = (isEditing) => {
         viewModeElements.forEach(el => el.classList.toggle('hidden', isEditing));
         editModeElements.forEach(el => el.classList.toggle('hidden', !isEditing));
         
-        // ** MODIFICACIÓN **
-        // "Editar" y "Cerrar Sesión" se ocultan/muestran juntos
+
         editButton.classList.toggle('hidden', isEditing);
-        logoutButton.classList.toggle('hidden', isEditing); // <-- AÑADIDO
+        logoutButton.classList.toggle('hidden', isEditing);
         
         document.getElementById('editActions').classList.toggle('hidden', !isEditing);
         uploadButton.classList.toggle('hidden', !isEditing);
     };
 
-    /**
-     * Restaura los datos desde 'originalUserData' y vuelve al modo vista.
-     */
+
     const cancelEdit = () => {
         populateDOM(originalUserData);
         fullUserData = { ...originalUserData };
@@ -132,12 +123,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setEditMode(false);
     };
 
-    /**
-     * Envía los cambios del perfil al backend (PUT /perfil/{id})
-     */
+
     const saveChanges = async () => {
         
-        // --- ** LECTURA DE LOS 5 CAMPOS ** ---
+
         const newNombre = editNombre.value.trim();
         const newApellidoPaterno = editApellidoPaterno.value.trim();
         const newApellidoMaterno = editApellidoMaterno.value.trim();
@@ -153,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             correo: newCorreo,
             imagenPerfil: newProfilePicBase64 || (fullUserData.imagenPerfil || null), 
             rol: authInfo.rol,
-            // No se envía 'password'
+
         };
 
         try {
@@ -170,13 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Sesión inválida o expirada. No se pudieron guardar los cambios.');
             }
 
-            // Ya que arreglaste el backend, esto no debería fallar.
+
             if (!response.ok) {
                 const errorText = await response.text();
                 throw new Error(`Error al guardar: ${errorText || response.statusText}`);
             }
 
-            // --- Éxito ---
+
             newProfilePicBase64 = null;
             
             successModal.classList.remove('hidden');
@@ -196,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- ASIGNACIÓN DE EVENTOS ---
+
     editButton.addEventListener('click', () => setEditMode(true));
     saveButton.addEventListener('click', saveChanges);
     cancelButton.addEventListener('click', cancelEdit);
@@ -221,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../../index.html';
     });
     
-    // --- INICIALIZACIÓN ---
+
     loadUserData();
     setEditMode(false);
 });
