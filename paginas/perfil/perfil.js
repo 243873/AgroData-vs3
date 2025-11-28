@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
     const editButton = document.getElementById('editButton');
     const saveButton = document.getElementById('saveButton');
     const cancelButton = document.getElementById('cancelButton');
@@ -23,13 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCorreo = document.getElementById('viewCorreo');
     const viewTelefono = document.getElementById('viewTelefono');
 
-
     const editNombre = document.getElementById('editNombre');
     const editApellidoPaterno = document.getElementById('editApellidoPaterno'); 
     const editApellidoMaterno = document.getElementById('editApellidoMaterno'); 
     const emailInput = document.getElementById('emailInput');
     const contactInput = document.getElementById('contactInput');
-
 
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
     const RUTA_IMAGEN_PREDEFINIDA = "/Imagenes/perfil.png"; 
@@ -38,42 +35,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let originalUserData = {};
     let newProfilePicBase64 = null;
 
-
-
     if (!authInfo || !authInfo.id || !authInfo.token) {
         alert(t('validation.connectionError'));
         window.location.href = '../../index.html';
         return;
     }
 
-
     const populateDOM = (data) => {
-
         welcomeMessage.textContent = `${t('greeting.welcome')}, ${data.nombre}`;
         
         const fullName = `${data.nombre} ${data.apellidoPaterno || ''} ${data.apellidoMaterno || ''}`.trim();
         
-
         userTitleView.textContent = fullName; 
         
         viewCorreo.textContent = data.correo;
         viewTelefono.textContent = data.telefono;
         
-
         if (data.imagenPerfil && data.imagenPerfil.trim() !== '' && data.imagenPerfil.trim() !== 'default.jpg') {
             profileImage.src = data.imagenPerfil;
         } else {
             profileImage.src = RUTA_IMAGEN_PREDEFINIDA;
         }
         
-
         editNombre.value = data.nombre || '';
         editApellidoPaterno.value = data.apellidoPaterno || '';
         editApellidoMaterno.value = data.apellidoMaterno || '';
         emailInput.value = data.correo;
         contactInput.value = data.telefono;
     };
-
 
     const loadUserData = async () => {
         try {
@@ -105,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-
     const setEditMode = (isEditing) => {
         viewModeElements.forEach(el => el.classList.toggle('hidden', isEditing));
         editModeElements.forEach(el => el.classList.toggle('hidden', !isEditing));
@@ -117,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadButton.classList.toggle('hidden', !isEditing);
     };
 
-
     const cancelEdit = () => {
         populateDOM(originalUserData);
         fullUserData = { ...originalUserData };
@@ -125,10 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setEditMode(false);
     };
 
-
     const saveChanges = async () => {
         
-
         const newNombre = editNombre.value.trim();
         const newApellidoPaterno = editApellidoPaterno.value.trim();
         const newApellidoMaterno = editApellidoMaterno.value.trim();
@@ -144,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             correo: newCorreo,
             imagenPerfil: newProfilePicBase64 || (fullUserData.imagenPerfil || null), 
             rol: authInfo.rol,
-            password: null // Se envía 'null' para no actualizar la contraseña
+            password: null 
         };
 
         try {
@@ -166,9 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`Error al guardar: ${errorText || response.statusText}`);
             }
 
-
             newProfilePicBase64 = null;
-            
             successModal.classList.remove('hidden');
             setTimeout(async () => {
                 successModal.classList.add('hidden');
@@ -185,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-
 
     editButton.addEventListener('click', () => setEditMode(true));
     saveButton.addEventListener('click', saveChanges);

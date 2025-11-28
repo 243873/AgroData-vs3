@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (e) { console.error("Error perfil", e); }
     }
 
-    async function fetchCatalogos() { try { catalogoTalleres = await fetchWithToken(`/talleres`); } catch (e) {} }
+    async function fetchCatalogos() { try { catalogoTalleres = await fetchWithToken(`/talleres/`); } catch (e) {} }
     function getTallerName(id) { const taller = catalogoTalleres.find(x => x.idTaller === id); return taller ? taller.nombreTaller : `Taller ${id}`; }
 
     function getVisualState(solicitud) {
@@ -73,9 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-
     function renderSolicitudesEnTramite() {
-
         const tramites = allRequests.filter(s => s.idEstado !== ESTADOS.COMPLETADA);
         solicitudesList.innerHTML = '';
 
@@ -89,13 +87,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             let badgeClass = 'bg-pendiente'; 
             let badgeText = t('workshop.pending');
 
-            if(s.idEstado === ESTADOS.CONFIRMADO_ESPERA) { badgeClass = 'bg-espera'; badgeText = t('workshop.uploadReceipt'); }
-            else if(s.idEstado === ESTADOS.EN_REVISION) { badgeClass = 'bg-revision'; badgeText = t('workshop.inReview'); }
-            else if(s.idEstado === ESTADOS.RECHAZADA) { badgeClass = 'bg-rechazada'; badgeText = t('workshop.rejected'); }
+            if (s.idEstado === 5) { 
+            badgeClass = 'bg-pendiente';
+            badgeText = 'COMPLETADO';    
+        }
+        else if(s.idEstado === ESTADOS.CONFIRMADO_ESPERA) { 
+            badgeClass = 'bg-espera'; badgeText = t('workshop.uploadReceipt'); 
+        }
+        else if(s.idEstado === ESTADOS.EN_REVISION) { 
+            badgeClass = 'bg-revision'; badgeText = t('workshop.inReview'); 
+        }
+        else if(s.idEstado === ESTADOS.RECHAZADA) { 
+            badgeClass = 'bg-rechazada'; badgeText = t('workshop.rejected'); 
+        }
 
-            const fechaStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
+        const fechaStr = new Date(s.fechaAplicarTaller).toLocaleDateString('es-ES');
 
-            const cardHTML = `
+        const cardHTML = `
                 <div class="tramite-card">
                     <div class="tramite-info">
                         <h5 class="tramite-user-name">${userProfileData.nombre} ${userProfileData.apellidoPaterno || ''}</h5>
@@ -119,7 +127,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             btn.addEventListener('click', (e) => renderDetailView(e.target.dataset.id));
         });
     }
-
 
     function renderHistorial(filtro = 'todos') {
         const historial = allRequests || [];
@@ -147,7 +154,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
             const receiptHTML = s.estadoPagoImagen 
-                ? `<div style="margin-top:10px;"><img src="/Imagenes/eye.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">Ver comprobante</a></div>` 
+                ? `<div style="margin-top:10px;"><img src="/Imagenes/angle-small-down.png" style="width:12px; opacity:0.6;"> <a href="#" class="view-receipt-link" data-url="${s.estadoPagoImagen}">Ver comprobante</a></div>` 
                 : '';
 
             const cardHTML = `
@@ -265,10 +272,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                  alert('Comprobante enviado.');
                  detailView.classList.add('hidden');
                  
-
                  await loadAllData();
                  
-
                  viewSolicitudes.classList.remove('hidden');
                  
              } catch (error) { alert("Error al subir."); }
@@ -292,9 +297,7 @@ document.addEventListener('DOMContentLoaded', async () => {
              }
         }
     });
-
     if (closeComprobanteModal) closeComprobanteModal.addEventListener('click', () => viewComprobanteModal.classList.add('hidden'));
-
     await fetchUserProfile(); 
     await fetchCatalogos();   
     await loadAllData();

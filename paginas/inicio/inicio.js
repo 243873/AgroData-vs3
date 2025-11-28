@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-
     const modal = document.getElementById('confirmationModal');
     const cancelButton = document.getElementById('cancelButton');
     const acceptButton = document.getElementById('acceptButton');
@@ -175,7 +174,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             notificationsList.appendChild(item);
         });
     }
-
 
     await loadProfileAndGreeting(); 
     await fetchAndRenderNotificaciones();

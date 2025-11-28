@@ -1,34 +1,157 @@
-/* --- ESTILOS DE PLANTILLA BASE --- */
-html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
-.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.logo-container { display: flex; align-items: center; gap: 15px; }
-.logo { width: 50px; }
-.top-header h1 { font-size: 32px; margin: 0; }
-.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
-.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
-.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
-.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
-.nav-icon { width: 16px; height: 16px; }
-.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
-.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
-.hidden { display: none !important; }
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F9F5EE;
+    color: #1B1B1B;
+}
 
-/* --- CONTENEDOR Y BOTONES --- */
-.content-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
-.container-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-.container-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
-.filter-buttons { display: flex; gap: 10px; }
-.btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
-.btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-.btn.filter-btn { background-color: #FFFFFF; color: #1C6E3E; border: 1px solid #1C6E3E; }
-.btn.filter-btn.active { background-color: #1C6E3E; color: #FFFFFF; }
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
 
-/* --- ★ INICIO DE LA MODIFICACIÓN (Estilos de Tarjeta Cliente) ★ --- */
-.projects-list { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; /* Coincide con el margin-bottom del cliente */
+.top-header {
+    background-color: #1C6E3E;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 50px;
+}
+
+.top-header h1 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.welcome-message h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    padding: 10px 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 60px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.navbar li.active a {
+    color: #1C6E3E;
+    border-bottom-color: #1C6E3E;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 25px 35px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.container-header h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn.filter-btn {
+    background-color: #FFFFFF;
+    color: #1C6E3E;
+    border: 1px solid #1C6E3E;
+}
+
+.btn.filter-btn.active {
+    background-color: #1C6E3E;
+    color: #FFFFFF;
+}
+
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .project-card {
@@ -43,63 +166,64 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     color: inherit;
     transition: background-color 0.2s;
 }
+
 .project-card:hover {
     background-color: #F1F3F5;
 }
-.card-info h5 { 
-    margin: 0 0 15px; 
-    font-size: 18px; 
-}
-/* Nuevo estilo 'card-info-details' (grid) */
-.card-info-details { 
-    display: grid; 
-    grid-template-columns: repeat(3, auto); 
-    justify-content: start; 
-    gap: 30px; 
-}
-.card-info-details p { 
-    margin: 0; 
-    color: #555; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-    font-size: 14px; 
-}
-.icon { 
-    width: 16px; 
-    height: 16px; 
-    opacity: 0.7; 
+
+.card-info h5 {
+    margin: 0 0 15px;
+    font-size: 18px;
 }
 
-.card-actions { 
-    text-align: right; 
-    display: flex; 
+.card-info-details {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+    gap: 30px;
+}
+
+.card-info-details p {
+    margin: 0;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+.card-actions {
+    text-align: right;
+    display: flex;
     flex-direction: row;
-    gap: 10px; 
+    gap: 10px;
     align-items: center;
 }
-/* Nuevo estilo 'btn-details' (span) */
-.btn-details { 
-    background-color: #F0EFEA; 
-    color: #333; 
-    border: 1px solid #DCD9D0; 
-    padding: 10px 25px; 
-    border-radius: 20px; 
-    font-weight: 600; 
-    text-align: center; 
-    width: 160px; 
-    box-sizing: border-box; 
-    text-decoration: none; /* Asegura que no esté subrayado si era un <a> */
-}
-.btn-danger { 
-    background-color: #DC3545; 
-    color: white; 
-}
-/* (Los estilos de .progress-bar y .project-status ya no son necesarios) */
-/* --- ★ FIN DE LA MODIFICACIÓN ★ --- */
 
-/* --- MODALES --- */
-/* (Los estilos de modal no cambian) */
+.btn-details {
+    background-color: #F0EFEA;
+    color: #333;
+    border: 1px solid #DCD9D0;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-align: center;
+    width: 160px;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+.btn-danger {
+    background-color: #DC3545;
+    color: white;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -114,6 +238,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     padding: 20px;
     box-sizing: border-box;
 }
+
 .modal-content {
     background-color: #FFFFFF;
     padding: 30px 40px;
@@ -123,31 +248,41 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     max-width: 500px;
     text-align: center;
 }
-.modal-content h2, .modal-content h3 {
+
+.modal-content h2,
+.modal-content h3 {
     font-size: 22px;
     margin-top: 0;
     margin-bottom: 15px;
     color: #1B1B1B;
 }
+
 .modal-content p {
     font-size: 16px;
     color: #555;
     margin-bottom: 25px;
     line-height: 1.5;
 }
+
 .modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 15px;
     margin-top: 25px;
 }
+
 .modal-actions-center {
     display: flex;
     justify-content: center;
     gap: 15px;
     margin-top: 25px;
 }
-.btn-secondary { background-color: #F0F0F0; color: #333; border: 1px solid #CCC; }
+
+.btn-secondary {
+    background-color: #F0F0F0;
+    color: #333;
+    border: 1px solid #CCC;
+}
 
 .project-status {
     padding: 10px 25px;
@@ -156,9 +291,17 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     font-size: 14px;
 }
 
-.status-completado { background-color: #1C6E3E; color: white; }
-.status-rechazada { background-color: #DC3545; color: white; }
-.status-aceptada { background-color: #4caf50; color: white; }
+.status-completado {
+    background-color: #1C6E3E;
+    color: white;
+}
 
+.status-rechazada {
+    background-color: #DC3545;
+    color: white;
+}
 
-
+.status-aceptada {
+    background-color: #4caf50;
+    color: white;
+}

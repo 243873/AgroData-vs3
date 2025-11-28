@@ -1,37 +1,133 @@
-/* --- ESTILOS DE PLANTILLA BASE (DISEÑO CONSISTENTE) --- */
-html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
-.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.logo-container { display: flex; align-items: center; gap: 15px; }
-.logo { width: 50px; }
-.top-header h1 { font-size: 32px; margin: 0; }
-.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
-.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
-.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
-.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
-.nav-icon { width: 16px; height: 16px; }
-.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
-.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
-.hidden { display: none !important; }
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F9F5EE;
+    color: #1B1B1B;
+}
 
-/* --- CONTENEDOR DE CONTENIDO (ESTILO PANEL) --- */
-.content-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 25px 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.top-header {
+    background-color: #1C6E3E;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 50px;
+}
+
+.top-header h1 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.welcome-message h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    padding: 10px 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 60px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.navbar li.active a {
+    color: #1C6E3E;
+    border-bottom-color: #1C6E3E;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 25px 35px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .container-header {
     flex-direction: row;
     display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: flex-start;
-    padding-bottom: 15px; margin-bottom: 25px; border-bottom: 1px solid #E9ECEF; }
-.container-header h4 { font-size: 22px; font-weight: 600; margin: 0; }
-.container-header p { font-size: 14px; color: #666; margin: 5px 0 0 0; }
+    justify-content: space-between;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #E9ECEF;
+}
 
-/* --- CUADRÍCULA Y TARJETAS DE CLIENTE --- */
+.container-header h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.container-header p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0 0 0;
+}
+
 .client-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 25px;
-    align-items: start; /* CRÍTICO: Evita que las tarjetas se estiren al abrir una */
+    align-items: start;
 }
 
 .client-card {
@@ -41,22 +137,26 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     padding: 20px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .client-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
+
 .client-card-header {
     margin-bottom: 15px;
 }
+
 .client-card-header h5 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
     color: #1C6E3E;
 }
+
 .client-info p {
     display: flex;
     align-items: center;
@@ -64,6 +164,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     font-size: 14px;
     color: #555;
 }
+
 .info-icon {
     width: 14px;
     height: 14px;
@@ -71,28 +172,32 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     opacity: 0.7;
 }
 
-/* --- SECCIÓN "VER MÁS" MEJORADA --- */
 .more-details {
-    max-height: 0; /* Oculto por defecto */
+    max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-in-out; /* Animación suave */
+    transition: max-height 0.4s ease-in-out;
     font-size: 14px;
 }
+
 .client-card.open .more-details {
-    max-height: 200px; /* Altura máxima al expandirse (ajustar si es necesario) */
+    max-height: 200px;
 }
+
 .more-details p {
     margin: 10px 0;
 }
+
 .more-details strong {
     color: #333;
 }
+
 .cultivos-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin: 5px 0 10px 0;
 }
+
 .cultivo-tag {
     background-color: #E9ECEF;
     color: #333;
@@ -101,6 +206,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     font-size: 12px;
     font-weight: 500;
 }
+
 .toggle-details {
     border-top: 1px solid #EAE0C9;
     margin-top: 15px;
@@ -113,31 +219,64 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     font-size: 14px;
     font-weight: 500;
 }
+
 .toggle-icon {
     width: 16px;
     height: 16px;
     margin-right: 8px;
     transition: transform 0.3s;
 }
-/* Rota el ícono cuando la tarjeta está abierta */
+
 .client-card.open .toggle-icon {
     transform: rotate(180deg);
 }
-/* Botones Generales */
-.btn { border: none; padding: 10px 25px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.btn:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-.btn-primary { background-color: #1C6E3E; color: #FFFFFF; }
-.btn-secondary { background-color: #F0F0F0; color: #333; border: 1px solid #CCC; }
-.btn-danger { background-color: #D9534F; color: #FFFFFF; }
-.btn-delete { background-color: transparent; color: #D9534F; border: 1px solid #D9534F; }
-/* Estilo general de tabla */
+
+.btn {
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color: #1C6E3E;
+    color: #FFFFFF;
+}
+
+.btn-secondary {
+    background-color: #F0F0F0;
+    color: #333;
+    border: 1px solid #CCC;
+}
+
+.btn-danger {
+    background-color: #D9534F;
+    color: #FFFFFF;
+}
+
+.btn-delete {
+    background-color: transparent;
+    color: #D9534F;
+    border: 1px solid #D9534F;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     font-family: sans-serif;
 }
 
-th, td {
+th,
+td {
     padding: 10px 14px;
     border-bottom: 1px solid #e5e5e5;
     text-align: left;
@@ -148,23 +287,81 @@ th {
     font-weight: 600;
 }
 
-/* Hover fila */
 tbody tr:hover {
     background: #fafafa;
 }
 
-/* Columna de acciones (identificada por atributo data-actions opcional o nth-child) */
 td[data-actions] {
     white-space: nowrap;
 }
 
-/* --- MODALES --- */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1000; display: flex; justify-content: center; align-items: center; }
-.modal-content { background-color: #FFFFFF; padding: 30px 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 100%; max-width: 500px; text-align: center; }
-.modal-content h3, .modal-content h2 { font-size: 22px; margin-top: 0; margin-bottom: 25px; }
-.form-group { text-align: left; margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500; }
-.form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: 'Montserrat', sans-serif; resize: vertical; }
-.modal-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; }
-.main-actions { display: flex; gap: 15px; }
-.success-icon { width: 60px; height: 60px; margin-bottom: 15px; }
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.modal-content h3,
+.modal-content h2 {
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    resize: vertical;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.main-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.success-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}

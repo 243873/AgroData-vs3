@@ -9,13 +9,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     const authToken = authInfo.token;
-    
-
     const clientGrid = document.getElementById('client-grid');
     const clientCountElement = document.getElementById('client-count');
     const welcomeMessage = document.getElementById('welcomeMessage');
-
-
 
     async function fetchWithAuth(url, options = {}) {
         const headers = {
@@ -48,9 +44,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
         }
     }
-
-
-
 
     const renderClientes = (clientes) => {
         clientGrid.innerHTML = '';
@@ -98,7 +91,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-
     async function fetchClientes() {
         clientGrid.innerHTML = `<p class="loading-message">${t('clients.loading')}</p>`;
         clientCountElement.textContent = t('common.loading');
@@ -123,7 +115,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-
     clientGrid.addEventListener('click', (event) => {
         const toggleButton = event.target.closest('.toggle-details');
 
@@ -144,8 +135,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
-
-
 
     await loadProfileAndGreeting(); 
     await fetchClientes(); 

@@ -1,19 +1,18 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
+    const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
 
     const STATUS_IDS = {
-        PENDIENTE: 1, 
-        ACEPTADA: 2, 
-        REVISION: 4, 
-        COMPLETADO: 5, 
-        RECHAZADA: 3 
+        PENDIENTE: 1,
+        ACEPTADA: 2,
+        REVISION: 4,
+        COMPLETADO: 5,
+        RECHAZADA: 3
     };
 
     if (!authInfo || authInfo.rol !== 1 || !authInfo.token) {
         localStorage.clear(); window.location.href = '../../index.html'; return;
     }
     const authToken = authInfo.token;
-
 
     const requestListContainer = document.getElementById('request-list');
     const rejectionModal = document.getElementById('rejectionModal');
@@ -22,10 +21,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const acceptRejectionBtn = document.getElementById('acceptRejection');
     const cancelRejectionBtn = document.getElementById('cancelRejection');
     const closeReceiptBtn = document.getElementById('closeReceipt');
-    
-    let currentSolicitud = { id: null, type: null }; 
-    let allSolicitudes = []; 
 
+    let currentSolicitud = { id: null, type: null };
+    let allSolicitudes = [];
+    let catalogoTalleres = [];
 
     async function fetchWithAuth(url, options = {}) {
         const headers = { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json', ...(options.headers || {}) };
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const openModal = (m) => m.classList.remove('hidden');
     const closeModal = (m) => m.classList.add('hidden');
-    
+
     const mapStatusIdToDisplay = (id) => {
         switch (id) {
             case STATUS_IDS.PENDIENTE: return { text: t('requests.pending'), class: 'status-pendiente' };
@@ -55,6 +54,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {}
     }
 
+    async function fetchCatalogos() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/talleres/`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            if (response.ok) {
+                catalogoTalleres = await response.json();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     async function fetchSolicitudes() {
         requestListContainer.innerHTML = `<p class="loading-message">${t('loading.requests')}</p>`;
@@ -65,14 +77,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const asesorias = data.solicitudAsesorias.map(s => ({ ...s, id: s.idSolicitud, type: 'asesoria', nombreRiego: s.nombreRiego || 'N/A' }));
             const talleres = data.solicitudTalleres.map(s => ({ ...s, id: s.idSolicitudTaller, type: 'taller', comentario: s.comentario || 'N/A', estadoPagoImagen: s.estadoPagoImagen }));
-            
+
             allSolicitudes = [...asesorias, ...talleres];
             renderSolicitudes();
         } catch (error) {
             requestListContainer.innerHTML = `<p class="error-message">${t('common.error')}: ${error.message}</p>`;
         }
     }
-
 
     const renderSolicitudes = () => {
         const filterType = document.querySelector('.filter-btn.active').dataset.filter;
@@ -86,9 +97,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         filtered.forEach(solicitud => {
-
-            console.log(`Solicitud ${solicitud.id} (${solicitud.type}) - Estado: ${solicitud.idEstado}`);
-
             const card = document.createElement('div');
             card.className = 'request-card';
             card.dataset.id = solicitud.id;
@@ -104,12 +112,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             let tagsHTML = '';
             let detailsHTML = '';
-            
+
             if (solicitud.type === 'asesoria') {
-                const cultivos = (solicitud.cultivos && solicitud.cultivos.length > 0) 
-                    ? solicitud.cultivos.map(c => c.nombreCultivo).join(', ') 
+                const cultivos = (solicitud.cultivos && solicitud.cultivos.length > 0)
+                    ? solicitud.cultivos.map(c => c.nombreCultivo).join(', ')
                     : 'N/A';
-                
+
                 tagsHTML = `<div class="summary-tags"><span>Cultivos:</span><span class="request-tag">${cultivos}</span></div>`;
                 detailsHTML = `
                     <div class="details-grid">
@@ -119,16 +127,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="info-group"><label>${t('label.hasPlague')}</label><p>${solicitud.tienePlaga ? `${t('form.yes')} (${solicitud.descripcionPlaga})` : t('form.no')}</p></div>
                         <div class="info-group motivo-box"><label>${t('label.reason')}</label><p>${solicitud.motivoAsesoria}</p></div>
                     </div>`;
-            } else { 
+            } else {
+                const tallerEncontrado = catalogoTalleres.find(t => t.idTaller === solicitud.idTaller);
+                const nombreMostrar = tallerEncontrado ? tallerEncontrado.nombreTaller : `Taller #${solicitud.idTaller}`;
 
-                tagsHTML = `<div class="summary-tags"><span>${t('label.workshopId')}</span><span class="request-tag">${solicitud.nombreTaller}</span></div>`;
+                tagsHTML = `<div class="summary-tags"><span>${t('label.workshopId')}</span><span class="request-tag">${nombreMostrar}</span></div>`;
                 detailsHTML = `
                     <div class="details-grid">
                         <div class="info-group"><label>${t('label.applicationDate')}</label><p>${solicitud.fechaAplicarTaller}</p></div>
                         <div class="info-group"><label>${t('label.comment')}</label><p>${solicitud.comentario}</p></div>
                         <div class="info-group"><label>${t('label.state')}</label><p>${estadoDisplay.text}</p></div>
                     </div>`;
-                
 
                 if (solicitud.idEstado === STATUS_IDS.REVISION && solicitud.estadoPagoImagen) {
                     detailsHTML += `<div class="taller-flow-box"><p>${t('status.receiptReceived')}</p><button class="btn btn-secondary view-receipt-btn" data-img-src="${solicitud.estadoPagoImagen}">${t('status.viewReceipt')}</button></div>`;
@@ -137,9 +146,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     detailsHTML += `<div class="taller-flow-box"><p style="color:#17A2B8;">${t('status.waitingPayment')}</p></div>`;
                 }
             }
-            
-            let actionsHTML = '';
 
+            let actionsHTML = '';
 
             if (solicitud.idEstado === STATUS_IDS.PENDIENTE) {
                 actionsHTML = `
@@ -147,7 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <button class="btn btn-accept" data-id="${solicitud.id}" data-type="${solicitud.type}">${t('button.confirm')}</button>
                     <button class="btn btn-reject" data-id="${solicitud.id}" data-type="${solicitud.type}">${t('button.reject')}</button>
                 `;
-            } 
+            }
 
             else if (solicitud.idEstado === STATUS_IDS.REVISION && solicitud.type === 'taller') {
                 actionsHTML = `
@@ -174,7 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="summary-actions">${actionsHTML}</div>
                 </div>
                 <div class="details-view">${detailsHTML}</div>`;
-            
+
             requestListContainer.appendChild(card);
         });
     };
@@ -184,11 +192,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const response = await fetchWithAuth(`${API_BASE_URL}/${endpoint}/${id}/${newStatusId}`, { method: 'PATCH' });
             if (!response.ok) throw new Error(await response.text());
-            await fetchSolicitudes(); 
+            await fetchSolicitudes();
             closeModal(rejectionModal);
         } catch (error) { alert(`Error: ${error.message}`); }
     }
-
 
     document.querySelector('.filter-buttons').addEventListener('click', (e) => {
         if (e.target.matches('.filter-btn')) {
@@ -210,31 +217,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             e.target.textContent = isExpanded ? t('button.viewLess') : t('button.viewMore');
         }
 
-
         if (e.target.matches('.btn-accept') && !e.target.classList.contains('btn-validate-payment')) {
             const newState = STATUS_IDS.ACEPTADA;
             handleStatusUpdate(solicitudId, solicitudType, newState);
         }
 
-
-        if (e.target.matches('.btn-reject')) { 
-            currentSolicitud = { id: solicitudId, type: solicitudType }; 
-            openModal(rejectionModal); 
+        if (e.target.matches('.btn-reject')) {
+            currentSolicitud = { id: solicitudId, type: solicitudType };
+            openModal(rejectionModal);
         }
-
 
         if (e.target.matches('.btn-validate-payment')) {
              if(confirm(t('confirm.paymentReception'))) {
                  handleStatusUpdate(solicitudId, solicitudType, STATUS_IDS.COMPLETADO);
              }
         }
-        
-
-        if (e.target.matches('.view-receipt-btn')) { 
+        if (e.target.matches('.view-receipt-btn')) {
             const imgSrc = e.target.dataset.imgSrc;
             if(imgSrc) {
-                document.getElementById('receiptImage').src = imgSrc; 
-                openModal(receiptModal); 
+                document.getElementById('receiptImage').src = imgSrc;
+                openModal(receiptModal);
             } else {
                 alert(t('error.loadReceiptImage'));
             }
@@ -244,7 +246,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     cancelRejectionBtn.addEventListener('click', () => closeModal(rejectionModal));
     acceptRejectionBtn.addEventListener('click', () => { if (currentSolicitud.id) handleStatusUpdate(currentSolicitud.id, currentSolicitud.type, STATUS_IDS.RECHAZADA); });
     closeReceiptBtn.addEventListener('click', () => closeModal(receiptModal));
-
-    await loadProfileAndGreeting(); 
+    await loadProfileAndGreeting();
+    await fetchCatalogos();
     await fetchSolicitudes();
 });

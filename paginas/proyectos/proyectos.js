@@ -9,13 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     const authToken = authInfo.token;
-    
-
     const projectsListContainer = document.getElementById('projects-list-container');
     const welcomeMessage = document.getElementById('welcomeMessage');
     
     let allProjects = []; 
-
 
     const STATUS_MAP = {
         1: { text: 'En Progreso', filter: 'aceptada' },
@@ -23,7 +20,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         5: { text: 'Completado', filter: 'completado' },
         3: { text: 'Rechazado', filter: 'rechazada' },
     };
-
 
     async function fetchWithAuth(url, options = {}) {
         const headers = { 'Authorization': `Bearer ${authToken}`, ...(options.headers || {}) };
@@ -45,7 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-
     async function fetchAllProjects() {
         projectsListContainer.innerHTML = `<p class="loading-message">${t('projects.loading')}</p>`;
         try {
@@ -60,7 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             projectsListContainer.innerHTML = `<p class="error-message">${t('error.loadProjects')}</p>`;
         }
     }
-
 
     function renderProjects(filterKey = 'all') {
         projectsListContainer.innerHTML = '';
@@ -110,7 +104,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             projectsListContainer.appendChild(card);
         });
     }
-
 
     document.querySelector('.filter-buttons').addEventListener('click', e => {
         if (e.target.matches('.filter-btn')) {

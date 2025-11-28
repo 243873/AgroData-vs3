@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-
     function renderProject() {
         const cultivosNombres = currentProject.cultivoPorSolicitud.map(c => c.nombreCultivo).join(', ');
         projectTitle.textContent = `${t('project.cultivationPlan')} ${cultivosNombres}`;
@@ -213,7 +212,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
-
     projectContainer.addEventListener('click', (e) => {
         const editBtn = e.target.closest('.btn-edit');
         const addPlagaBtn = e.target.closest('#add-plaga-btn-info'); 

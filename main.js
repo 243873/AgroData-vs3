@@ -1,8 +1,5 @@
-
-
 document.addEventListener("DOMContentLoaded", function () {
     
-
     const loginForm = document.getElementById("loginForm");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
@@ -10,11 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorPassword = document.getElementById("errorPassword");
     const submitBtn = document.querySelector(".submit-btn");
 
-
     if (localStorage.getItem("usuarios")) {
          localStorage.removeItem("usuarios");
     }
-
 
     function validarLocalmente(correo, password) {
         let isValid = true;
@@ -41,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!validarLocalmente(correo, password)) {
             return; 
         }
-
 
         const formData = new URLSearchParams();
         formData.append('correo', correo);
@@ -71,10 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 data = { mensaje: responseBodyText };
             }
             
-
             if (response.ok) {
                 
-
                 const rol = data.rol;
                 const idUsuario = data.id;
                 const token = data.token;
@@ -84,15 +76,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
-
                 const usuarioActual = {
                     id: idUsuario,
                     rol: rol,
                     token: token
                 };
                 localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
-
-
                 sessionStorage.clear();
                 
                 alert(t('login.success'));
@@ -111,9 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 errorPassword.textContent = data.mensaje || responseBodyText || t('validation.loginError');
             }
-
         } catch (error) {
-
             console.error("Error de red/servidor:", error);
             errorPassword.textContent = t('validation.connectionError');
         } finally {

@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- MODAL DE ÉXITO (Reutilizable para ambos flujos) -->
     <div id="successModal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 id="modalTitle" data-i18n="modal.requestSent">¡Solicitud enviada!</h3>
@@ -18,7 +17,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMACIÓN PARA DESCARTAR NOTIFICACIÓN -->
     <div id="confirmationModal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 data-i18n="modal.confirmAction">Confirmar Acción</h3>
@@ -51,16 +49,14 @@
         </nav>
 
         <main class="main-content">
-            <!-- VISTA INICIAL (Notificaciones y Servicios) -->
             <div id="initial-view">
                 <div class="content-container">
                     <div class="container-header">
                         <h4 data-i18n="notifications.title">Notificaciones:</h4>
                         <p data-i18n="notifications.attention">Tareas requieren tu atención</p>
                     </div>
-                    <!-- LA LISTA DE NOTIFICACIONES AHORA ESTÁ VACÍA Y TIENE UN ID -->
                     <div class="notifications-list" id="notificationsList">
-                        <!-- Las notificaciones se cargarán dinámicamente con JavaScript -->
+                        <!-- Las notificaciones se cargarán aca -->
                     </div>
                 </div>
 
@@ -86,8 +82,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- FORMULARIO DE ASESORÍAS (Oculto) -->
             <div id="asesoria-form-view" class="content-container hidden">
                 <div class="asesoria-selection-view">
                     <div class="form-header">
@@ -125,11 +119,7 @@
                     </form>
                 </div>
             </div>
-
-
-            <!-- FORMULARIO DE TALLERES (Oculto por defecto) -->
             <div id="talleres-flow-view" class="content-container hidden">
-                <!-- VISTA 1: SELECCIÓN DE TALLERES -->
                 <div id="taller-selection-view">
                     <div class="form-header">
                         <h4 data-i18n="service.workshopRequest">Solicitud de Taller</h4>
@@ -143,8 +133,6 @@
                         <button type="button" id="continueToTallerFormBtn" class="btn btn-submit" data-i18n="common.continue">Continuar</button>
                     </div>
                 </div>
-
-                <!-- VISTA 2: FORMULARIO DE DETALLES DEL TALLER -->
                 <div id="taller-form-view" class="hidden">
                     <div class="form-header">
                         <h4 data-i18n="service.workshopRequest">Solicitud de Taller</h4>

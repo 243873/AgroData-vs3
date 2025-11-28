@@ -1,11 +1,8 @@
-
-
 document.addEventListener("DOMContentLoaded", function() {
 
     const registerForm = document.getElementById("registerForm");
     const submitBtn = document.querySelector(".submit-btn");
     
-
     const nombreInput = document.getElementById("nombre");
     const apellidoPaternoInput = document.getElementById("apellidoPaterno");
     const apellidoMaternoInput = document.getElementById("apellidoMaterno");
@@ -13,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const confirmPasswordInput = document.getElementById("confirmPassword");
-
 
     const errorNombre = document.getElementById("errorNombre");
     const errorApellidoPaterno = document.getElementById("errorApellidoPaterno");
@@ -23,15 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const errorPassword = document.getElementById("errorPassword");
     const errorConfirmPassword = document.getElementById("errorConfirmPassword");
     
-
     if (localStorage.getItem("usuarios")) {
          localStorage.removeItem("usuarios");
          console.log("Usuarios de prueba de localStorage eliminados. Usando API real.");
     }
     
-
     function validarRegistro(nombre, ap, am, tel, corr, pass, confPass) {
-
         document.querySelectorAll(".error-message").forEach(p => p.textContent = "");
         let isValid = true;
         
@@ -45,13 +38,11 @@ document.addEventListener("DOMContentLoaded", function() {
             errorContacto.textContent = t('validation.phoneDigits'); isValid = false;
         }
         
-
         if (corr === "") {
             errorEmail.textContent = t('validation.emailRequired'); isValid = false;
         } else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(corr)) {
             errorEmail.textContent = t('validation.gmailRequired'); isValid = false;
         }
-
         const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&ñÑ])[A-Za-z\\d@$!%*?&ñÑ]{12,}$");
         if (pass === "") {
             errorPassword.textContent = t('validation.passwordRequired'); isValid = false;
@@ -59,20 +50,16 @@ document.addEventListener("DOMContentLoaded", function() {
             errorPassword.textContent = t('validation.passwordRules'); isValid = false;
         }
 
-
         if (confPass === "") {
             errorConfirmPassword.textContent = t('validation.confirmPasswordRequired'); isValid = false;
         } else if (pass !== confPass) {
             errorConfirmPassword.textContent = t('validation.passwordMismatch'); isValid = false;
         }
-
         return isValid;
     }
 
-
     registerForm.addEventListener("submit", async function(e) {
         e.preventDefault(); 
-
 
         const nombre = nombreInput.value.trim();
         const apellidoPaterno = apellidoPaternoInput.value.trim();
@@ -85,9 +72,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!validarRegistro(nombre, apellidoPaterno, apellidoMaterno, telefono, correo, password, confirmPassword)) {
             return;
         }
-
-
-
         const nuevoUsuario = {
             nombre,
             apellidoPaterno,
@@ -98,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function() {
             imagenPerfil: "default.jpg", 
             rol: 2
         };
-
 
         submitBtn.disabled = true;
         errorEmail.textContent = t('validation.registering'); 

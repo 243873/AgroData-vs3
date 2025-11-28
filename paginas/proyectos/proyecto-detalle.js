@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', async () => {
 
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-
     const projectTitle = document.getElementById('project-title');
     const infoView = document.getElementById('info-view');
     const actividadesView = document.getElementById('actividades-view');
@@ -33,7 +31,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const successModal = document.getElementById('successModal');
     const successMessage = document.getElementById('successMessage');
     
-
     const evidenceModal = document.getElementById('evidence-modal');
     const evidenceImageFull = document.getElementById('evidence-image-full');
     const evidenceDescText = document.getElementById('evidence-desc-text');
@@ -55,7 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
     const HOY = new Date(); 
     HOY.setHours(0, 0, 0, 0); 
-
 
     if (!window.html2pdf) {
         const script = document.createElement('script');
@@ -103,8 +99,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadProfileAndGreeting() {
         try {
-            await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
-        } catch (error) { console.error('Error saludo:', error); }
+            const user = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `${typeof t === 'function' ? t('greeting.welcome') : 'Bienvenido'}, ${user.nombre}`;
+            }
+        } catch (error) { 
+            console.error('Error al cargar saludo:', error); 
+        }
     }
 
     async function loadProjectData() {

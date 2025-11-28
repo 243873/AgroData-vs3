@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
     const editButton = document.getElementById('editButton');
     const saveButton = document.getElementById('saveButton');
     const cancelButton = document.getElementById('cancelButton');
@@ -30,8 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('emailInput');
     const contactInput = document.getElementById('contactInput');
 
-
-
     const authInfo = JSON.parse(localStorage.getItem('usuarioActual')); 
     const RUTA_IMAGEN_PREDEFINIDA = "/Imagenes/perfil.png"; 
     
@@ -39,14 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let originalUserData = {};
     let newProfilePicBase64 = null;
 
-
-
     if (!authInfo || !authInfo.id || !authInfo.token) {
         alert(t('validation.connectionError'));
         window.location.href = '../../index.html';
         return;
     }
-
 
     const populateDOM = (data) => {
         welcomeMessage.textContent = `${t('greeting.welcome')}, ${data.nombre}`;
@@ -71,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         emailInput.value = data.correo;
         contactInput.value = data.telefono;
     };
-
 
     const loadUserData = async () => {
         try {
@@ -102,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-
     const setEditMode = (isEditing) => {
         viewModeElements.forEach(el => el.classList.toggle('hidden', isEditing));
         editModeElements.forEach(el => el.classList.toggle('hidden', !isEditing));
@@ -115,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadButton.classList.toggle('hidden', !isEditing);
     };
 
-
     const cancelEdit = () => {
         populateDOM(originalUserData);
         fullUserData = { ...originalUserData };
@@ -123,10 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setEditMode(false);
     };
 
-
     const saveChanges = async () => {
         
-
         const newNombre = editNombre.value.trim();
         const newApellidoPaterno = editApellidoPaterno.value.trim();
         const newApellidoMaterno = editApellidoMaterno.value.trim();
@@ -210,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../../index.html';
     });
     
-
     loadUserData();
     setEditMode(false);
 });

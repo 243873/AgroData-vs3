@@ -7,10 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
     }
     const authToken = currentUser.token;
 
-
     const projectsListContainer = document.getElementById('projects-list-container');
     const welcomeMessage = document.getElementById('welcomeMessage');
-
 
     async function fetchWithToken(url, options = {}) {
         const defaultHeaders = {
@@ -37,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         return response.json();
     }
 
-
     async function fetchUserProfile() {
         try {
             const userProfile = await fetchWithToken(`${API_BASE_URL}/perfil/${currentUser.id}`);
@@ -48,13 +45,10 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         }
     }
 
-
     async function getAllProjectsFromAPI() {
         try {
 
             const allProjects = await fetchWithToken(`${API_BASE_URL}/obtenerPlanCultivos`);
-            
-
             const myProjects = allProjects.filter(project => project.idUsuario === currentUser.id);
             return myProjects;
 
@@ -71,7 +65,6 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
         3: { text: 'Rechazado', filter: 'rechazada' },
 
     };
-
 
     async function renderProjects() {
         projectsListContainer.innerHTML = `<p>${t('common.loading')}</p>`;
@@ -107,7 +100,6 @@ document.addEventListener('DOMContentLoaded', async () => { // <--- Hecho ASYNC
             projectsListContainer.innerHTML += card;
         });
     }
-
 
     await fetchUserProfile();
     await renderProjects();

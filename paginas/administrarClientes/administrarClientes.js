@@ -10,11 +10,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const authToken = authInfo.token;
 
-
     const clientGrid = document.getElementById('client-grid');
     const clientCountElement = document.getElementById('client-count');
     const welcomeMessage = document.getElementById('welcomeMessage');
-
 
     async function fetchWithAuth(url, options = {}) {
         try {
@@ -29,7 +27,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
     }
-
     async function loadProfileAndGreeting() {
         try {
             const response = await fetchWithAuth(`${API_BASE_URL}/perfil/${authInfo.id}`, { method: 'GET' });
@@ -37,24 +34,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 const user = await response.json();
                 if (welcomeMessage) {
-                    // ✅ CORRECCIÓN 1: Saludo dinámico exitoso
                     welcomeMessage.textContent = `${t('greeting.welcome')}, ${user.nombre}`;
                     authInfo.nombre = user.nombre;
                     localStorage.setItem('usuarioActual', JSON.stringify(authInfo));
                 }
             } else {
-                // ✅ CORRECCIÓN 2: Saludo por defecto si el fetch falla (status != 200)
                 if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
             }
         } catch (error) {
             console.error('Error al cargar datos de perfil para el saludo:', error);
-            // ✅ CORRECCIÓN 3: Saludo por defecto si el fetch falla (excepción)
             if (welcomeMessage) welcomeMessage.textContent = `${t('greeting.welcome')}, ${t('common.agronomist')}`;
         }
     }
-
-
-
 
     const renderClientes = (clientes) => {
         clientGrid.innerHTML = '';
@@ -64,9 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             clientCountElement.textContent = t('client.noClients');
             return;
         }
-
         clientCountElement.textContent = `${t('client.totalClients')} ${clientes.length} ${t('client.clientsWord')}`;
-
         clientes.forEach(cliente => {
             const fullName = `${cliente.nombre} ${cliente.apellidoPaterno || ''} ${cliente.apellidoMaterno || ''}`.trim();
             const card = document.createElement('tr');
@@ -83,7 +72,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             clientGrid.appendChild(card);
         });
     };
-
 
     async function fetchClientes() {
         clientGrid.innerHTML = `<p class="loading-message">${t('clients.loading')}</p>`;
@@ -189,7 +177,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         }
     }
-
   
     await loadProfileAndGreeting();
     await fetchClientes();

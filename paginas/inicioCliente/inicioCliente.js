@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-
     function getFechaLocalParaJava() {
         const date = new Date();
         const pad = (num) => String(num).padStart(2, '0');
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${YYYY}-${MM}-${DD}T${HH}:${MIN}:${SS}`;
     }
     
-
     function getTodayString() {
         const today = new Date();
         const year = today.getFullYear();
@@ -42,9 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let catalogoCultivos = [];
     let catalogoTalleres = [];
     let catalogoRiego = [];
-
-    
-
 
     async function fetchWithCors(url, options = {}) {
         const defaultHeaders = {
@@ -115,8 +110,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-
-    
     try {
         console.log("Iniciando carga de datos...");
         const responseUser = await fetch(`${API_BASE_URL}/perfil/${userId}`, {   
@@ -140,7 +133,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/index.html';
         return;
     }
-
     async function loadCatalogos() {
         try {
             const resCultivos = await fetch(`${API_BASE_URL}/catalogo/cultivos`);
@@ -174,8 +166,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-
-    
     const initialView = document.getElementById('initial-view');
     const asesoriaFormView = document.getElementById('asesoria-form-view');
     const talleresFlowView = document.getElementById('talleres-flow-view');
@@ -201,8 +191,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (viewToShow) viewToShow.classList.remove('hidden');
     }
 
-
-    
     if (notificationsList) {
         notificationsList.addEventListener('click', (e) => {
             if (e.target.classList.contains('btn-discard')) {
@@ -243,8 +231,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             notificationToDiscard = null;
         });
     }
-
-
 
     const showAsesoriaFormBtn = document.getElementById('show-asesoria-form');
     const asesoriaSelectionView = document.querySelector('#asesoria-form-view .asesoria-selection-view');
@@ -464,9 +450,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if(successModal) successModal.classList.remove('hidden');
         });
     }
-
-
-
     const showTalleresFlowBtn = document.getElementById('show-talleres-flow');
     const tallerSelectionView = document.getElementById('taller-selection-view');
     const tallerFormView = document.getElementById('taller-form-view');
@@ -629,8 +612,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if(successModal) successModal.classList.remove('hidden');
         });
     }
-
-
 
     if (modalAceptar) {
         modalAceptar.addEventListener('click', () => {

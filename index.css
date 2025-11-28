@@ -1,10 +1,8 @@
-/* ======= RESET GENERAL ======= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 html, body {
   height: 100%;
   font-family: 'Montserrat', sans-serif;
@@ -13,15 +11,11 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-
-/* ======= BARRAS SUPERIOR E INFERIOR ======= */
 .top-bar, .bottom-bar {
   height: 30px;
   background-color: #1C6E3E;
   flex-shrink: 0;
 }
-
-/* ======= CONTENEDOR PRINCIPAL ======= */
 .page-container {
   flex-grow: 1;
   display: flex;
@@ -29,8 +23,6 @@ html, body {
   align-items: center;
   padding: 30px;
 }
-
-/* ======= LAYOUT ======= */
 .content-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -42,8 +34,6 @@ html, body {
   width: 100%;
   transition: all 0.3s ease;
 }
-
-/* ======= PANEL IZQUIERDO ======= */
 .info-panel {
   flex: 1;
   min-width: 320px;
@@ -52,29 +42,25 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* <-- Centrado horizontal */
-  text-align: center;     /* <-- Centrado de texto */
+  align-items: center; 
+  text-align: center;     
 }
-
 .logo-container {
   display: flex;
   align-items: center;
   gap: 15px;
   margin-bottom: 20px;
-  justify-content: center; /* <-- Centrado del logo y título */
+  justify-content: center;
 }
-
 .logo {
   width: 70px;
   height: auto;
 }
-
 .info-panel h1 {
   font-size: 46px;
   font-weight: 700;
   color: #1C6E3E;
 }
-
 .info-panel h2 {
   font-size: 24px;
   font-weight: 500;
@@ -82,14 +68,11 @@ html, body {
   color: #2E2E2E;
   max-width: 400px;
 }
-
 .image-container img {
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
-/* ======= PANEL DERECHO (FORMULARIO) ======= */
 .form-panel {
   flex: 1;
   min-width: 320px;
@@ -99,50 +82,40 @@ html, body {
   background-color: #FFFFFF;
   padding: 50px 40px;
 }
-
 .form-box {
   width: 100%;
   max-width: 400px;
 }
-
 .form-header {
   text-align: center;
   margin-bottom: 35px;
 }
-
 .form-header p {
   font-size: 14px;
   margin-bottom: 10px;
 }
-
 .form-header a {
   color: #1C6E3E;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s;
 }
-
 .form-header a:hover {
   color: #2FB05E;
 }
-
 .form-header h3 {
   font-size: 30px;
   font-weight: 700;
   color: #1C1C1C;
   margin-bottom: 10px;
 }
-
 .subtitle {
   font-size: 14px;
   color: #555;
 }
-
-/* ======= FORMULARIO ======= */
 .input-group {
   margin-bottom: 20px;
 }
-
 .input-group label {
   display: block;
   font-weight: 600;
@@ -150,7 +123,6 @@ html, body {
   font-size: 14px;
   color: #333;
 }
-
 .input-group input {
   width: 100%;
   padding: 12px 14px;
@@ -160,14 +132,11 @@ html, body {
   font-family: 'Montserrat', sans-serif;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
-
 .input-group input:focus {
   outline: none;
   border-color: #2FB05E;
   box-shadow: 0 0 0 2px rgba(47, 176, 94, 0.2);
 }
-
-/* ======= BOTÓN ======= */
 .submit-btn {
   width: 100%;
   padding: 14px;
@@ -180,14 +149,11 @@ html, body {
   cursor: pointer;
   transition: all 0.3s;
 }
-
 .submit-btn:hover {
   background-color: #2FB05E;
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(47, 176, 94, 0.3);
 }
-
-/* ======= MENSAJES ======= */
 .error-message {
   color: #D60000;
   font-size: 14px;
@@ -195,7 +161,6 @@ html, body {
   min-height: 18px;
   margin-bottom: 15px;
 }
-
 .forgot-password {
   display: block;
   text-align: right;
@@ -205,12 +170,9 @@ html, body {
   text-decoration: none;
   transition: color 0.2s;
 }
-
 .forgot-password:hover {
   color: #2FB05E;
 }
-
-/* ======= RESPONSIVE ======= */
 @media (max-width: 900px) {
   .content-wrapper {
     flex-direction: column;

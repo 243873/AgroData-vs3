@@ -1,67 +1,195 @@
-/* --- ESTILOS DE PLANTILLA BASE (Copiados de Agrónomo) --- */
-html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; background-color: #F9F5EE; color: #1B1B1B; }
-.page-wrapper { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-.top-header { background-color: #1C6E3E; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.logo-container { display: flex; align-items: center; gap: 15px; }
-.logo { width: 50px; }
-.top-header h1 { font-size: 32px; margin: 0; }
-.welcome-message h2 { font-size: 22px; font-weight: 400; margin: 0; }
-.navbar { background-color: #FFFFFF; padding: 10px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0; }
-.navbar ul { margin: 0; padding: 0; list-style: none; display: flex; gap: 60px; }
-.navbar a { text-decoration: none; color: #333; font-weight: 500; display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 2px solid transparent; }
-.nav-icon { width: 16px; height: 16px; }
-.navbar li.active a { color: #1C6E3E; border-bottom-color: #1C6E3E; }
-.main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; background-color: #F0EFEA; } /* Fondo del agrónomo */
-.hidden { display: none !important; }
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F9F5EE;
+    color: #1B1B1B;
+}
 
-/* Oculta el contenido al inicio para evitar parpadeo */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.top-header {
+    background-color: #1C6E3E;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 50px;
+}
+
+.top-header h1 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.welcome-message h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+    padding: 10px 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 60px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.navbar li.active a {
+    color: #1C6E3E;
+    border-bottom-color: #1C6E3E;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+    background-color: #F0EFEA;
+}
+
+.hidden {
+    display: none !important;
+}
+
 .content-hidden {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
 
-/* --- BOTONES GENERALES --- */
-.btn { border: none; padding: 10px 25px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; text-decoration: none; }
-.btn-secondary { background-color: #F0F0F0; color: #333; border: 1px solid #E0E0E0; }
-.btn-primary { background-color: #1C6E3E; color: white; }
-.btn-danger { background-color: #DC3545; color: white; }
-.btn-upload { background-color: #F0F0F0; color: #333; border: 1px solid #E0E0E0; width: 100%; padding: 10px; }
-/* Botón pequeño para ver imagen */
+.btn {
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: #F0F0F0;
+    color: #333;
+    border: 1px solid #E0E0E0;
+}
+
+.btn-primary {
+    background-color: #1C6E3E;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #DC3545;
+    color: white;
+}
+
+.btn-upload {
+    background-color: #F0F0F0;
+    color: #333;
+    border: 1px solid #E0E0E0;
+    width: 100%;
+    padding: 10px;
+}
+
 .btn-sm {
     padding: 5px 10px;
     font-size: 12px;
     font-weight: 500;
 }
 
+.project-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 35px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
 
-/* --- CONTENEDOR PRINCIPAL DEL PROYECTO (Estilo Agrónomo) --- */
-.project-container { max-width: 1200px; margin: 0 auto; background-color: #FFFFFF; border-radius: 12px; padding: 35px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
-.project-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; border-bottom: 1px solid #E9ECEF; padding-bottom: 20px; }
-.project-header h2 { margin: 0; font-size: 22px; color: #333; font-weight: 600; }
+.project-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #E9ECEF;
+    padding-bottom: 20px;
+}
 
-/* --- NAVEGACIÓN DE PESTAÑAS (Estilo Agrónomo) --- */
-.tab-navigation { 
-    display: grid; 
-    grid-template-columns: repeat(2, 1fr); /* <-- MODIFICACIÓN: 2 columnas */
-    gap: 15px; 
-    margin-bottom: 30px; 
+.project-header h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #333;
+    font-weight: 600;
 }
-.tab-btn { 
-    background-color: #F8F9FA; 
-    color: #555; 
-    border: 1px solid #E0E0E0; 
-    padding: 12px; 
-    font-size: 16px; 
-    font-weight: 500; 
-    border-radius: 25px; 
-    cursor: pointer; 
+
+.tab-navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
 }
-.tab-btn.active { 
-    background-color: #1C6E3E; 
-    color: white; 
-    border-color: #1C6E3E; 
+
+.tab-btn {
+    background-color: #F8F9FA;
+    color: #555;
+    border: 1px solid #E0E0E0;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
 }
+
+.tab-btn.active {
+    background-color: #1C6E3E;
+    color: white;
+    border-color: #1C6E3E;
+}
+
 .tab-content {
     background-color: #FFFFFF;
     border-radius: 12px;
@@ -74,27 +202,32 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     display: none;
 }
 
-/* --- PESTAÑA DE INFORMACIÓN (Estilo Agrónomo) --- */
-.info-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 20px 40px; 
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
 }
-.info-card { 
+
+.info-card {
     background-color: #F8F9FA;
     border: 1px solid #E9ECEF;
     border-radius: 8px;
     padding: 20px;
 }
-.info-card.full-width { grid-column: 1 / -1; }
-/* NUEVO: Estilos para el card de reportar plaga */
+
+.info-card.full-width {
+    grid-column: 1 / -1;
+}
+
 #report-plaga-card {
-    background-color: #FFFBEB; /* Amarillo pálido */
+    background-color: #FFFBEB;
     border-color: #FBE1A9;
 }
+
 #report-plaga-card h4 {
     color: #856404;
 }
+
 #report-plaga-card p {
     color: #555;
     margin-bottom: 15px;
@@ -105,16 +238,16 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
-.tag { 
-    background-color: #E9ECEF; 
-    color: #333; 
-    padding: 4px 12px; 
-    border-radius: 15px; 
-    font-size: 12px; 
-    font-weight: 500; 
+
+.tag {
+    background-color: #E9ECEF;
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
 }
 
-/* --- PESTAÑA DE ACTIVIDADES (Estilo Agrónomo) --- */
 .container-header {
     display: flex;
     justify-content: space-between;
@@ -123,7 +256,11 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     padding-bottom: 15px;
     border-bottom: 1px solid #E9ECEF;
 }
-.container-header h4 { font-size: 18px; margin: 0; }
+
+.container-header h4 {
+    font-size: 18px;
+    margin: 0;
+}
 
 .activity-item {
     display: flex;
@@ -134,16 +271,37 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     border-radius: 8px;
     margin-bottom: 10px;
 }
-.activity-info strong { font-size: 16px; }
-.activity-info p { margin: 5px 0 0; font-size: 14px; color: #555; }
-.activity-actions { display: flex; gap: 10px; }
 
-/* Clases de estado (para agrónomo y cliente) */
-.status-pendiente { color: #FFA500; font-weight: 600; }
-.status-atrasado { color: #DC3545; font-weight: 600; }
-.status-completado { color: #28A745; font-weight: 600; }
+.activity-info strong {
+    font-size: 16px;
+}
 
-/* Sección de Plagas (Estilo Agrónomo) */
+.activity-info p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.activity-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.status-pendiente {
+    color: #FFA500;
+    font-weight: 600;
+}
+
+.status-atrasado {
+    color: #DC3545;
+    font-weight: 600;
+}
+
+.status-completado {
+    color: #28A745;
+    font-weight: 600;
+}
+
 .plaga-item {
     padding: 10px 0;
     border-bottom: 1px solid #eee;
@@ -152,26 +310,102 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     align-items: center;
     gap: 15px;
 }
-.plaga-item p { margin: 4px 0; }
-.plaga-item:last-child { border-bottom: none; }
 
+.plaga-item p {
+    margin: 4px 0;
+}
 
-/* --- MODALES (Estilos genéricos) --- */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; font-weight: 500; margin-bottom: 5px; text-align: left; }
-.form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #CCC; box-sizing: border-box; }
-.form-group textarea { min-height: 80px; }
-.modal-content { background-color: #FFFFFF; padding: 30px; border-radius: 15px; max-width: 500px; width: 100%; }
-.modal-content.large { max-width: 800px; }
-.modal-content.success { text-align: center; }
-.success-icon { font-size: 40px; color: #1C6E3E; border: 3px solid #1C6E3E; border-radius: 50%; width: 60px; height: 60px; line-height: 60px; margin: 0 auto 15px; }
-.modal-actions { display: flex; gap: 15px; justify-content: flex-end; margin-top: 20px; }
-#image-preview-container, #plaga-preview-container { margin-top: 10px; }
-#image-preview, #plaga-preview { max-width: 100px; border-radius: 5px; }
-#modal-report-image { max-width: 100%; border-radius: 8px; }
+.plaga-item:last-child {
+    border-bottom: none;
+}
 
-/* Añadir al final de proyectoCliente.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    min-height: 80px;
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.modal-content.large {
+    max-width: 800px;
+}
+
+.modal-content.success {
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 40px;
+    color: #1C6E3E;
+    border: 3px solid #1C6E3E;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin: 0 auto 15px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+#image-preview-container,
+#plaga-preview-container {
+    margin-top: 10px;
+}
+
+#image-preview,
+#plaga-preview {
+    max-width: 100px;
+    border-radius: 5px;
+}
+
+#modal-report-image {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
 .view-plaga-image {
     cursor: pointer;
     text-decoration: underline;
@@ -180,6 +414,7 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', san
     font-weight: 600;
     transition: color 0.2s;
 }
+
 .view-plaga-image:hover {
     color: #2FB05E;
 }

@@ -1,4 +1,4 @@
-/* ======= RESET GENERAL ======= */
+
 * {
   margin: 0;
   padding: 0;
@@ -14,14 +14,12 @@ html, body {
   flex-direction: column;
 }
 
-/* ======= BARRAS SUPERIOR E INFERIOR ======= */
 .top-bar, .bottom-bar {
   height: 30px;
   background-color: #1C6E3E;
   flex-shrink: 0;
 }
 
-/* ======= CONTENEDOR PRINCIPAL ======= */
 .page-container {
   flex-grow: 1;
   display: flex;
@@ -29,8 +27,6 @@ html, body {
   align-items: center;
   padding: 30px;
 }
-
-/* ======= LAYOUT ======= */
 .content-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -43,7 +39,6 @@ html, body {
   transition: all 0.3s ease;
 }
 
-/* ======= PANEL IZQUIERDO ======= */
 .info-panel {
   flex: 1;
   min-width: 320px;
@@ -86,7 +81,6 @@ html, body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* ======= PANEL DERECHO (FORMULARIO) ======= */
 .form-panel {
   flex: 1;
   min-width: 320px;
@@ -134,7 +128,6 @@ html, body {
   color: #2FB05E;
 }
 
-/* ======= FORMULARIO ======= */
 .input-group {
   margin-bottom: 20px;
 }
@@ -163,7 +156,6 @@ html, body {
   box-shadow: 0 0 0 2px rgba(47, 176, 94, 0.2);
 }
 
-/* ======= BOTÓN ======= */
 .submit-btn {
   width: 100%;
   padding: 14px;
@@ -183,7 +175,6 @@ html, body {
   box-shadow: 0 4px 10px rgba(47, 176, 94, 0.3);
 }
 
-/* ======= MENSAJES ======= */
 .error-message {
   color: #D60000;
   font-size: 14px;
@@ -192,7 +183,6 @@ html, body {
   margin-bottom: 15px;
 }
 
-/* ======= RESPONSIVE ======= */
 @media (max-width: 900px) {
   .content-wrapper {
     flex-direction: column;
